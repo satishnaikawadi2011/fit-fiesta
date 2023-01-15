@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import { Error } from 'mongoose';
 
 export const notFoundRoute = (req: Request, res: Response, next: NextFunction) => {
 	const error = new Error(`Not Found - ${req.originalUrl}`);

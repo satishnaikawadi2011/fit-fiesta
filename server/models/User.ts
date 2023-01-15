@@ -2,6 +2,20 @@ import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 const Schema = mongoose.Schema;
 
+export interface IUser {
+	fullName: string;
+	username: string;
+	password: string;
+	email: string;
+	location: string;
+	weight: string;
+	height: string;
+	targetWeight: string;
+	groups: string[];
+	events: string[];
+	posts: string[];
+}
+
 const UserSchema = new Schema(
 	{
 		fullName:
@@ -79,4 +93,6 @@ UserSchema.pre('save', async function(next) {
 	this.password = await bcrypt.hash(this.password, salt);
 });
 
-module.exports = mongoose.model('User', UserSchema);
+const User = mongoose.model('User', UserSchema);
+
+export default User;
