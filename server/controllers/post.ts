@@ -1,6 +1,7 @@
 import { validatePostData } from './../validation/validatePost';
 import Post, { IPost } from './../models/Post';
 import { Request, Response } from 'express';
+import Comment from '../models/Comment';
 
 export const createPost = async (req: any, res: Response) => {
 	try {
@@ -40,6 +41,40 @@ export const likePost = async (req: any, res: Response) => {
 
 		await post.save();
 		res.status(200).json({ post });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
+export const createComment = async (req: any, res: Response) => {
+	try {
+		const postId = req.params.postId;
+		const userId = req.id;
+
+		const { content } = req.body;
+
+		if (!content || content.trim() === '') {
+			return res.status(400).json({ message: 'content is a required field!' });
+		}
+
+		const post = await Post.findById(postId);
+
+		if (!post) {
+			return res.status(404).json({ message: 'Post not found' });
+		}
+
+		const comment = new Comment({
+			content,
+			user: userId,
+			post: postId
+		});
+
+		post.comments.push(comment.id);
+		await post.save();
+		await comment.save();
+
+		return res.status(201).json({ comment });
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ message: 'Something went wrong!' });
