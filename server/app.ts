@@ -4,9 +4,13 @@ import * as dotenv from 'dotenv'; // see https://github.com/motdotla/dotenv#how-
 import { errorHandler, notFoundRoute } from './middlewares/errorHandlers';
 dotenv.config();
 
+import userRouter from './routes/user';
+
 const app = express();
 
 app.use(express.json());
+
+app.use('/api/user', userRouter);
 
 app.get('/', (req, res) => {
 	res.send('Hello, World!');

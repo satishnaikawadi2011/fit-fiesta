@@ -2,19 +2,19 @@ import User, { IUser } from '../models/User';
 
 export const validateRegister = async (data: Partial<IUser>) => {
 	const { username, email, fullName, location, height, weight, password, targetWeight } = data;
-	if (username!.trim() == '') {
+	if (!username || username!.trim() == '') {
 		return 'username is required field!';
 	}
-	else if (email!.trim() == '') {
+	else if (!email || email!.trim() == '') {
 		return 'email is required field!';
 	}
-	else if (password!.trim() == '') {
+	else if (!password || password!.trim() == '') {
 		return 'password is required field!';
 	}
-	else if (fullName!.trim() == '') {
+	else if (!fullName || fullName!.trim() == '') {
 		return 'fullName is required field!';
 	}
-	else if (location!.trim() == '') {
+	else if (!location || location!.trim() == '') {
 		return 'location is required field!';
 	}
 	else if (!height) {
@@ -32,7 +32,7 @@ export const validateRegister = async (data: Partial<IUser>) => {
 	else if (password!.length < 6 || password!.length > 12) {
 		return 'password must be between 6 to 12 characters long!';
 	}
-	else if (!isValidEmail(email)) {
+	else if (!isValidEmail(email as any)) {
 		return 'Please enter a valid email address!';
 	}
 
@@ -46,7 +46,7 @@ export const validateRegister = async (data: Partial<IUser>) => {
 	}
 };
 
-function isValidEmail(email) {
+function isValidEmail(email: string) {
 	if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
 		return true;
 	}

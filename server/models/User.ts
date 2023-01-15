@@ -80,7 +80,7 @@ const UserSchema = new Schema(
 	{ timestamps: true }
 );
 
-UserSchema.methods.matchPassword = async function(enteredPassword) {
+UserSchema.methods.matchPassword = async function(enteredPassword: string) {
 	return await bcrypt.compare(enteredPassword, this.password);
 };
 
