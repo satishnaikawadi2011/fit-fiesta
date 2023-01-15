@@ -14,6 +14,8 @@ export interface IUser {
 	groups: string[];
 	events: string[];
 	posts: string[];
+	connections: string[];
+	pendingConnections: string[];
 }
 
 const UserSchema = new Schema(
@@ -74,6 +76,20 @@ const UserSchema = new Schema(
 				{
 					type: Schema.Types.ObjectId,
 					ref: 'Post'
+				}
+			],
+		connections:
+			[
+				{
+					type: Schema.Types.ObjectId,
+					ref: 'User'
+				}
+			],
+		pendingConnections:
+			[
+				{
+					type: Schema.Types.ObjectId,
+					ref: 'User'
 				}
 			]
 	},
