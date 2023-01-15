@@ -5,12 +5,14 @@ import { errorHandler, notFoundRoute } from './middlewares/errorHandlers';
 dotenv.config();
 
 import userRouter from './routes/user';
+import postRouter from './routes/post';
 
 const app = express();
 
 app.use(express.json());
 
 app.use('/api/user', userRouter);
+app.use('/api/post', postRouter);
 
 app.get('/', (req, res) => {
 	res.send('Hello, World!');
