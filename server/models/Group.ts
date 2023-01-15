@@ -19,6 +19,10 @@ const GroupSchema = new Schema(
 					ref: 'User'
 				}
 			],
+		image:
+			{
+				type: String
+			},
 		events:
 			[
 				{
