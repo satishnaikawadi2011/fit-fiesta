@@ -1,6 +1,16 @@
 import * as mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
+export interface IPost {
+	content: string;
+	location: string;
+	image: string;
+	user: string;
+	comments: string[];
+	likesCount: number;
+	likesUsers: string[];
+}
+
 const PostSchema = new Schema(
 	{
 		content:
@@ -12,12 +22,10 @@ const PostSchema = new Schema(
 			{
 				type: String
 			},
-		images:
-			[
-				{
-					type: String
-				}
-			],
+		image:
+			{
+				type: String
+			},
 		user:
 			{
 				type: Schema.Types.ObjectId,
@@ -47,4 +55,6 @@ const PostSchema = new Schema(
 	{ timestamps: true }
 );
 
-module.exports = mongoose.model('Post', PostSchema);
+const Post = mongoose.model('Post', PostSchema);
+
+export default Post;

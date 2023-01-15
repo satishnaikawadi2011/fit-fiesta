@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import User, { IUser } from '../models/User';
 import jwt from 'jsonwebtoken';
-import { validateRegister } from '../utils/validateRegister';
-import { validateLogin } from '../utils/validateLogin';
+import { validateRegister } from '../validation/validateRegister';
+import { validateLogin } from '../validation/validateLogin';
 
 export const register = async (req: Request, res: Response) => {
 	try {

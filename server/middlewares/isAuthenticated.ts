@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import express from 'express';
 
-import User from '../models/User';
+// import User from '../models/User';
 
 export const isAuthenticated = async function(req: any, res: express.Response, next: express.NextFunction) {
 	let token;
@@ -11,7 +11,8 @@ export const isAuthenticated = async function(req: any, res: express.Response, n
 
 			const decoded: any = await jwt.verify(token, process.env.JWT_SECRET as any);
 
-			req.user = await User.findById(decoded.id).select('-password');
+			// req.user = await User.findById(decoded.id).select('-password');
+			req.id = decoded.id;
 
 			next();
 		} catch (err) {
