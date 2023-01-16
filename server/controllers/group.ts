@@ -35,3 +35,29 @@ export const createGroup = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const joinGroup = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const groupId = req.params.groupId;
+		const currentUser = await User.findById(userId);
+		if (!currentUser) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+		const group = await Group.findById(groupId);
+		if (!group) {
+			return res.status(404).json({ message: 'Group not found' });
+		}
+		if (group.members.includes(currentUser._id)) {
+			return res.status(409).json({ message: 'User already a member of this group' });
+		}
+		group.members.push(currentUser._id);
+		currentUser.groups.push(group._id);
+		await group.save();
+		await currentUser.save();
+		return res.json({ group });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
