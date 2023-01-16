@@ -7,6 +7,7 @@ dotenv.config();
 import userRouter from './routes/user';
 import postRouter from './routes/post';
 import groupRouter from './routes/group';
+import resourceRouter from './routes/resource';
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use('/api/user', userRouter);
 app.use('/api/post', postRouter);
 app.use('/api/group', groupRouter);
+app.use('/api/resource', resourceRouter);
 
 app.get('/', (req, res) => {
 	res.send('Hello, World!');

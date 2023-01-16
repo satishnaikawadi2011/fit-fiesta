@@ -1,6 +1,15 @@
 import * as mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
+export interface IResource {
+	name: string;
+	description: string;
+	location: string;
+	image: string;
+	category: string;
+	url: string;
+}
+
 const ResourceSchema = new Schema(
 	{
 		name:
@@ -13,6 +22,10 @@ const ResourceSchema = new Schema(
 				type: String
 			},
 		location:
+			{
+				type: String
+			},
+		image:
 			{
 				type: String
 			},
@@ -29,4 +42,6 @@ const ResourceSchema = new Schema(
 	{ timestamps: true }
 );
 
-module.exports = mongoose.model('Resource', ResourceSchema);
+const Resource = mongoose.model('Resource', ResourceSchema);
+
+export default Resource;
