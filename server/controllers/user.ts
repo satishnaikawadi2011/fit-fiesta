@@ -52,6 +52,10 @@ export const makeConnectionRequest = async (req: any, res: Response) => {
 		const userId = req.id;
 		const connectionId = req.params.connectionId;
 
+		if (userId === connectionId) {
+			res.status(400).json({ message: 'Provide valid connectionId !' });
+		}
+
 		const user = await User.findById(userId);
 		const connectUser = await User.findById(connectionId);
 
