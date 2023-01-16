@@ -1,6 +1,15 @@
 import * as mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
+export interface IGroup {
+	name: string;
+	description: string;
+	members: string[];
+	events: string[];
+	posts: string[];
+	image: string;
+}
+
 const GroupSchema = new Schema(
 	{
 		name:
@@ -41,4 +50,6 @@ const GroupSchema = new Schema(
 	{ timestamps: true }
 );
 
-module.exports = mongoose.model('Group', GroupSchema);
+const Group = mongoose.model('Group', GroupSchema);
+
+export default Group;
