@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { IUser } from '../../types/User';
-
+import client from '../../api/client'
 interface AuthState {
   token: string | null;
 	user: IUser | null;
@@ -30,6 +30,28 @@ export const authSlice = createSlice({
         },
   },
 })
+
+
+export const userDataKey = 'userData'
+export const tokenDataKey = 'tokenData'
+
+// export const saveToLocalStorage = (user: IUser, expiryDate: Date, token: string) => {
+// 	secureLocalStorage.setItem(userDataKey, JSON.stringify(user));
+// 	secureLocalStorage.setItem(
+// 		tokenDataKey,
+// 		JSON.stringify({
+// 			token,
+// 			expiryDate: expiryDate.toISOString()
+// 		})
+// 	);
+// };
+
+// export const removeAuthDataFromAsyncStorage = () => {
+// 	client.setHeader('Authorization', '');
+// 	secureLocalStorage.removeItem(tokenDataKey);
+// 	secureLocalStorage.removeItem(tokenDataKey);
+// };
+
 
 export const { setExpiryDate,setToken,setUser } = authSlice.actions
 

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormikProps, Formik } from 'formik';
 import { Button, Flex, Heading, Link, Stack, Image, InputRightElement, Text } from '@chakra-ui/react';
 import * as Yup from 'yup';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import AppFormField from '../components/form/AppFormField';
+import authApi from '../api/auth';
+import useApi from '../hooks/useApi';
 
 interface FormValues {
 	username: string;
@@ -30,8 +32,23 @@ const LoginPage = () => {
 		showPassword,
 		setShowPassword
 	] = useState(false);
-	const onSubmit = (values: FormValues) => {
-		console.log(values);
+
+	const { data, loading, error, request: loginUser } = useApi(authApi.loginUser);
+
+	useEffect(
+		() => {
+			if (data) {
+				// navigate('/recommend-treatment/result', { state: data });
+			}
+		},
+		[
+			data
+		]
+	);
+
+	const onSubmit = async (values: FormValues) => {
+		// console.log(values);
+		await loginUser(values.username, values.password);
 	};
 
 	return (
@@ -78,6 +95,7 @@ const LoginPage = () => {
 												colorScheme={'blue'}
 												variant={'solid'}
 												onClick={handleSubmit as any}
+												isLoading={error || loading}
 											>
 												Sign in
 											</Button>
