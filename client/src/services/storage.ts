@@ -18,8 +18,13 @@ const clear = () => {
 	localStorage.clear();
 };
 
+const removeItem = (key: string) => {
+	localStorage.removeItem(prefix + key + suffix);
+};
+
 export default {
 	setItem,
 	getItem,
-	clear
+	clear,
+	removeItem
 };

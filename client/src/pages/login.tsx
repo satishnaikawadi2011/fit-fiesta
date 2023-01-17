@@ -6,6 +6,9 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import AppFormField from '../components/form/AppFormField';
 import authApi from '../api/auth';
 import useApi from '../hooks/useApi';
+import jwtDecode from 'jwt-decode';
+import { useAppDispatch } from '../app/hooks';
+import { saveToLocalStorage, setExpiryDate, setToken, setUser } from '../app/features/auth';
 
 interface FormValues {
 	username: string;
@@ -33,12 +36,22 @@ const LoginPage = () => {
 		setShowPassword
 	] = useState(false);
 
+	const dispatch = useAppDispatch();
+
 	const { data, loading, error, request: loginUser } = useApi(authApi.loginUser);
 
 	useEffect(
 		() => {
 			if (data) {
-				// navigate('/recommend-treatment/result', { state: data });
+				let loginData = data as any;
+				const token = loginData.token;
+				const decodedToken: any = jwtDecode(token);
+				const expiryDate = new Date(decodedToken.exp * 1000);
+				const user = loginData.user;
+				dispatch(setExpiryDate(expiryDate.toISOString()));
+				dispatch(setUser(user));
+				dispatch(setToken(token));
+				saveToLocalStorage(user, expiryDate.toISOString(), token);
 			}
 		},
 		[
