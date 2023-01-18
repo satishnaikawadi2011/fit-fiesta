@@ -8,31 +8,28 @@ import { getAllDataFromStorage } from './utils/getAllDataFromStorage';
 import Header from './components/layout/Header/Header';
 import Post from './components/Post';
 import PostPage from './components/Comment';
+import AddPostModal from './components/AddPostModal';
 
 function App() {
 	// useEffect(() => {
 	// 	getAllDataFromStorage();
 	// }, []);
-
 	// const { user, expiryDate } = useAppSelector((state) => state.auth);
 	// const isTokenExpired = isExpired(expiryDate);
-	return (
-		<Post
-			postImage="https://cdn.pixabay.com/photo/2017/05/16/19/43/bicycle-2318682_1280.jpg"
-			username="satish_011e"
-			name="Satish Naikawadi"
-			postText="Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti iure tempore fuga dolore magnam dignissimos corporis aut ipsam! Repudiandae, in."
-			date={new Date().toISOString()}
-			likeCounts={10}
-		/>
-	);
-
-	// return <PostPage />;
-
+	// return (
+	// 	<Post
+	// 		postImage="https://cdn.pixabay.com/photo/2017/05/16/19/43/bicycle-2318682_1280.jpg"
+	// 		username="satish_011e"
+	// 		name="Satish Naikawadi"
+	// 		postText="Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti iure tempore fuga dolore magnam dignissimos corporis aut ipsam! Repudiandae, in."
+	// 		date={new Date().toISOString()}
+	// 		likeCounts={10}
+	// 	/>
+	// );
+	// return <AddPostModal  />;
 	// if (!isTokenExpired && user) {
 	// 	return <AuthenticatedRoutes />;
 	// }
-
 	// return <UnauthenticatedRoutes />;
 }
 

@@ -1,22 +1,9 @@
 import { ChatIcon } from '@chakra-ui/icons';
-import {
-	Box,
-	Flex,
-	Image,
-	Text,
-	Icon,
-	IconButton,
-	Link,
-	useColorMode,
-	Stack,
-	Divider,
-	Button,
-	HStack
-} from '@chakra-ui/react';
+import { Box, Flex, Image, Text, Link, Stack, Divider, Button, HStack } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useState } from 'react';
-import { FaHeart, FaShare, FaThumbsUp } from 'react-icons/fa';
+import { FaThumbsUp } from 'react-icons/fa';
 import CommentInput from './CommentInput';
 
 interface PostProps {
