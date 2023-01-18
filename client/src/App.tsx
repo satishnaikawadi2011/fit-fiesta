@@ -1,7 +1,4 @@
 import './App.css';
-import LandingPage from './pages/landing-page';
-import LoginPage from './pages/login';
-import RegisterPage from './pages/register';
 import UnauthenticatedRoutes from './routes/unauthenticated-routes';
 import { useEffect } from 'react';
 import { useAppSelector } from './app/hooks';

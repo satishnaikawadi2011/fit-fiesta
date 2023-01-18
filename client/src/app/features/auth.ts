@@ -28,7 +28,13 @@ export const authSlice = createSlice({
     },
     setExpiryDate: (state,action: PayloadAction<string>) => {
           state.expiryDate = action.payload
-        },
+	  },
+	  logout: (state) => {
+		  state.expiryDate = null;
+		  state.token = null;
+		  state.token = null;
+		  storage.clear()
+	}
   },
 })
 
@@ -66,6 +72,6 @@ export const getAuthDataFromStorage =  () => {
 };
 
 
-export const { setExpiryDate,setToken,setUser } = authSlice.actions
+export const { setExpiryDate,setToken,setUser,logout } = authSlice.actions
 
 export default authSlice.reducer
