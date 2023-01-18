@@ -9,6 +9,7 @@ import useApi from '../hooks/useApi';
 import jwtDecode from 'jwt-decode';
 import { useAppDispatch } from '../app/hooks';
 import { saveToLocalStorage, setExpiryDate, setToken, setUser } from '../app/features/auth';
+import { useNavigate } from 'react-router-dom';
 
 interface FormValues {
 	username: string;
@@ -31,6 +32,8 @@ const validationSchema = Yup.object({
 });
 
 const LoginPage = () => {
+	const navigation = useNavigate();
+
 	const [
 		showPassword,
 		setShowPassword
@@ -52,6 +55,7 @@ const LoginPage = () => {
 				dispatch(setUser(user));
 				dispatch(setToken(token));
 				saveToLocalStorage(user, expiryDate.toISOString(), token);
+				navigation('/');
 			}
 		},
 		[
