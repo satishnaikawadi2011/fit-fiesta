@@ -53,9 +53,9 @@ export const removeAuthDataFromStorage = () => {
 	storage.removeItem(tokenDataKey);
 };
 
-export const getUserDataFromStorage = async () => {
-		const tokenData: any = await storage.getItem(tokenDataKey);
-		const user: any = await storage.getItem(userDataKey);
+export const getAuthDataFromStorage =  () => {
+		const tokenData: any =  storage.getItem(tokenDataKey);
+		const user: any =  storage.getItem(userDataKey);
 		if (user && tokenData) {
 			return {
 				tokenData,
