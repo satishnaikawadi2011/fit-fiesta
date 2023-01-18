@@ -7,6 +7,7 @@ import AuthenticatedRoutes from './routes/authenticated-routes';
 import { getAllDataFromStorage } from './utils/getAllDataFromStorage';
 import Header from './components/layout/Header/Header';
 import Post from './components/Post';
+import PostPage from './components/Comment';
 
 function App() {
 	// useEffect(() => {
@@ -25,6 +26,8 @@ function App() {
 			likeCounts={10}
 		/>
 	);
+
+	// return <PostPage />;
 
 	// if (!isTokenExpired && user) {
 	// 	return <AuthenticatedRoutes />;
