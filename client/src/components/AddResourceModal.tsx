@@ -13,16 +13,20 @@ import {
 	ModalHeader,
 	ModalOverlay,
 	Select,
-	Textarea
+	Textarea,
+	useDisclosure
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import { isValidURL } from '../utils/isValidURL';
 
 interface Props {
 	isOpen: boolean;
 	onClose: () => void;
 }
 
-const CreateGroupModal: React.FC<Props> = ({ isOpen, onClose }) => {
+const AddResourceModal: React.FC<Props> = ({ isOpen, onClose }) => {
+	// const { isOpen, onOpen, onClose } = useDisclosure();
+
 	const initialRef = React.useRef<any>(null);
 	const hiddenFileInput = React.useRef<any>(null);
 
@@ -43,6 +47,18 @@ const CreateGroupModal: React.FC<Props> = ({ isOpen, onClose }) => {
 		description,
 		setDescription
 	] = useState('');
+	const [
+		location,
+		setLocation
+	] = useState('');
+	const [
+		url,
+		setUrl
+	] = useState('');
+	const [
+		category,
+		setCategory
+	] = useState('');
 
 	const [
 		errors,
@@ -61,17 +77,29 @@ const CreateGroupModal: React.FC<Props> = ({ isOpen, onClose }) => {
 		}
 	};
 
-	const createGroupHandler = () => {
+	const addResourceHandler = () => {
 		if (!name) {
-			setErrors({ name: 'Group name is required' });
+			setErrors({ name: 'Resource name is required' });
 		}
 		else if (!description) {
-			setErrors({ description: 'Group description is required' });
+			setErrors({ description: 'Resource description is required' });
+		}
+		else if (!url) {
+			setErrors({ url: 'Resource url is required' });
+		}
+		else if (!category) {
+			setErrors({ category: 'Resource category is required' });
+		}
+		else if (!isValidURL(url)) {
+			setErrors({ url: 'Please enter a valid url' });
 		}
 		else {
-			console.log(file, name, description);
+			console.log(file, name, description, category, url);
 			setName('');
 			setDescription('');
+			setCategory('');
+			setUrl('');
+			setLocation('');
 			setFile('');
 			setErrors({});
 		}
@@ -82,7 +110,7 @@ const CreateGroupModal: React.FC<Props> = ({ isOpen, onClose }) => {
 			<Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent>
-					<ModalHeader>Create a group</ModalHeader>
+					<ModalHeader>Add a post</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody pb={6}>
 						<FormControl isRequired isInvalid={errors.name}>
@@ -95,6 +123,7 @@ const CreateGroupModal: React.FC<Props> = ({ isOpen, onClose }) => {
 							<Input value={description} onChange={(e) => setDescription(e.target.value)} />
 							<FormErrorMessage>{errors.description}</FormErrorMessage>
 						</FormControl>
+
 						<input
 							type="file"
 							onChange={handleImageChange}
@@ -106,10 +135,25 @@ const CreateGroupModal: React.FC<Props> = ({ isOpen, onClose }) => {
 							Choose a Image
 						</Button>
 						{previewUrl && <Image mt={3} src={previewUrl} />}
+						<FormControl mt={4}>
+							<FormLabel>Location</FormLabel>
+							<Input value={location} onChange={(e) => setLocation(e.target.value)} />
+						</FormControl>
+						<FormControl mt={4} isRequired isInvalid={errors.url}>
+							<FormLabel>URL</FormLabel>
+							<Input value={url} onChange={(e) => setUrl(e.target.value)} />
+							<FormErrorMessage>{errors.url}</FormErrorMessage>
+						</FormControl>
+						<FormControl mt={4} isRequired isInvalid={errors.category}>
+							<FormLabel>Category</FormLabel>
+							<Input value={category} onChange={(e) => setCategory(e.target.value)} />
+							<FormErrorMessage>{errors.category}</FormErrorMessage>
+						</FormControl>
 					</ModalBody>
+
 					<ModalFooter>
-						<Button colorScheme="primary" onClick={createGroupHandler} mr={3}>
-							Create
+						<Button colorScheme="primary" onClick={addResourceHandler} mr={3}>
+							Add
 						</Button>
 						<Button onClick={onClose}>Cancel</Button>
 					</ModalFooter>
@@ -119,4 +163,4 @@ const CreateGroupModal: React.FC<Props> = ({ isOpen, onClose }) => {
 	);
 };
 
-export default CreateGroupModal;
+export default AddResourceModal;
