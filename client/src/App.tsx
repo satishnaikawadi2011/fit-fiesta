@@ -9,8 +9,12 @@ import Header from './components/layout/Header/Header';
 import Post from './components/Post';
 import PostPage from './components/Comment';
 import AddPostModal from './components/AddPostModal';
+import CreateGroupModal from './components/CreateGroupModal';
+import { useDisclosure } from '@chakra-ui/react';
 
 function App() {
+	const { isOpen, onClose, onOpen } = useDisclosure();
+
 	// useEffect(() => {
 	// 	getAllDataFromStorage();
 	// }, []);
@@ -26,7 +30,12 @@ function App() {
 	// 		likeCounts={10}
 	// 	/>
 	// );
-	// return <AddPostModal  />;
+	return (
+		<div>
+			<button onClick={onOpen}>Open</button>
+			<CreateGroupModal isOpen={isOpen} onClose={onClose} />
+		</div>
+	);
 	// if (!isTokenExpired && user) {
 	// 	return <AuthenticatedRoutes />;
 	// }

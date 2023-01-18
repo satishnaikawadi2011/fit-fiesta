@@ -13,20 +13,16 @@ import {
 	ModalHeader,
 	ModalOverlay,
 	Select,
-	Textarea,
-	useDisclosure
+	Textarea
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
 interface Props {
 	isOpen: boolean;
-	onOpen: () => void;
 	onClose: () => void;
 }
 
-const AddPostModal: React.FC<Props> = ({ isOpen, onOpen, onClose }) => {
-	// const { isOpen, onOpen, onClose } = useDisclosure();
-
+const CreateGroupModal: React.FC<Props> = ({ isOpen, onClose }) => {
 	const initialRef = React.useRef<any>(null);
 	const hiddenFileInput = React.useRef<any>(null);
 
@@ -40,16 +36,12 @@ const AddPostModal: React.FC<Props> = ({ isOpen, onOpen, onClose }) => {
 	] = useState('');
 
 	const [
-		content,
-		setContent
+		name,
+		setName
 	] = useState('');
 	const [
-		location,
-		setLocation
-	] = useState('');
-	const [
-		group,
-		setGroup
+		description,
+		setDescription
 	] = useState('');
 
 	const [
@@ -69,16 +61,18 @@ const AddPostModal: React.FC<Props> = ({ isOpen, onOpen, onClose }) => {
 		}
 	};
 
-	const addPostHandler = () => {
-		if (!content) {
-			setErrors({ content: 'Post content is required' });
+	const createGroupHandler = () => {
+		if (!name) {
+			setErrors({ name: 'Group name is required' });
+		}
+		else if (!description) {
+			setErrors({ description: 'Group description is required' });
 		}
 		else {
-			console.log(file, content, location, group);
-			setContent('');
-			setLocation('');
+			console.log(file, name, description);
+			setName('');
+			setDescription('');
 			setFile('');
-			setGroup('');
 			setErrors({});
 		}
 	};
@@ -88,15 +82,19 @@ const AddPostModal: React.FC<Props> = ({ isOpen, onOpen, onClose }) => {
 			<Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent>
-					<ModalHeader>Add a post</ModalHeader>
+					<ModalHeader>Create a group</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody pb={6}>
-						<FormControl isRequired isInvalid={errors.content}>
-							<FormLabel>What's on your mind?</FormLabel>
-							<Textarea value={content} onChange={(e) => setContent(e.target.value)} ref={initialRef} />
-							<FormErrorMessage>{errors.content}</FormErrorMessage>
+						<FormControl isRequired isInvalid={errors.name}>
+							<FormLabel>Name</FormLabel>
+							<Textarea value={name} onChange={(e) => setName(e.target.value)} ref={initialRef} />
+							<FormErrorMessage>{errors.name}</FormErrorMessage>
 						</FormControl>
-
+						<FormControl mt={4} isRequired isInvalid={errors.description}>
+							<FormLabel>Description</FormLabel>
+							<Input value={description} onChange={(e) => setDescription(e.target.value)} />
+							<FormErrorMessage>{errors.description}</FormErrorMessage>
+						</FormControl>
 						<input
 							type="file"
 							onChange={handleImageChange}
@@ -108,27 +106,10 @@ const AddPostModal: React.FC<Props> = ({ isOpen, onOpen, onClose }) => {
 							Choose a Image
 						</Button>
 						{previewUrl && <Image mt={3} src={previewUrl} />}
-						<FormControl mt={4}>
-							<FormLabel>Location</FormLabel>
-							<Input value={location} onChange={(e) => setLocation(e.target.value)} />
-						</FormControl>
-						<FormControl mt={4}>
-							<FormLabel>Do you want to share it in any specific group ?</FormLabel>
-							<Select
-								value={group}
-								onChange={(e) => setGroup(e.target.value)}
-								placeholder="Select group "
-							>
-								<option value="option1">Option 1</option>
-								<option value="option2">Option 2</option>
-								<option value="option3">Option 3</option>
-							</Select>
-						</FormControl>
 					</ModalBody>
-
 					<ModalFooter>
-						<Button colorScheme="primary" onClick={addPostHandler} mr={3}>
-							Add
+						<Button colorScheme="primary" onClick={createGroupHandler} mr={3}>
+							Create
 						</Button>
 						<Button onClick={onClose}>Cancel</Button>
 					</ModalFooter>
@@ -138,4 +119,4 @@ const AddPostModal: React.FC<Props> = ({ isOpen, onOpen, onClose }) => {
 	);
 };
 
-export default AddPostModal;
+export default CreateGroupModal;
