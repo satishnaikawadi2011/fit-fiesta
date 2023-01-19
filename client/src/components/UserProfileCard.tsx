@@ -12,15 +12,8 @@ interface Props {
 
 const UserProfileCard: React.FC<Props> = ({ connections, fullName, height, targetWeight, username, weight }) => {
 	return (
-		<Center py={6}>
-			<Box
-				maxW={'270px'}
-				w={'full'}
-				bg={useColorModeValue('white', 'gray.800')}
-				boxShadow={'2xl'}
-				rounded={'md'}
-				overflow={'hidden'}
-			>
+		<Center>
+			<Box maxW={'300px'} w={'full'} bg={'gray.100'} boxShadow={'2xl'} rounded={'md'} overflow={'hidden'}>
 				<Image h={'120px'} w={'full'} src={USER_COVER_IMAGE} objectFit={'cover'} />
 				<Flex justify={'center'} mt={-12}>
 					<Avatar
@@ -42,7 +35,7 @@ const UserProfileCard: React.FC<Props> = ({ connections, fullName, height, targe
 					</Stack>
 
 					<Stack>
-						<Stack direction={'row'} justify={'center'} spacing={6}>
+						{/* <Stack direction={'row'} justify={'center'} spacing={6}>
 							<Stack spacing={0} align={'center'}>
 								<Text fontWeight={600}>{connections}</Text>
 								<Text fontSize={'sm'} color={'gray.500'}>
@@ -55,8 +48,8 @@ const UserProfileCard: React.FC<Props> = ({ connections, fullName, height, targe
 									Height
 								</Text>
 							</Stack>
-						</Stack>
-						<Stack mt={2} direction={'row'} justify={'center'} spacing={6}>
+						</Stack> */}
+						{/* <Stack mt={2} direction={'row'} justify={'center'} spacing={6}>
 							<Stack spacing={0} align={'center'}>
 								<Text fontWeight={600}>{weight} kg</Text>
 								<Text fontSize={'sm'} color={'gray.500'}>
@@ -69,8 +62,14 @@ const UserProfileCard: React.FC<Props> = ({ connections, fullName, height, targe
 									Target Weight
 								</Text>
 							</Stack>
-						</Stack>
+						</Stack> */}
 					</Stack>
+					<Flex justify={'space-between'}>
+						<Item label="Weight" value={`${weight} kg`} />
+						<Item label="Target Weight" value={`${targetWeight} kg`} />
+						<Item label="Connections" value={`${connections}`} />
+						<Item label="Height" value={`${height} cm`} />
+					</Flex>
 					<Button
 						w={'full'}
 						mt={8}
@@ -92,3 +91,21 @@ const UserProfileCard: React.FC<Props> = ({ connections, fullName, height, targe
 };
 
 export default UserProfileCard;
+
+interface ItemProps {
+	label: string;
+	value: string;
+}
+
+const Item: React.FC<ItemProps> = ({ label, value }) => {
+	return (
+		<Flex direction={'column'} justifyContent="center" alignItems="center">
+			<Text fontSize={'xs'} fontWeight={600}>
+				{value}
+			</Text>
+			<Text fontSize={'xs'} color={'gray.500'}>
+				{label}
+			</Text>
+		</Flex>
+	);
+};

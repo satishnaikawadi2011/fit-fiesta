@@ -34,7 +34,7 @@ const Post: React.FC<PostProps> = ({ name, username, date, postText, postImage, 
 	};
 
 	return (
-		<Box mb={4} boxShadow="md">
+		<Box mb={4} boxShadow="md" bg={'gray.100'}>
 			<Stack padding={'4'}>
 				<Flex align="center">
 					<Image

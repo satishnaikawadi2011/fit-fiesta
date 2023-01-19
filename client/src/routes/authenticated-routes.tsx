@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import DummyPage from '../pages/dummy';
+import DummyPage from '../pages';
 import NotFoundPage from '../pages/not-found';
 
 type RoutePathType = '/' | '' | '';
