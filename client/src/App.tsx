@@ -13,6 +13,7 @@ import CreateGroupModal from './components/CreateGroupModal';
 import { useDisclosure } from '@chakra-ui/react';
 import AddResourceModal from './components/AddResourceModal';
 import AddEventModal from './components/AddEventModal';
+import UserProfileCard from './components/UserProfileCard';
 
 function App() {
 	const { isOpen, onClose, onOpen } = useDisclosure();
@@ -32,12 +33,24 @@ function App() {
 	// 		likeCounts={10}
 	// 	/>
 	// );
+	// return (
+	// 	<div>
+	// 		<button onClick={onOpen}>Open</button>
+	// 		<AddEventModal isOpen={isOpen} onClose={onClose} />
+	// 	</div>
+	// );
+
 	return (
-		<div>
-			<button onClick={onOpen}>Open</button>
-			<AddEventModal isOpen={isOpen} onClose={onClose} />
-		</div>
+		<UserProfileCard
+			username="Jonn"
+			connections={340}
+			fullName="Jon Doe"
+			height={168}
+			weight={78}
+			targetWeight={70}
+		/>
 	);
+
 	// if (!isTokenExpired && user) {
 	// 	return <AuthenticatedRoutes />;
 	// }
