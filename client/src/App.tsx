@@ -14,6 +14,7 @@ import { useDisclosure } from '@chakra-ui/react';
 import AddResourceModal from './components/AddResourceModal';
 import AddEventModal from './components/AddEventModal';
 import UserProfileCard from './components/UserProfileCard';
+import AddButtons from './components/AddButtons';
 
 function App() {
 	const { isOpen, onClose, onOpen } = useDisclosure();
@@ -40,16 +41,7 @@ function App() {
 	// 	</div>
 	// );
 
-	return (
-		<UserProfileCard
-			username="Jonn"
-			connections={340}
-			fullName="Jon Doe"
-			height={168}
-			weight={78}
-			targetWeight={70}
-		/>
-	);
+	return <AddButtons />;
 
 	// if (!isTokenExpired && user) {
 	// 	return <AuthenticatedRoutes />;
