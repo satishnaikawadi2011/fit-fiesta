@@ -1,6 +1,16 @@
 import * as mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
+export interface IEvent {
+	name: string;
+	image?: string;
+	description?: string;
+	location?: string;
+	date: Date;
+	group?: string;
+	user: string;
+}
+
 const EventSchema = new Schema(
 	{
 		name:
@@ -29,9 +39,17 @@ const EventSchema = new Schema(
 			{
 				type: Schema.Types.ObjectId,
 				ref: 'Group'
+			},
+		user:
+			{
+				type: Schema.Types.ObjectId,
+				ref: 'User',
+				required: true
 			}
 	},
 	{ timestamps: true }
 );
 
-module.exports = mongoose.model('Event', EventSchema);
+const Event = mongoose.model('Event', EventSchema);
+
+export default Event;
