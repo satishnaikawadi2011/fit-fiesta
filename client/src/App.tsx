@@ -12,6 +12,7 @@ import AddPostModal from './components/AddPostModal';
 import CreateGroupModal from './components/CreateGroupModal';
 import { useDisclosure } from '@chakra-ui/react';
 import AddResourceModal from './components/AddResourceModal';
+import AddEventModal from './components/AddEventModal';
 
 function App() {
 	const { isOpen, onClose, onOpen } = useDisclosure();
@@ -34,7 +35,7 @@ function App() {
 	return (
 		<div>
 			<button onClick={onOpen}>Open</button>
-			<AddResourceModal isOpen={isOpen} onClose={onClose} />
+			<AddEventModal isOpen={isOpen} onClose={onClose} />
 		</div>
 	);
 	// if (!isTokenExpired && user) {
