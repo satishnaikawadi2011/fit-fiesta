@@ -3,6 +3,7 @@ import { validatePostData } from './../validation/validatePost';
 import Post, { IPost } from './../models/Post';
 import { Request, Response } from 'express';
 import Comment from '../models/Comment';
+import User from '../models/User';
 
 export const createPost = async (req: any, res: Response) => {
 	try {
@@ -77,6 +78,43 @@ export const createComment = async (req: any, res: Response) => {
 		await comment.save();
 
 		return res.status(201).json({ comment });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
+export const getPosts = async (req: any, res: Response) => {
+	try {
+		const page = req.query.page || 1;
+		const limit = req.query.limit || 10;
+		const skip = (page - 1) * limit;
+		const userId = req.id;
+
+		const user = await User.findById(userId);
+		const connectionIds = user!.connections;
+		const groupIds = user!.groups;
+
+		let query = {
+			$or:
+				[
+					{
+						user:
+							{
+								$in:
+									[
+										...connectionIds,
+										userId
+									]
+							}
+					},
+					{ group: { $in: groupIds } }
+				]
+		};
+
+		const posts = await Post.find(query).skip(skip).limit(limit).sort({ createdAt: -1 });
+
+		return res.status(200).json(posts);
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ message: 'Something went wrong!' });
