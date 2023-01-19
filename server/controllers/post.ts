@@ -1,3 +1,4 @@
+import { BASE_URL } from './../constants/index';
 import { validatePostData } from './../validation/validatePost';
 import Post, { IPost } from './../models/Post';
 import { Request, Response } from 'express';
@@ -5,16 +6,13 @@ import Comment from '../models/Comment';
 
 export const createPost = async (req: any, res: Response) => {
 	try {
-		console.log(req.files[0]);
-		const file = req.files[0];
-		const { content, image, location } = req.body;
-		// return;
-		// const { content, image, location } = req.body;
+		const { content, location, group } = req.body;
 		const message = await validatePostData(req.body);
 		if (message) {
 			return res.status(400).json({ message });
 		}
-		const post = new Post({ content, location, image, user: req.id });
+		const image = req.file.path;
+		const post = new Post({ content, location, image, user: req.id, group });
 		await post.save();
 		return res.status(201).json({ post });
 	} catch (err) {

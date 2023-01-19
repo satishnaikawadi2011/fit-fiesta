@@ -29,6 +29,7 @@ router.post(
 		upload.single('image')
 	],
 	async (req: any, res: any) => {
+		console.log(req.file);
 		return res.json({ picture: req.file.path });
 	}
 );
