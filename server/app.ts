@@ -9,10 +9,12 @@ import userRouter from './routes/user';
 import postRouter from './routes/post';
 import groupRouter from './routes/group';
 import resourceRouter from './routes/resource';
+import fileRouter from './routes/file';
 
-const app = express();
+export const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 
@@ -20,6 +22,7 @@ app.use('/api/user', userRouter);
 app.use('/api/post', postRouter);
 app.use('/api/group', groupRouter);
 app.use('/api/resource', resourceRouter);
+app.use('/api/file', fileRouter);
 
 app.get('/', (req, res) => {
 	res.send('Hello, World!');

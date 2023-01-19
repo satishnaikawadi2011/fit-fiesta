@@ -5,7 +5,16 @@ import { isAuthenticated } from '../middlewares/isAuthenticated';
 
 const router = express.Router();
 
-router.post('/', isAuthenticated, createPost);
+const multer = require('multer');
+// https://codex.so/handling-any-post-data-in-express
+router.post(
+	'/',
+	[
+		isAuthenticated,
+		multer().any()
+	],
+	createPost
+);
 
 router.patch('/like/:postId', isAuthenticated, likePost);
 

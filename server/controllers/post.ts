@@ -5,7 +5,11 @@ import Comment from '../models/Comment';
 
 export const createPost = async (req: any, res: Response) => {
 	try {
+		console.log(req.files[0]);
+		const file = req.files[0];
 		const { content, image, location } = req.body;
+		// return;
+		// const { content, image, location } = req.body;
 		const message = await validatePostData(req.body);
 		if (message) {
 			return res.status(400).json({ message });
