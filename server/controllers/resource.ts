@@ -10,12 +10,15 @@ export const addResource = async (req: any, res: Response) => {
 			return res.status(400).json({ message });
 		}
 
+		const image = req.file.path;
+
 		const resource = await new Resource({
 			name,
 			description,
 			category,
 			url,
-			location
+			location,
+			image
 		});
 
 		await resource.save();
