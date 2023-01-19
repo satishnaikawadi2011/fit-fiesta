@@ -120,3 +120,19 @@ export const getPosts = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const fetchComments = async (req: any, res: Response) => {
+	try {
+		const page = req.query.page || 1;
+		const limit = req.query.limit || 2;
+		const skip = (page - 1) * limit;
+		const postId = req.params.postId;
+
+		const comments = await Comment.find({ post: postId }).skip(skip).limit(limit).sort({ createdAt: -1 });
+
+		return res.status(200).json(comments);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
