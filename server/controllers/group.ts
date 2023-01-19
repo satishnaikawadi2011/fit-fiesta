@@ -5,7 +5,7 @@ import { validateGroupData } from './../validation/validateGroupData';
 
 export const createGroup = async (req: any, res: Response) => {
 	try {
-		const { name, image, description } = req.body;
+		const { name, description } = req.body;
 		const message = await validateGroupData(req.body);
 		if (message) {
 			return res.status(400).json({ message });
@@ -16,6 +16,8 @@ export const createGroup = async (req: any, res: Response) => {
 		if (!currentUser) {
 			return res.status(404).json({ message: 'User not found' });
 		}
+
+		const image = req.file.path;
 
 		const group = await new Group({
 			name,
