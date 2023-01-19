@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import DummyPage from '../pages';
+import HomePage from '../pages';
 import NotFoundPage from '../pages/not-found';
 
 type RoutePathType = '/' | '' | '';
@@ -11,7 +11,7 @@ export interface RouteType {
 }
 
 const ClientRoutes: RouteType[] = [
-	{ path: '/', element: <DummyPage /> }
+	{ path: '/', element: <HomePage /> }
 ];
 
 const AuthenticatedRoutes = () => {

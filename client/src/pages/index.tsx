@@ -1,10 +1,15 @@
 import { Grid, GridItem } from '@chakra-ui/react';
 import React from 'react';
+import { useAppSelector } from '../app/hooks';
+import AddButtons from '../components/AddButtons';
 import Layout from '../components/layout/Layout';
 import Post from '../components/Post';
 import UserProfileCard from '../components/UserProfileCard';
 
 const HomePage = () => {
+
+	const {user} = useAppSelector(state => state.auth)
+
 	return (
 		<Layout title="Home">
 			<Grid templateColumns="1fr 2fr" gap={4}>
@@ -17,16 +22,17 @@ const HomePage = () => {
 					left={0}
 				>
 					<UserProfileCard
-						username="jonn"
-						weight={80}
-						targetWeight={70}
-						height={170}
-						connections={200}
-						fullName="Jon Doe"
+						username={user!.username}
+						weight={user!.weight!}
+						targetWeight={user?.targetWeight!}
+						height={user?.height!}
+						connections={user?.connections?.length!}
+						fullName={user!.fullName}
 					/>
 				</GridItem>
 				<GridItem />
 				<GridItem marginTop={'6rem'} padding={10}>
+					<AddButtons />
 					<Post
 						postImage="https://cdn.pixabay.com/photo/2017/05/16/19/43/bicycle-2318682_1280.jpg"
 						username="satish_011e"

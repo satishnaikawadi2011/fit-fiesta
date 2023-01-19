@@ -22,7 +22,7 @@ const Item: React.FC<ItemProps> = ({ Icon, title, onClick }) => {
 
 const AddButtons = () => {
 	return (
-		<Flex height={50} justifyContent={'space-around'} boxShadow="md" rounded={'md'} m={10}>
+		<Flex height={50} bg={'gray.100'} justifyContent={'space-around'} boxShadow="md" rounded={'md'} mb={5}>
 			<Item Icon={FcAddImage} title="Post" />
 			<Item Icon={FcCalendar} title="Event" />
 			<Item Icon={FcSurvey} title="Resources" />
