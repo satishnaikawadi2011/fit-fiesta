@@ -6,3 +6,7 @@ const endpoint = '/post';
 const fetchPosts = (queryString?: string) => {
 	return client.get(`${endpoint}${queryString}`);
 };
+
+export default {
+	fetchPosts
+};
