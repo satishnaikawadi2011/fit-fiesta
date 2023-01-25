@@ -110,7 +110,7 @@ const AddResourceModal: React.FC<Props> = ({ isOpen, onClose }) => {
 			<Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent>
-					<ModalHeader>Add a post</ModalHeader>
+					<ModalHeader>Add a resource</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody pb={6}>
 						<FormControl isRequired isInvalid={errors.name}>

@@ -26,8 +26,6 @@ interface Props {
 }
 
 const AddEventModal: React.FC<Props> = ({ isOpen, onClose }) => {
-	// const { isOpen, onOpen, onClose } = useDisclosure();
-
 	const initialRef = React.useRef<any>(null);
 	const hiddenFileInput = React.useRef<any>(null);
 
@@ -105,7 +103,7 @@ const AddEventModal: React.FC<Props> = ({ isOpen, onClose }) => {
 			<Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent>
-					<ModalHeader>Add a post</ModalHeader>
+					<ModalHeader>Add a event</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody pb={6}>
 						<FormControl isRequired isInvalid={errors.name}>

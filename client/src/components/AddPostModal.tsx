@@ -20,11 +20,10 @@ import React, { useState } from 'react';
 
 interface Props {
 	isOpen: boolean;
-	onOpen: () => void;
 	onClose: () => void;
 }
 
-const AddPostModal: React.FC<Props> = ({ isOpen, onOpen, onClose }) => {
+const AddPostModal: React.FC<Props> = ({ isOpen, onClose }) => {
 	// const { isOpen, onOpen, onClose } = useDisclosure();
 
 	const initialRef = React.useRef<any>(null);
