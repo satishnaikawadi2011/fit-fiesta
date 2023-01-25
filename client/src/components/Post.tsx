@@ -4,20 +4,31 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useState } from 'react';
 import { FaThumbsUp } from 'react-icons/fa';
+import { likePost } from '../app/features/post';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 import CommentInput from './CommentInput';
+import postApi from '../api/post';
+import useApi from '../hooks/useApi';
+import { PRIMARY } from '../constants/colors';
 
 interface PostProps {
+	_id: string;
 	name: string;
 	username: string;
 	date: string;
 	postText: string;
 	postImage?: string;
 	likeCounts: number;
+	likesUsers?: string[];
 }
 
 dayjs.extend(relativeTime);
 
-const Post: React.FC<PostProps> = ({ name, username, date, postText, postImage, likeCounts }) => {
+const Post: React.FC<PostProps> = ({ _id, name, username, date, postText, postImage, likeCounts, likesUsers }) => {
+	const dispatch = useAppDispatch();
+	const { request: likePostReq } = useApi(postApi.likePost);
+	const { user } = useAppSelector((state) => state.auth);
+
 	const [
 		showComm,
 		setShowComm
@@ -31,6 +42,13 @@ const Post: React.FC<PostProps> = ({ name, username, date, postText, postImage, 
 
 	const addPostHandler = () => {
 		setComment('');
+	};
+
+	const alreadyLiked = likesUsers!.includes(user!._id);
+
+	const likePostHandler = () => {
+		dispatch(likePost({ userId: user!._id, postId: _id }));
+		likePostReq(_id);
 	};
 
 	return (
@@ -73,7 +91,25 @@ const Post: React.FC<PostProps> = ({ name, username, date, postText, postImage, 
 			</Flex>
 			<Divider />
 			<HStack m={2}>
-				<Button width={'100%'} leftIcon={<FaThumbsUp />} bgColor={'transparent'}>
+				<Button
+					width={'100%'}
+					color={
+
+							alreadyLiked ? PRIMARY :
+							'black'
+					}
+					leftIcon={
+						<FaThumbsUp
+							color={
+
+									alreadyLiked ? PRIMARY :
+									'black'
+							}
+						/>
+					}
+					bgColor={'transparent'}
+					onClick={likePostHandler}
+				>
 					Like
 				</Button>
 				<Button

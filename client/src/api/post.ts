@@ -7,6 +7,11 @@ const fetchPosts = (queryString?: string) => {
 	return client.get(`${endpoint}${queryString}`);
 };
 
+const likePost = (postId: string) => {
+	return client.patch(`${endpoint}/like/${postId}`);
+};
+
 export default {
-	fetchPosts
+	fetchPosts,
+	likePost
 };
