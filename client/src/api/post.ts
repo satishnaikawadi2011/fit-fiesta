@@ -11,7 +11,17 @@ const likePost = (postId: string) => {
 	return client.patch(`${endpoint}/like/${postId}`);
 };
 
+const getComments = (postId: string) => {
+	return client.get(`${endpoint}/comments/${postId}`);
+};
+
+const addComment = (postId: string, content: string) => {
+	return client.post(`${endpoint}/comment/${postId}`, { content });
+};
+
 export default {
 	fetchPosts,
-	likePost
+	likePost,
+	getComments,
+	addComment
 };

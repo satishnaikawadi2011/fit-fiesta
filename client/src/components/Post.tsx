@@ -1,8 +1,8 @@
 import { ChatIcon } from '@chakra-ui/icons';
-import { Box, Flex, Image, Text, Link, Stack, Divider, Button, HStack } from '@chakra-ui/react';
+import { Box, Flex, Image, Text, Link, Stack, Divider, Button, HStack, Center } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaThumbsUp } from 'react-icons/fa';
 import { likePost } from '../app/features/post';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
@@ -10,6 +10,10 @@ import CommentInput from './CommentInput';
 import postApi from '../api/post';
 import useApi from '../hooks/useApi';
 import { PRIMARY } from '../constants/colors';
+import apiClient from '../api/client';
+import Comment from './Comment';
+import { IComment } from '../types/Comment';
+import ReactDOM from 'react-dom';
 
 interface PostProps {
 	_id: string;
@@ -27,6 +31,7 @@ dayjs.extend(relativeTime);
 const Post: React.FC<PostProps> = ({ _id, name, username, date, postText, postImage, likeCounts, likesUsers }) => {
 	const dispatch = useAppDispatch();
 	const { request: likePostReq } = useApi(postApi.likePost);
+	const { request: addPostReq, data: newComm, loading: newCommLoad }: any = useApi(postApi.addComment);
 	const { user } = useAppSelector((state) => state.auth);
 
 	const [
@@ -37,10 +42,27 @@ const Post: React.FC<PostProps> = ({ _id, name, username, date, postText, postIm
 		comment,
 		setComment
 	] = useState('');
+	const [
+		page,
+		setPage
+	] = useState(1);
+	const [
+		comments,
+		setComments
+	] = useState<IComment[]>([]);
+	const [
+		loading,
+		setLoading
+	] = useState(false);
+	const [
+		hasMore,
+		setHasMore
+	] = useState(true);
 	const isEmpty = comment === '' || comment.trim() === '';
 	const commentCounts = 20;
 
-	const addPostHandler = () => {
+	const addPostHandler = async () => {
+		await addPostReq(_id, comment);
 		setComment('');
 	};
 
@@ -50,6 +72,50 @@ const Post: React.FC<PostProps> = ({ _id, name, username, date, postText, postIm
 		dispatch(likePost({ userId: user!._id, postId: _id }));
 		likePostReq(_id);
 	};
+
+	useEffect(
+		() => {
+			if (showComm) {
+				fetchComments();
+			}
+		},
+		[
+			showComm
+		]
+	);
+
+	const fetchComments = async () => {
+		setLoading(true);
+		const data: any = await apiClient.get(`http://localhost:5000/api/post/comments/${_id}?page=1&limit=1`);
+		setComments(data.data);
+		setLoading(false);
+	};
+
+	const fetchMoreComments = async () => {
+		setPage(page + 1);
+		setLoading(true);
+		const data: any = await apiClient.get(
+			`http://localhost:5000/api/post/comments/${_id}?page=${page + 1}&limit=1`
+		);
+		setComments([
+			...comments,
+			...data.data
+		]);
+		if (data.data.length === 0) setHasMore(false);
+		setLoading(false);
+		console.log(hasMore);
+	};
+
+	useEffect(
+		() => {
+			if (newComm) {
+				fetchComments();
+			}
+		},
+		[
+			newComm
+		]
+	);
 
 	return (
 		<Box mb={4} boxShadow="md" bg={'gray.100'}>
@@ -140,10 +206,52 @@ const Post: React.FC<PostProps> = ({ _id, name, username, date, postText, postIm
 							bgColor={'primary.300'}
 							_hover={{ bgColor: 'primary.400' }}
 							onClick={addPostHandler}
+							isLoading={newCommLoad}
 						>
 							Post
 						</Button>
 					)}
+					{comments.map((c: any, i) => {
+						if (comments.length - 1 === i) {
+							return (
+								<React.Fragment key={c._id}>
+									<Comment
+										comment={c.content}
+										date={c.createdAt}
+										name={c.user.fullName}
+										username={c.user.username}
+									/>
+									<Center>
+										<Button
+											m={2}
+											rounded={'full'}
+											bg="primary.300"
+											color="white"
+											_hover={{ bg: 'primary.400' }}
+											width={'90%'}
+											onClick={() => {
+												fetchMoreComments();
+											}}
+											isDisabled={!hasMore}
+										>
+											Load More
+										</Button>
+									</Center>
+								</React.Fragment>
+							);
+						}
+						else {
+							return (
+								<Comment
+									key={c._id}
+									comment={c.content}
+									date={c.createdAt}
+									name={c.user.fullName}
+									username={c.user.username}
+								/>
+							);
+						}
+					})}
 				</div>
 			)}
 		</Box>

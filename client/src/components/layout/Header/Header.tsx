@@ -26,6 +26,7 @@ const Header: React.FC = () => {
 
 	return (
 		<Flex
+			zIndex={1000}
 			width={'100vw'}
 			position={'fixed'}
 			as="nav"

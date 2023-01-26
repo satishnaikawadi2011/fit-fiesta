@@ -131,7 +131,14 @@ export const fetchComments = async (req: any, res: Response) => {
 		const skip = (page - 1) * limit;
 		const postId = req.params.postId;
 
-		const comments = await Comment.find({ post: postId }).skip(skip).limit(limit).sort({ createdAt: -1 });
+		const comments = await Comment.find({ post: postId })
+			.skip(skip)
+			.limit(limit)
+			.sort({ createdAt: -1 })
+			.populate('user', [
+				'fullName',
+				'username'
+			]);
 
 		return res.status(200).json(comments);
 	} catch (err) {
