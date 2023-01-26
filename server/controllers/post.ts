@@ -112,7 +112,10 @@ export const getPosts = async (req: any, res: Response) => {
 				]
 		};
 
-		const posts = await Post.find(query).skip(skip).limit(limit).sort({ createdAt: -1 });
+		const posts = await Post.find(query).skip(skip).limit(limit).sort({ createdAt: -1 }).populate('user', [
+			'fullName',
+			'username'
+		]);
 
 		return res.status(200).json(posts);
 	} catch (err) {

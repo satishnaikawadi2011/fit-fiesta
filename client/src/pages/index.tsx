@@ -104,12 +104,13 @@ const HomePage = () => {
 						{posts.map(post => {
 	  return <Post _id={post._id} key={post._id}
 						postImage={post.image}
-						username={post.user}
-						name={post.user}
+						username={(post.user as any).username}
+						name={(post.user as any).fullName}
 		  				postText={post.content}
 		  				date={post.createdAt}
 		  likeCounts={post.likesCount}
 		  likesUsers={post.likesUsers}
+		  
 					/>
   })}
 </InfiniteScroll>
