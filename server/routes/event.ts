@@ -1,4 +1,4 @@
-import { addEvent } from './../controllers/event';
+import { addEvent, searchEvent } from './../controllers/event';
 import { setupCloudinary } from './../utils/setupCloudinary';
 import express from 'express';
 import { isAuthenticated } from '../middlewares/isAuthenticated';
@@ -14,5 +14,7 @@ router.post(
 	],
 	addEvent
 );
+
+router.get('/search/:query', isAuthenticated, searchEvent);
 
 export default router;

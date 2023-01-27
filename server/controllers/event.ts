@@ -18,3 +18,21 @@ export const addEvent = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const searchEvent = async (req: any, res: Response) => {
+	try {
+		const searchQuery = req.params.query;
+		const events = await Event.find({
+			$or:
+				[
+					{ name: { $regex: searchQuery, $options: 'i' } },
+					{ description: { $regex: searchQuery, $options: 'i' } },
+					{ location: { $regex: searchQuery, $options: 'i' } }
+				]
+		});
+		res.json(events);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
