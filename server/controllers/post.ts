@@ -12,8 +12,12 @@ export const createPost = async (req: any, res: Response) => {
 		if (message) {
 			return res.status(400).json({ message });
 		}
-		const image = req.file.path;
-		const post = new Post({ content, location, image, user: req.id, group });
+		const image =
+			req.file ? req.file.path :
+			undefined;
+		let g = undefined;
+		if (group != '') g = group;
+		const post = new Post({ content, location, image, user: req.id, group: g });
 		await post.save();
 		return res.status(201).json({ post });
 	} catch (err) {

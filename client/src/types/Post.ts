@@ -3,7 +3,11 @@ export interface IPost {
 	content: string;
 	location?: string;
 	image?: string;
-	user: string;
+	user: {
+		fullName: string;
+		username: string;
+		_id: string;
+	};
 	group?: string;
 	comments?: string[];
 	likesCount: number;

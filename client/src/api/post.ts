@@ -19,9 +19,14 @@ const addComment = (postId: string, content: string) => {
 	return client.post(`${endpoint}/comment/${postId}`, { content });
 };
 
+const addPost = (postData: any) => {
+	return client.post(`${endpoint}`, postData);
+};
+
 export default {
 	fetchPosts,
 	likePost,
 	getComments,
-	addComment
+	addComment,
+	addPost
 };

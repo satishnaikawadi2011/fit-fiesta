@@ -26,7 +26,7 @@ const HomePage = () => {
 
 	const fetchPosts = async () => {
 		setLoading(true)
-		const data:any = await apiClient.get('http://localhost:5000/api/post?limit=1&page=1')
+		const data:any = await apiClient.get('http://localhost:5000/api/post?limit=3&page=1')
 		dispatch(setPosts(data.data))
 		setLoading(false)
 	}
@@ -41,7 +41,7 @@ const HomePage = () => {
 	const fetchMorePosts = async () => {
 		setPage(prevPage => prevPage + 1);
 		setLoading(true)
-		const data: any = await apiClient.get(`http://localhost:5000/api/post?limit=1&page=${page}`)
+		const data: any = await apiClient.get(`http://localhost:5000/api/post?limit=3&page=${page}`)
 		if (data.data.length == 0) setHasMore(false)
 		dispatch(setPosts([...posts,...data.data]))
 		setLoading(false)
