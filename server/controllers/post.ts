@@ -150,3 +150,14 @@ export const fetchComments = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const searchPost = async (req: any, res: Response) => {
+	try {
+		const searchQuery = req.params.query;
+		const posts = await Post.find({ $text: { $search: searchQuery } });
+		res.json(posts);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
