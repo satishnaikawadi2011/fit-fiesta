@@ -114,3 +114,22 @@ export const acceptConnection = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const searchUser = async (req: any, res: Response) => {
+	try {
+		const searchTerm = req.params.searchTerm;
+
+		const users = await User.find({
+			$or:
+				[
+					{ fullName: { $regex: searchTerm, $options: 'i' } },
+					{ username: { $regex: searchTerm, $options: 'i' } },
+					{ email: { $regex: searchTerm, $options: 'i' } }
+				]
+		});
+		res.json(users);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
