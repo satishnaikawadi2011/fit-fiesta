@@ -19,7 +19,8 @@ const ResourceSchema = new Schema(
 			},
 		description:
 			{
-				type: String
+				type: String,
+				required: true
 			},
 		location:
 			{
@@ -36,7 +37,8 @@ const ResourceSchema = new Schema(
 			},
 		url:
 			{
-				type: String
+				type: String,
+				required: true
 			}
 	},
 	{ timestamps: true }

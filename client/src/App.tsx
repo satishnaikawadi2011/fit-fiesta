@@ -11,6 +11,7 @@ import { ImLocation2 } from 'react-icons/im';
 import { CalendarIcon } from '@chakra-ui/icons';
 import { GrAddCircle } from 'react-icons/gr';
 import Event from './components/Event';
+import Resource from './components/Resource';
 
 function App() {
 	// useEffect(() => {
@@ -28,11 +29,22 @@ function App() {
 	return (
 		<React.Fragment>
 			<Box width={600}>
-				<Event name='Fitness, Nutrition, and Self-Care for Musicians' date='2023-02-02T16:30:00' description='Lorem ipsum, dolor sit amet consectetur adipisicing elit. Similique omnis cumque laudantium
+				<Resource
+					resource={{
+						name: 'Fitness, Nutrition, and Self-Care for Musicians',
+						createdAt: '2023-02-02T16:30:00',
+						updatedAt: 'djdjd',
+						description:
+							`Lorem ipsum, dolor sit amet consectetur adipisicing elit. Similique omnis cumque laudantium
 						modi, voluptatibus doloribus pariatur aliquid enim harum excepturi, voluptatem officiis
-						assumenda alias incidunt?' username='jonny' location='Mumbai'/>
+						assumenda alias incidunt?`,
+						// location: 'Mumbai',
+						category: 'Gym',
+						url: 'https://react-icons.github.io/react-icons'
+						// image: 'https://cdn.pixabay.com/photo/2018/07/27/05/02/stones-3565221_1280.jpg'
+					}}
+				/>
 			</Box>
-			
 		</React.Fragment>
 	);
 }
