@@ -1,9 +1,10 @@
 import { CalendarIcon } from '@chakra-ui/icons';
-import { Heading, Flex, Icon, Divider, Text, Box, Image } from '@chakra-ui/react';
-import React from 'react';
+import { Heading, Flex, Icon, Divider, Text, Box, Image, Center, Collapse } from '@chakra-ui/react';
+import React, { useState } from 'react';
 import { GrAddCircle } from 'react-icons/gr';
 import { ImLocation2 } from 'react-icons/im';
 import dayjs from 'dayjs';
+import { BsChevronCompactDown } from 'react-icons/bs';
 
 interface Props {
 	name: string;
@@ -16,6 +17,10 @@ interface Props {
 }
 
 const Event: React.FC<Props> = ({ date, description, name, username, group, image, location }) => {
+	const [
+		isOpen,
+		setIsOpen
+	] = useState<boolean>(!image);
 	return (
 		<Box boxShadow="md" bg={'gray.100'} width={'100%'} roundedTop="2xl" overflow={'clip'}>
 			{image && <Image src={image} />}
@@ -27,13 +32,19 @@ const Event: React.FC<Props> = ({ date, description, name, username, group, imag
 				<Item Icon={<CalendarIcon mr={3} />} desc={dayjs(date).format('ddd, MMM D, YYYY, h:mm A')} />
 				<Item Icon={<Icon as={GrAddCircle} mr={3} />} desc={`added by @${username}`} />
 			</Box>
-			<Divider />
-			<Box p={3}>
-				<Heading mb={3} fontSize={'lg'} fontWeight="normal">
-					Description
-				</Heading>
-				<Text fontWeight={'light'}>{description}</Text>
-			</Box>
+			<Center>
+				{image &&
+				!isOpen && <Icon as={BsChevronCompactDown} cursor={'pointer'} onClick={() => setIsOpen(true)} />}
+			</Center>
+			<Divider borderWidth={1} />
+			<Collapse in={isOpen}>
+				<Box p={3}>
+					<Heading mb={3} fontSize={'lg'} fontWeight="normal">
+						Description
+					</Heading>
+					<Text fontWeight={'light'}>{description}</Text>
+				</Box>
+			</Collapse>
 		</Box>
 	);
 };
