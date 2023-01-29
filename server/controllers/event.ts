@@ -36,3 +36,16 @@ export const searchEvent = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const getEvents = async (req: any, res: Response) => {
+	try {
+		const events = await Event.find({ date: { $gte: new Date() } }).sort({ date: 1 }).populate('user', [
+			'fullName',
+			'username'
+		]);
+		res.json(events);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};

@@ -60,26 +60,6 @@ const HomePage = () => {
 
 	return (
 		<Layout title="Home" withProfile>
-			{/* <Grid templateColumns="1fr 2fr" gap={4}>
-				<GridItem
-					marginTop={'6rem'}
-					padding={4}
-					height={'calc(100vh - 6rem)'}
-					position={'fixed'}
-					width={'33vw'}
-					left={0}
-				>
-					<UserProfileCard
-						username={user!.username}
-						weight={user!.weight!}
-						targetWeight={user?.targetWeight!}
-						height={user?.height!}
-						connections={user?.connections?.length!}
-						fullName={user!.fullName}
-					/>
-				</GridItem>
-				<GridItem />
-				<GridItem marginTop={'6rem'} padding={10}> */}
 			<AddButtons />
 			{loading && (
 				<Center>
@@ -118,8 +98,6 @@ const HomePage = () => {
 					);
 				})}
 			</InfiniteScroll>
-			{/* </GridItem>
-			</Grid> */}
 		</Layout>
 	);
 };
