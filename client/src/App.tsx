@@ -14,48 +14,17 @@ import Event from './components/Event';
 import Resource from './components/Resource';
 
 function App() {
-	// useEffect(() => {
-	// 	getAllDataFromStorage();
-	// }, []);
-	// const { user, expiryDate, token } = useAppSelector((state) => state.auth);
-	// const isTokenExpired = isExpired(expiryDate);
+	useEffect(() => {
+		getAllDataFromStorage();
+	}, []);
+	const { user, expiryDate, token } = useAppSelector((state) => state.auth);
+	const isTokenExpired = isExpired(expiryDate);
 
-	// if (!isTokenExpired && user) {
-	// 	apiClient.setHeader('Authorization', `Bearer ${token}`);
-	// 	return <AuthenticatedRoutes />;
-	// }
-	// return <UnauthenticatedRoutes />;
-
-	return (
-		<React.Fragment>
-			<Box width={600}>
-				{/* <Resource
-					resource={{
-						name: 'Fitness, Nutrition, and Self-Care for Musicians',
-						createdAt: '2023-02-02T16:30:00',
-						updatedAt: 'djdjd',
-						description:
-							`Lorem ipsum, dolor sit amet consectetur adipisicing elit. Similique omnis cumque laudantium
-						modi, voluptatibus doloribus pariatur aliquid enim harum excepturi, voluptatem officiis
-						assumenda alias incidunt?`,
-						// location: 'Mumbai',
-						category: 'Gym',
-						url: 'https://react-icons.github.io/react-icons',
-						image: 'https://cdn.pixabay.com/photo/2018/07/27/05/02/stones-3565221_1280.jpg'
-					}}
-				/> */}
-				<Event
-					name="Fitness, Nutrition, and Self-Care for Musicians"
-					date="2023-02-02T16:30:00"
-					description={`Lorem ipsum, dolor sit amet consectetur adipisicing elit. Similique omnis cumque laudantium
-						modi, voluptatibus doloribus pariatur aliquid enim harum excepturi, voluptatem officiis
-						assumenda alias incidunt?`}
-					username="jonny"
-					image="https://cdn.pixabay.com/photo/2018/07/27/05/02/stones-3565221_1280.jpg"
-				/>
-			</Box>
-		</React.Fragment>
-	);
+	if (!isTokenExpired && user) {
+		apiClient.setHeader('Authorization', `Bearer ${token}`);
+		return <AuthenticatedRoutes />;
+	}
+	return <UnauthenticatedRoutes />;
 }
 
 export default App;
