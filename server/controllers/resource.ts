@@ -28,3 +28,16 @@ export const addResource = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const getResources = async (req: any, res: Response) => {
+	try {
+		const page = req.query.page || 1;
+		const limit = req.query.limit || 10;
+		const skip = (page - 1) * limit;
+		const resources = await Resource.find().skip(skip).limit(limit).sort({ createdAt: -1 });
+		res.json(resources);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};

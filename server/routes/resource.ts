@@ -1,5 +1,5 @@
 import { setupCloudinary } from './../utils/setupCloudinary';
-import { addResource } from './../controllers/resource';
+import { addResource, getResources } from './../controllers/resource';
 import express from 'express';
 import { isAuthenticated } from '../middlewares/isAuthenticated';
 
@@ -14,5 +14,7 @@ router.post(
 	],
 	addResource
 );
+
+router.get('/', isAuthenticated, getResources);
 
 export default router;
