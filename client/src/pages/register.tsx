@@ -17,6 +17,7 @@ import * as Yup from 'yup';
 import AppFormField from '../components/form/AppFormField';
 import Logo from '../components/Logo';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { useNavigate } from 'react-router-dom';
 
 interface FormValues {
 	username: string;
@@ -69,6 +70,7 @@ const validationSchema = Yup.object({
 });
 
 const RegisterPage = () => {
+	const navigate = useNavigate();
 	const [
 		showPassword,
 		setShowPassword
@@ -168,7 +170,10 @@ const RegisterPage = () => {
 										</Stack>
 										<Stack pt={6}>
 											<Text align={'center'}>
-												Already a user? <Link color={'primary.400'}>Login</Link>
+												Already a user?{' '}
+												<Link onClick={() => navigate('/login')} color={'primary.400'}>
+													Login
+												</Link>
 											</Text>
 										</Stack>
 									</Stack>

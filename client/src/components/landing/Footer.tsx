@@ -13,6 +13,7 @@ import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 import { ReactNode } from 'react';
 import Logo from '../Logo';
 import { APP_NAME } from '../../constants';
+import { useNavigate } from 'react-router-dom';
 
 const SocialButton = ({ children, label, href }: { children: ReactNode; label: string; href: string }) => {
 	return (
@@ -39,6 +40,7 @@ const SocialButton = ({ children, label, href }: { children: ReactNode; label: s
 };
 
 const Footer = () => {
+	const navigate = useNavigate();
 	return (
 		<Box bg={useColorModeValue('gray.50', 'gray.900')} color={useColorModeValue('gray.700', 'gray.200')}>
 			<Container
@@ -50,7 +52,7 @@ const Footer = () => {
 				justify={{ base: 'center', md: 'space-between' }}
 				align={{ base: 'center', md: 'center' }}
 			>
-				<Flex alignItems={'center'}>
+				<Flex alignItems={'center'} cursor={'pointer'} onClick={() => navigate('/')}>
 					<Logo width={'5rem'} height={'5rem'} fill="#A2D2FF" />
 					<Heading as="h1" size="lg" noOfLines={1}>
 						{APP_NAME}

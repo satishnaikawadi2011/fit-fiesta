@@ -1,10 +1,12 @@
 import { Flex, Container, Heading, Stack, Text, Button, Icon, IconProps } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import FeatureList from '../components/landing/FeatureList';
 import Footer from '../components/landing/Footer';
 import Header from '../components/landing/Header';
 import Hero from '../components/landing/Hero';
 
 const LandingPage = () => {
+	const navigate = useNavigate();
 	return (
 		<div>
 			<Header />
@@ -28,10 +30,11 @@ const LandingPage = () => {
 							colorScheme={'primary'}
 							bg={'primary.300'}
 							_hover={{ bg: 'primary.400' }}
+							onClick={() => navigate('/join')}
 						>
 							Join Now
 						</Button>
-						<Button rounded={'full'} px={6}>
+						<Button rounded={'full'} px={6} onClick={() => navigate('/login')}>
 							Log In
 						</Button>
 					</Stack>

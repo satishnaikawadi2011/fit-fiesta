@@ -32,7 +32,7 @@ const validationSchema = Yup.object({
 });
 
 const LoginPage = () => {
-	const navigation = useNavigate();
+	const navigate = useNavigate();
 
 	const [
 		showPassword,
@@ -55,7 +55,7 @@ const LoginPage = () => {
 				dispatch(setUser(user));
 				dispatch(setToken(token));
 				saveToLocalStorage(user, expiryDate.toISOString(), token);
-				navigation('/');
+				navigate('/');
 			}
 		},
 		[
@@ -118,7 +118,10 @@ const LoginPage = () => {
 											</Button>
 											<Stack pt={6}>
 												<Text align={'center'}>
-													Not a user? <Link color={'primary.400'}>Register</Link>
+													Not a user?{' '}
+													<Link onClick={() => navigate('/join')} color={'primary.400'}>
+														Register
+													</Link>
 												</Text>
 											</Stack>
 										</Stack>

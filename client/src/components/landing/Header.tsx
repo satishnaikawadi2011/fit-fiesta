@@ -1,8 +1,10 @@
 import { Box, Flex, Heading, Button, Stack, useColorModeValue, useBreakpointValue } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import { APP_NAME } from '../../constants';
 import Logo from '../Logo';
 
 const Header = () => {
+	const navigate = useNavigate();
 	return (
 		<Box>
 			<Flex
@@ -17,7 +19,7 @@ const Header = () => {
 				align={'center'}
 			>
 				<Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-					<Flex alignItems="center">
+					<Flex alignItems="center" cursor={'pointer'} onClick={() => navigate('/')}>
 						<Logo width={'5rem'} height={'5rem'} fill="#A2D2FF" />
 						<Heading
 							size={'lg'}
@@ -31,7 +33,7 @@ const Header = () => {
 				</Flex>
 
 				<Stack flex={{ base: 1, md: 0 }} justify={'flex-end'} direction={'row'} spacing={6}>
-					<Button fontSize={'sm'} fontWeight={400}>
+					<Button fontSize={'sm'} fontWeight={400} onClick={() => navigate('/login')}>
 						Sign In
 					</Button>
 					<Button
@@ -43,6 +45,7 @@ const Header = () => {
 						_hover={{
 							bg: 'primary.400'
 						}}
+						onClick={() => navigate('/join')}
 					>
 						Sign Up
 					</Button>
