@@ -39,10 +39,17 @@ export const searchEvent = async (req: any, res: Response) => {
 
 export const getEvents = async (req: any, res: Response) => {
 	try {
-		const events = await Event.find({ date: { $gte: new Date() } }).sort({ date: 1 }).populate('user', [
-			'fullName',
-			'username'
-		]);
+		const page = req.query.page || 1;
+		const limit = req.query.limit || 10;
+		const skip = (page - 1) * limit;
+		const events = await Event.find({ date: { $gte: new Date() } })
+			.skip(skip)
+			.limit(limit)
+			.sort({ date: 1 })
+			.populate('user', [
+				'fullName',
+				'username'
+			]);
 		res.json(events);
 	} catch (err) {
 		console.log(err);
