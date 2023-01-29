@@ -3,8 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from '../pages';
 import EventsPage from '../pages/events';
 import NotFoundPage from '../pages/not-found';
+import ResourcesPage from '../pages/resources';
 
-type RoutePathType = '/' | '/events' | '';
+type RoutePathType = '/' | '/events' | '/resources';
 
 export interface RouteType {
 	path: RoutePathType;
@@ -13,7 +14,8 @@ export interface RouteType {
 
 const ClientRoutes: RouteType[] = [
 	{ path: '/', element: <HomePage /> },
-	{ path: '/events', element: <EventsPage /> }
+	{ path: '/events', element: <EventsPage /> },
+	{ path: '/resources', element: <ResourcesPage /> }
 ];
 
 const AuthenticatedRoutes = () => {
