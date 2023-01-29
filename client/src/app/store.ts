@@ -3,6 +3,7 @@ import authReducer from './features/auth';
 import uiReducer from './features/ui';
 import postReducer from './features/post';
 import eventReducer from './features/event';
+import resourceReducer from './features/resource';
 
 export const store = configureStore({
 	reducer:
@@ -10,7 +11,8 @@ export const store = configureStore({
 			auth: authReducer,
 			ui: uiReducer,
 			post: postReducer,
-			event: eventReducer
+			event: eventReducer,
+			resource: resourceReducer
 		}
 });
 
