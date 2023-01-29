@@ -64,7 +64,6 @@ const LoginPage = () => {
 	);
 
 	const onSubmit = async (values: FormValues) => {
-		// console.log(values);
 		await loginUser(values.username, values.password);
 	};
 

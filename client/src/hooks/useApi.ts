@@ -14,6 +14,8 @@ const useApi = (apiFunc: Function) => {
 		setLoading
 	] = useState(false);
 
+	const [errorMsg, setErrorMsg] = useState('')
+
 	const request = async (...args: any) => {
 		setLoading(true);
 		const response = await apiFunc(...args);
@@ -21,14 +23,16 @@ const useApi = (apiFunc: Function) => {
 
 		if (!response?.ok) {
 			console.log(response)
+			setErrorMsg(response.data.message)
 			return setError(true);
 		}
 
 		setError(false);
 		setData(response.data);
+		setErrorMsg('')
 	};
 
-	return { data, loading, error, request };
+	return { data, loading, error, request,errorMsg };
 };
 
 export default useApi;
