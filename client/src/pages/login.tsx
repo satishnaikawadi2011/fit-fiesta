@@ -10,6 +10,7 @@ import jwtDecode from 'jwt-decode';
 import { useAppDispatch } from '../app/hooks';
 import { saveToLocalStorage, setExpiryDate, setToken, setUser } from '../app/features/auth';
 import { useNavigate } from 'react-router-dom';
+import { userLog } from '../utils/swal/userLog';
 
 interface FormValues {
 	username: string;
@@ -41,7 +42,7 @@ const LoginPage = () => {
 
 	const dispatch = useAppDispatch();
 
-	const { data, loading, error, request: loginUser } = useApi(authApi.loginUser);
+	const { data, loading, error, request: loginUser, errorMsg } = useApi(authApi.loginUser);
 
 	useEffect(
 		() => {
@@ -63,8 +64,28 @@ const LoginPage = () => {
 		]
 	);
 
+	const showError = async () => {
+		if (error) {
+			const d = await userLog('error', errorMsg);
+			console.log(d);
+		}
+	};
+
+	useEffect(
+		() => {
+			showError();
+		},
+		[
+			error,
+			errorMsg
+		]
+	);
+
 	const onSubmit = async (values: FormValues) => {
 		await loginUser(values.username, values.password);
+		if (error) {
+			showError();
+		}
 	};
 
 	return (
@@ -111,7 +132,7 @@ const LoginPage = () => {
 												colorScheme={'blue'}
 												variant={'solid'}
 												onClick={handleSubmit as any}
-												isLoading={error || loading}
+												isLoading={loading}
 											>
 												Sign in
 											</Button>
