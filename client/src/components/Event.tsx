@@ -22,7 +22,7 @@ const Event: React.FC<Props> = ({ date, description, name, username, group, imag
 		setIsOpen
 	] = useState<boolean>(!image);
 	return (
-		<Box boxShadow="md" bg={'gray.100'} width={'100%'} roundedTop="2xl" overflow={'clip'}>
+		<Box mb={5} boxShadow="md" bg={'gray.100'} width={'100%'} roundedTop="2xl" overflow={'clip'}>
 			{image && <Image src={image} />}
 			<Box p={5}>
 				<Heading mb={3} fontSize={'2xl'} fontWeight="medium">

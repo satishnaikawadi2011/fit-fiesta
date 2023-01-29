@@ -2,13 +2,15 @@ import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './features/auth';
 import uiReducer from './features/ui';
 import postReducer from './features/post';
+import eventReducer from './features/event';
 
 export const store = configureStore({
 	reducer:
 		{
 			auth: authReducer,
 			ui: uiReducer,
-			post: postReducer
+			post: postReducer,
+			event: eventReducer
 		}
 });
 

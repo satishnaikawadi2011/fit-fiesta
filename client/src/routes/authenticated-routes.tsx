@@ -1,9 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from '../pages';
+import EventsPage from '../pages/events';
 import NotFoundPage from '../pages/not-found';
 
-type RoutePathType = '/' | '' | '';
+type RoutePathType = '/' | '/events' | '';
 
 export interface RouteType {
 	path: RoutePathType;
@@ -11,7 +12,8 @@ export interface RouteType {
 }
 
 const ClientRoutes: RouteType[] = [
-	{ path: '/', element: <HomePage /> }
+	{ path: '/', element: <HomePage /> },
+	{ path: '/events', element: <EventsPage /> }
 ];
 
 const AuthenticatedRoutes = () => {
