@@ -12,12 +12,18 @@ import {
 } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { FormikProps } from 'formik/dist/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import AppFormField from '../components/form/AppFormField';
 import Logo from '../components/Logo';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
+import authApi from '../api/auth';
+import { useAppDispatch } from '../app/hooks';
+import useApi from '../hooks/useApi';
+import jwtDecode from 'jwt-decode';
+import { saveToLocalStorage, setExpiryDate, setToken, setUser } from '../app/features/auth';
+import { userLog } from '../utils/swal/userLog';
 
 interface FormValues {
 	username: string;
@@ -75,8 +81,51 @@ const RegisterPage = () => {
 		showPassword,
 		setShowPassword
 	] = useState(false);
-	const onSubmit = (values: FormValues) => {
+
+	const dispatch = useAppDispatch();
+
+	const { data, loading, error, request: registerUser, errorMsg } = useApi(authApi.registerUser);
+
+	useEffect(
+		() => {
+			if (data) {
+				let registerData = data as any;
+				const token = registerData.token;
+				const decodedToken: any = jwtDecode(token);
+				const expiryDate = new Date(decodedToken.exp * 1000);
+				const user = registerData.user;
+				dispatch(setExpiryDate(expiryDate.toISOString()));
+				dispatch(setUser(user));
+				dispatch(setToken(token));
+				saveToLocalStorage(user, expiryDate.toISOString(), token);
+				navigate('/');
+			}
+		},
+		[
+			data
+		]
+	);
+
+	const showError = async () => {
+		if (error) {
+			const d = await userLog('error', errorMsg);
+			console.log(d);
+		}
+	};
+
+	useEffect(
+		() => {
+			showError();
+		},
+		[
+			error,
+			errorMsg
+		]
+	);
+
+	const onSubmit = async (values: FormValues) => {
 		console.log(values);
+		await registerUser(values);
 	};
 
 	return (
@@ -164,6 +213,7 @@ const RegisterPage = () => {
 													bg: 'primary.400'
 												}}
 												onClick={handleSubmit as any}
+												isLoading={loading}
 											>
 												Sign up
 											</Button>
