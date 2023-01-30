@@ -3,7 +3,7 @@ import React from 'react';
 import { IUser } from '../types/User';
 import { GiBodyHeight } from 'react-icons/gi';
 import { MdMail } from 'react-icons/md';
-import { FaUserEdit, FaWeight } from 'react-icons/fa';
+import { FaCamera, FaUserEdit, FaWeight } from 'react-icons/fa';
 import { GrTarget } from 'react-icons/gr';
 
 interface Props {
@@ -36,16 +36,34 @@ const UserProfile: React.FC<Props> = ({ user }) => {
 	return (
 		<Box boxShadow="md" bg={'gray.100'} width={'100%'} mb={5} position={'relative'}>
 			<Image width={'100%'} height={200} src={coverImg} />
-			<Avatar left={'10%'} top={100} position={'absolute'} size="2xl" name={fullName} src={profileImg} />
-			<Box bgColor="red">
-				<IconButton
-					aria-label="Edit profile"
-					position={'absolute'}
-					m={3}
-					right={0}
-					icon={<Icon as={FaUserEdit} />}
-				/>
-			</Box>
+			<Avatar
+				cursor={'pointer'}
+				left={'10%'}
+				top={100}
+				position={'absolute'}
+				size="2xl"
+				name={fullName}
+				src={profileImg}
+			/>
+
+			<IconButton
+				aria-label="Edit profile"
+				position={'absolute'}
+				m={3}
+				right={0}
+				icon={<Icon as={FaUserEdit} />}
+			/>
+
+			<IconButton
+				aria-label="Edit cover image"
+				position={'absolute'}
+				m={3}
+				right={0}
+				top={0}
+				icon={<Icon as={FaCamera} />}
+				rounded={'full'}
+			/>
+
 			<Box p={5} mt={5}>
 				<Heading fontSize={'2xl'}>{fullName}</Heading>
 				<Text>{`@${username}`}</Text>
