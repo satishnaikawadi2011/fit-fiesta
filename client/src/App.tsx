@@ -14,6 +14,7 @@ import Event from './components/Event';
 import Resource from './components/Resource';
 import UserProfile from './components/UserProfile';
 import EditProfileImageModal from './components/EditProfileImageModal';
+import EditCoverImageModal from './components/EditCoverImageModal';
 
 function App() {
 	useEffect(() => {
@@ -26,7 +27,7 @@ function App() {
 		apiClient.setHeader('Authorization', `Bearer ${token}`);
 		// return <AuthenticatedRoutes />;
 		return <UserProfile user={user} />;
-		// return <EditProfileImageModal isOpen={true} onClose={() => {}} />;
+		// return <EditCoverImageModal isOpen={true} onClose={() => {}} />;
 	}
 	return <UnauthenticatedRoutes />;
 

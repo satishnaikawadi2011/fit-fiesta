@@ -10,7 +10,8 @@ import {
 	Spinner,
 	Center,
 	Avatar,
-    Text
+    Text,
+    Image
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import apiSauce from 'apisauce';
@@ -22,7 +23,7 @@ interface Props {
 	onClose: () => void;
 }
 
-const EditProfileImageModal: React.FC<Props> = ({ isOpen, onClose }) => {
+const EditCoverImageModal: React.FC<Props> = ({ isOpen, onClose }) => {
 	const initialRef = React.useRef<any>(null);
 	const hiddenFileInput = React.useRef<any>(null);
 
@@ -71,7 +72,7 @@ const EditProfileImageModal: React.FC<Props> = ({ isOpen, onClose }) => {
 		const formData = new FormData();
 		formData.append('image', file);
 		setLoading(true);
-		const d: any = await api.post('/profileImg', formData);
+		const d: any = await api.post('/coverImg', formData);
         const data = d.data;
         
         if (!d?.ok) {
@@ -101,7 +102,7 @@ const EditProfileImageModal: React.FC<Props> = ({ isOpen, onClose }) => {
 			>
 				<ModalOverlay />
 				<ModalContent>
-					<ModalHeader>Profile photo</ModalHeader>
+					<ModalHeader>Add background image</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody pb={6}>
 						{
@@ -122,9 +123,7 @@ const EditProfileImageModal: React.FC<Props> = ({ isOpen, onClose }) => {
 									ref={hiddenFileInput}
 									accept="image/*"
 								/>
-								<Center mb={5}>
-									<Avatar height={250} width={250} src={previewUrl || user!.profileImg} />
-								</Center>
+								<Image mt={3} src={previewUrl || user!.coverImg} width={'100%'} height={250} />
 								<Center>
 									<Button
 										onClick={handleUploadImageClick}
@@ -155,4 +154,4 @@ const EditProfileImageModal: React.FC<Props> = ({ isOpen, onClose }) => {
 	);
 };
 
-export default EditProfileImageModal;
+export default EditCoverImageModal;
