@@ -133,3 +133,20 @@ export const searchUser = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const editProfileImage = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const image =
+			req.file ? req.file.path :
+			undefined;
+		if (!image) {
+			return res.status(404).json({ message: 'Please upload a valid file for profile picture!' });
+		}
+		await User.findByIdAndUpdate(userId, { profileImg: image }, { new: true });
+		return res.json({ profileImg: image });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
