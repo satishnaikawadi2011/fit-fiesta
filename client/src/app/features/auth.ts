@@ -1,56 +1,63 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction } from '@reduxjs/toolkit';
 import { IUser } from '../../types/User';
-import client from '../../api/client'
+import client from '../../api/client';
 import storage from '../../services/storage';
 interface AuthState {
-  token: string | null;
+	token: string | null;
 	user: IUser | null;
 	expiryDate: string | null;
 }
 
-
 const initialState: AuthState = {
-  token: null,
-  user: null,
-  expiryDate:null
-}
+	token: null,
+	user: null,
+	expiryDate: null
+};
 
 export const authSlice = createSlice({
-  name: 'auth',
-  initialState,
-  reducers: {
-    setToken: (state, action: PayloadAction<string>) => {
-        state.token = action.payload
-    },
-        setUser: (state, action: PayloadAction<IUser>) => {
-        state.user = action.payload
-    },
-    setExpiryDate: (state,action: PayloadAction<string>) => {
-          state.expiryDate = action.payload
-	  },
-	  logout: (state) => {
-		  state.expiryDate = null;
-		  state.token = null;
-		  state.token = null;
-		  storage.clear()
-	}
-  },
-})
+	name: 'auth',
+	initialState,
+	reducers:
+		{
+			setToken:
+				(state, action: PayloadAction<string>) => {
+					state.token = action.payload;
+				},
+			setUser:
+				(state, action: PayloadAction<IUser>) => {
+					state.user = action.payload;
+				},
+			setExpiryDate:
+				(state, action: PayloadAction<string>) => {
+					state.expiryDate = action.payload;
+				},
+			logout:
+				(state) => {
+					state.expiryDate = null;
+					state.token = null;
+					state.token = null;
+					storage.clear();
+				},
+			updateUser:
+				(state, action: PayloadAction<any>) => {
+					const user = state.user!;
+					Object.assign(user, action.payload);
+					state.user = user;
+					saveToLocalStorage(state.user, state.expiryDate as any, state.token as any);
+				}
+		}
+});
 
-
-export const userDataKey = 'userData'
-export const tokenDataKey = 'tokenData'
+export const userDataKey = 'userData';
+export const tokenDataKey = 'tokenData';
 
 export const saveToLocalStorage = (user: IUser, expiryDate: string, token: string) => {
 	storage.setItem(userDataKey, user);
-	storage.setItem(
-		tokenDataKey,
-{
-			token,
-			expiryDate: expiryDate
-		}
-	);
+	storage.setItem(tokenDataKey, {
+		token,
+		expiryDate: expiryDate
+	});
 };
 
 export const removeAuthDataFromStorage = () => {
@@ -59,19 +66,18 @@ export const removeAuthDataFromStorage = () => {
 	storage.removeItem(tokenDataKey);
 };
 
-export const getAuthDataFromStorage =  () => {
-		const tokenData: any =  storage.getItem(tokenDataKey);
-		const user: any =  storage.getItem(userDataKey);
-		if (user && tokenData) {
-			return {
-				tokenData,
-				user
-			};
-		}
-		return null;
+export const getAuthDataFromStorage = () => {
+	const tokenData: any = storage.getItem(tokenDataKey);
+	const user: any = storage.getItem(userDataKey);
+	if (user && tokenData) {
+		return {
+			tokenData,
+			user
+		};
+	}
+	return null;
 };
 
+export const { setExpiryDate, setToken, setUser, logout, updateUser } = authSlice.actions;
 
-export const { setExpiryDate,setToken,setUser,logout } = authSlice.actions
-
-export default authSlice.reducer
+export default authSlice.reducer;
