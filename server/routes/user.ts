@@ -6,7 +6,8 @@ import {
 	acceptConnection,
 	searchUser,
 	editProfileImage,
-	editCoverImage
+	editCoverImage,
+	editUser
 } from './../controllers/user';
 import express from 'express';
 import { setupCloudinary } from '../utils/setupCloudinary';
@@ -44,5 +45,7 @@ router.post(
 	],
 	editCoverImage
 );
+
+router.post('/edit', isAuthenticated, editUser);
 
 export default router;

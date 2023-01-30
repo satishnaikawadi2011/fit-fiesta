@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { validateRegister } from '../validation/validateRegister';
 import { validateLogin } from '../validation/validateLogin';
 import mongoose from 'mongoose';
+import { validateEditUser } from '../validation/validateEditUser';
 
 export const register = async (req: Request, res: Response) => {
 	try {
@@ -162,6 +163,36 @@ export const editCoverImage = async (req: any, res: Response) => {
 		}
 		await User.findByIdAndUpdate(userId, { coverImg: image }, { new: true });
 		return res.json({ coverImg: image });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
+export const editUser = async (req: any, res: Response) => {
+	try {
+		const message = await validateEditUser(req.body);
+		if (message) {
+			return res.status(400).json({ message });
+		}
+
+		const fieldsToUpdate: any = {};
+		if (req.body.email) fieldsToUpdate.email = req.body.email;
+		if (req.body.fullName) fieldsToUpdate.fullName = req.body.fullName;
+		if (req.body.location) fieldsToUpdate.location = req.body.location;
+		if (req.body.height) fieldsToUpdate.height = req.body.height;
+		if (req.body.weight) fieldsToUpdate.weight = req.body.weight;
+		if (req.body.targetWeight) fieldsToUpdate.targetWeight = req.body.targetWeight;
+		if (req.body.username) fieldsToUpdate.username = req.body.username;
+
+		const user = await User.findById(req.id);
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		Object.assign(user, fieldsToUpdate);
+		await user.save();
+		return res.status(200).json({ user });
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ message: 'Something went wrong!' });
