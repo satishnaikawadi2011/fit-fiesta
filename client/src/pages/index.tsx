@@ -14,10 +14,7 @@ import { setPosts } from '../app/features/post';
 
 const HomePage = () => {
 	// const [posts, setPosts] = useState<IPost[]>([]);
-	const [
-		hasMore,
-		setHasMore
-	] = useState(true);
+
 	const [
 		page,
 		setPage
@@ -31,6 +28,11 @@ const HomePage = () => {
 	const { posts } = useAppSelector((state) => state.post);
 
 	const { user } = useAppSelector((state) => state.auth);
+
+	const [
+		hasMore,
+		setHasMore
+	] = useState(posts.length > 0);
 
 	const fetchPosts = async () => {
 		setLoading(true);

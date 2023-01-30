@@ -21,13 +21,14 @@ function App() {
 	const { user, expiryDate, token } = useAppSelector((state) => state.auth);
 	const isTokenExpired = isExpired(expiryDate);
 
-	// if (!isTokenExpired && user) {
-	// 	apiClient.setHeader('Authorization', `Bearer ${token}`);
-	// 	return <AuthenticatedRoutes />;
-	// }
-	// return <UnauthenticatedRoutes />;
+	if (!isTokenExpired && user) {
+		apiClient.setHeader('Authorization', `Bearer ${token}`);
+		// return <AuthenticatedRoutes />;
+		return <UserProfile user={user} />;
+	}
+	return <UnauthenticatedRoutes />;
 
-	return <UserProfile user={user as any} />;
+	// return <UserProfile user={user as any} />;
 }
 
 export default App;

@@ -24,24 +24,33 @@ import useApi from '../hooks/useApi';
 import jwtDecode from 'jwt-decode';
 import { saveToLocalStorage, setExpiryDate, setToken, setUser } from '../app/features/auth';
 import { userLog } from '../utils/swal/userLog';
-
+import AppFormSelectField, { InputOptionsType } from '../components/form/AppFormSelectField';
+import { City, Country, State } from 'country-state-city';
 interface FormValues {
 	username: string;
 	fullName: string;
 	email: string;
 	password: string;
-	location: string;
 	height?: number;
 	weight?: number;
 	targetWeight?: number;
+	country: string;
+	state: string;
+	city: string;
 }
+
+const indiaCode = Country.getAllCountries().find((c) => c.name === 'India')!.isoCode;
+const maharashtraCode = State.getStatesOfCountry(indiaCode).find((s) => s.name === 'Maharashtra')!.isoCode;
+const mumbai = City.getCitiesOfState(indiaCode, maharashtraCode).find((c) => c.name === 'Mumbai')!.name;
 
 const initialValues: FormValues = {
 	email: '',
 	username: '',
 	fullName: '',
-	location: '',
-	password: ''
+	password: '',
+	city: '',
+	state: '',
+	country: ''
 };
 
 const validationSchema = Yup.object({
@@ -53,7 +62,6 @@ const validationSchema = Yup.object({
 			.required('password is a required field !')
 			.min(4, 'password must be minimum of 6 characters long !')
 			.max(12, 'username can be maximum of 12 characters !'),
-	location: Yup.string().required('location is a required field !'),
 	fullName: Yup.string().required('fullName is a required field !'),
 	weight:
 		Yup.number()
@@ -72,8 +80,49 @@ const validationSchema = Yup.object({
 			.required('targetWeight is a required field')
 			.min(0, 'targetWeight must be greater than 0')
 			.max(1000, 'targetWeight is not realistic')
-			.positive('targetWeight must be a positive number')
+			.positive('targetWeight must be a positive number'),
+	country: Yup.string().required('country is a required field'),
+	state:
+		Yup.string().when('country', {
+			is: (country: string) => State.getStatesOfCountry(country).length !== 0,
+			then: Yup.string().required('state is a required field')
+		}),
+	city:
+		Yup.string().when(
+			[
+				'country',
+				'state'
+			],
+			{
+				is:
+					(country: string, state: string) => {
+						const statesAvailable = State.getStatesOfCountry(country).length !== 0;
+						if (!statesAvailable) return false;
+
+						const citiesAvailable = City.getCitiesOfState(country, state).length !== 0;
+						return citiesAvailable;
+					},
+				then: Yup.string().required('city is a required field')
+			}
+		)
 });
+
+const updatedCountries: InputOptionsType[] = Country.getAllCountries().map((country) => ({
+	key: country.name,
+	value: country.isoCode
+}));
+
+const updatedStates = (countryCode: string) =>
+	State.getStatesOfCountry(countryCode).map((state) => ({
+		key: state.name,
+		value: state.isoCode
+	}));
+
+const updatedCities = (countryCode: string, stateCode: string) =>
+	City.getCitiesOfState(countryCode, stateCode).map((city) => ({
+		key: city.name,
+		value: city.name
+	}));
 
 const RegisterPage = () => {
 	const navigate = useNavigate();
@@ -125,13 +174,36 @@ const RegisterPage = () => {
 
 	const onSubmit = async (values: FormValues) => {
 		console.log(values);
-		await registerUser(values);
+		const country = Country.getCountryByCode(values.country)!.name;
+		const state = State.getStatesOfCountry(values.country).find((s) => s.isoCode === values.state)?.name;
+		let location = `${country}`
+		let city = ''
+		// const location = `${values.city}, ${state}, ${country}`;
+		if (state) {
+			location = `${state} ,` + location;
+			city = values.city;
+			location = `${city} ,` + location;
+		} else {
+			city = '';
+		}
+
+		console.log(location);
+		await registerUser({
+			email: values.email,
+			fullName: values.fullName,
+			password: values.password,
+			username: values.username,
+			height: values.height,
+			targetWeight: values.targetWeight,
+			weight: values.weight,
+			location
+		});
 	};
 
 	return (
 		<div>
 			<Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-				{({ handleSubmit }: FormikProps<FormValues>) => {
+				{({ handleSubmit, values }: FormikProps<FormValues>) => {
 					return (
 						<Flex
 							minH={'100vh'}
@@ -194,7 +266,7 @@ const RegisterPage = () => {
 												</InputRightElement>
 											}
 										/>
-										<AppFormField isRequired label="Location" name="location" />
+								
 										<AppFormField isRequired label="Weight" name="weight" type="number" />
 										<AppFormField isRequired label="Height" name="height" type="number" />
 										<AppFormField
@@ -202,6 +274,25 @@ const RegisterPage = () => {
 											label="Target Weight"
 											name="targetWeight"
 											type="number"
+										/>
+										<AppFormSelectField
+											isRequired
+											name="country"
+											label="Country"
+											inputOptions={updatedCountries}
+											placeholder="Select a country"
+										/>
+										<AppFormSelectField
+											isReadOnly
+											name="state"
+											label="State"
+											inputOptions={updatedStates(values.country,)}
+										/>
+										<AppFormSelectField
+											isRequired
+											name="city"
+											label="City"
+											inputOptions={updatedCities(values.country, values.state)}
 										/>
 										<Stack spacing={10} pt={2}>
 											<Button
