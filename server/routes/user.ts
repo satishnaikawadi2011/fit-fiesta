@@ -5,7 +5,8 @@ import {
 	makeConnectionRequest,
 	acceptConnection,
 	searchUser,
-	editProfileImage
+	editProfileImage,
+	editCoverImage
 } from './../controllers/user';
 import express from 'express';
 import { setupCloudinary } from '../utils/setupCloudinary';
@@ -33,6 +34,15 @@ router.post(
 		upload.single('image')
 	],
 	editProfileImage
+);
+
+router.post(
+	'/coverImg',
+	[
+		isAuthenticated,
+		upload.single('image')
+	],
+	editCoverImage
 );
 
 export default router;

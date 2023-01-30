@@ -150,3 +150,20 @@ export const editProfileImage = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const editCoverImage = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const image =
+			req.file ? req.file.path :
+			undefined;
+		if (!image) {
+			return res.status(404).json({ message: 'Please upload a valid file for cover image!' });
+		}
+		await User.findByIdAndUpdate(userId, { coverImg: image }, { new: true });
+		return res.json({ coverImg: image });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
