@@ -8,6 +8,8 @@ export interface IUser {
 	weight?: number;
 	height?: number;
 	targetWeight?: number;
+	profileImg?: string;
+	coverImg?: string;
 	groups?: Array<string>;
 	events?: Array<string>;
 	posts?: Array<string>;

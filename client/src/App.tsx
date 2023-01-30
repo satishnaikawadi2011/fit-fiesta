@@ -12,6 +12,7 @@ import { CalendarIcon } from '@chakra-ui/icons';
 import { GrAddCircle } from 'react-icons/gr';
 import Event from './components/Event';
 import Resource from './components/Resource';
+import UserProfile from './components/UserProfile';
 
 function App() {
 	useEffect(() => {
@@ -20,11 +21,13 @@ function App() {
 	const { user, expiryDate, token } = useAppSelector((state) => state.auth);
 	const isTokenExpired = isExpired(expiryDate);
 
-	if (!isTokenExpired && user) {
-		apiClient.setHeader('Authorization', `Bearer ${token}`);
-		return <AuthenticatedRoutes />;
-	}
-	return <UnauthenticatedRoutes />;
+	// if (!isTokenExpired && user) {
+	// 	apiClient.setHeader('Authorization', `Bearer ${token}`);
+	// 	return <AuthenticatedRoutes />;
+	// }
+	// return <UnauthenticatedRoutes />;
+
+	return <UserProfile user={user as any} />;
 }
 
 export default App;
