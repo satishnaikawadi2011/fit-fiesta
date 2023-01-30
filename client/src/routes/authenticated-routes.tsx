@@ -5,7 +5,7 @@ import EventsPage from '../pages/events';
 import NotFoundPage from '../pages/not-found';
 import ResourcesPage from '../pages/resources';
 
-type RoutePathType = '/' | '/events' | '/resources';
+export type RoutePathType = '/' | '/events' | '/resources';
 
 export interface RouteType {
 	path: RoutePathType;

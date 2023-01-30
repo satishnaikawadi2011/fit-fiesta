@@ -83,9 +83,6 @@ const LoginPage = () => {
 
 	const onSubmit = async (values: FormValues) => {
 		await loginUser(values.username, values.password);
-		if (error) {
-			showError();
-		}
 	};
 
 	return (

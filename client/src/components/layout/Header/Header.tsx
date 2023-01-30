@@ -15,14 +15,16 @@ import { FaMoon, FaSun } from 'react-icons/fa';
 import Logo from '../../Logo';
 import { AiFillHome } from 'react-icons/ai';
 import { GrResources } from 'react-icons/gr';
-import { MdGroups } from 'react-icons/md';
+import { MdEventNote, MdGroups } from 'react-icons/md';
 import { BiNetworkChart } from 'react-icons/bi';
 import { PRIMARY } from '../../../constants/colors';
 import LinkItem from './LinkItem';
 import SearchBar from '../Searchbar';
+import { useNavigate } from 'react-router-dom';
 
 const Header: React.FC = () => {
 	const { colorMode, toggleColorMode } = useColorMode();
+	const navigate = useNavigate();
 
 	return (
 		<Flex
@@ -43,14 +45,14 @@ const Header: React.FC = () => {
 			boxShadow="md"
 		>
 			<Flex align="center" mr={5}>
-				<Logo width={'5rem'} height={'5rem'} fill="#A2D2FF" />
+				<Logo width={'5rem'} height={'5rem'} fill="#A2D2FF" cursor={'pointer'} onClick={() => navigate('/')} />
 				<SearchBar onSearch={() => {}} />
 			</Flex>
 			<HStack width={{ md: 'auto' }} spacing={{ sm: '10', md: '10' }} alignItems="center" ml="auto">
-				<LinkItem Icon={AiFillHome} title="Home" />
-				<LinkItem Icon={GrResources} title="Resources" />
-				<LinkItem Icon={MdGroups} title="Groups" />
-				<LinkItem Icon={BiNetworkChart} title="My Network" />
+				<LinkItem path="/" Icon={AiFillHome} title="Home" />
+				<LinkItem path="/resources" Icon={GrResources} title="Resources" />
+				<LinkItem path="/events" Icon={MdEventNote} title="Events" />
+				<LinkItem path="/" Icon={BiNetworkChart} title="My Network" />
 			</HStack>
 		</Flex>
 	);

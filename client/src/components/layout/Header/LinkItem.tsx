@@ -1,17 +1,41 @@
 import { Text, VStack } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { IconType } from 'react-icons';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { setActiveLink } from '../../../app/features/ui';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { RoutePathType } from '../../../routes/authenticated-routes';
 
 interface Props {
 	Icon: IconType;
 	title: string;
-	onClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
-	isActive?: boolean;
+	path: RoutePathType;
 }
 
-const LinkItem: React.FC<Props> = ({ Icon, title, onClick, isActive = false }) => {
+const LinkItem: React.FC<Props> = ({ Icon, title, path }) => {
+	const { activeLink } = useAppSelector((state) => state.ui);
+	const dispatch = useAppDispatch();
+
+	let navigate = useNavigate();
+	let location = useLocation();
+	useEffect(
+		() => {
+			dispatch(setActiveLink(location.pathname as any));
+		},
+		[
+			location
+		]
+	);
+
+	const isActive = path === activeLink;
+
+	const handleLinkClick = () => {
+		setActiveLink(path);
+		navigate(path);
+	};
+
 	return (
-		<VStack onClick={onClick}>
+		<VStack cursor={'pointer'} onClick={handleLinkClick}>
 			<Icon size={25} />
 			<Text
 				color={
