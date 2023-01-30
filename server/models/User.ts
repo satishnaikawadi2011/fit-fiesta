@@ -11,6 +11,8 @@ export interface IUser {
 	weight: string;
 	height: string;
 	targetWeight: string;
+	profileImg?: string;
+	coverImg?: string;
 	groups: string[];
 	events: string[];
 	posts: string[];
@@ -40,6 +42,18 @@ const UserSchema = new Schema(
 			{
 				type: String,
 				required: true
+			},
+		profileImg:
+			{
+				type: String,
+				default:
+					'https://res.cloudinary.com/dyfm31f1n/image/upload/v1675059905/fit-fiesta/placeholders/blank-profile-picture-gdb207bae8_1280_zymz7e.png'
+			},
+		coverImg:
+			{
+				type: String,
+				default:
+					'https://res.cloudinary.com/dyfm31f1n/image/upload/v1675059731/fit-fiesta/placeholders/bg_qr4vtm.jpg'
 			},
 		location:
 			{
