@@ -1,4 +1,4 @@
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Box, Grid, GridItem } from '@chakra-ui/react';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useAppSelector } from '../../app/hooks';
@@ -51,7 +51,9 @@ const Layout: React.FC<Props> = ({ title, children, className, style, header = t
 					{children}
 				</GridItem>
 			</Grid>}
-				{!withProfile && children}
+				{!withProfile && <Box marginTop={'7rem'}>
+					{children}
+				</Box>}
 			</div>
 		</React.Fragment>
 	);

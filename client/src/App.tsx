@@ -26,8 +26,8 @@ function App() {
 
 	if (!isTokenExpired && user) {
 		apiClient.setHeader('Authorization', `Bearer ${token}`);
-		// return <AuthenticatedRoutes />;
-		return <UserProfile user={user} />;
+		return <AuthenticatedRoutes />;
+		// return <UserProfile user={user} />;
 		// return <EditProfileModal isOpen={true} onClose={() => {}} />;
 	}
 	return <UnauthenticatedRoutes />;

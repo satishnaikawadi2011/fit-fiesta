@@ -37,6 +37,7 @@ const Header: React.FC = () => {
 			wrap="wrap"
 			padding="0.5rem"
 			bg={'gray.100'}
+			top={0}
 			color={
 
 					colorMode === 'light' ? 'black' :

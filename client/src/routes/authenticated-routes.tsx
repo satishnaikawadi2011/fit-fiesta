@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from '../pages';
 import EventsPage from '../pages/events';
 import NotFoundPage from '../pages/not-found';
+import ProfilePage from '../pages/profile';
 import ResourcesPage from '../pages/resources';
 
-export type RoutePathType = '/' | '/events' | '/resources';
+export type RoutePathType = '/' | '/events' | '/resources' | '/profile';
 
 export interface RouteType {
 	path: RoutePathType;
@@ -15,7 +16,8 @@ export interface RouteType {
 const ClientRoutes: RouteType[] = [
 	{ path: '/', element: <HomePage /> },
 	{ path: '/events', element: <EventsPage /> },
-	{ path: '/resources', element: <ResourcesPage /> }
+	{ path: '/resources', element: <ResourcesPage /> },
+	{ path: '/profile', element: <ProfilePage /> }
 ];
 
 const AuthenticatedRoutes = () => {
