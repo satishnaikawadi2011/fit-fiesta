@@ -9,10 +9,6 @@ import Event from '../components/Event';
 
 const EventsPage = () => {
 	const [
-		hasMore,
-		setHasMore
-	] = useState(true);
-	const [
 		page,
 		setPage
 	] = useState(1);
@@ -23,6 +19,11 @@ const EventsPage = () => {
 
 	const dispatch = useAppDispatch();
 	const { events } = useAppSelector((state) => state.event);
+
+	const [
+		hasMore,
+		setHasMore
+	] = useState(events.length > 0);
 
 	const fetchEvents = async () => {
 		setLoading(true);

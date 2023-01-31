@@ -9,10 +9,6 @@ import Resource from '../components/Resource';
 
 const ResourcesPage = () => {
 	const [
-		hasMore,
-		setHasMore
-	] = useState(true);
-	const [
 		page,
 		setPage
 	] = useState(1);
@@ -23,6 +19,11 @@ const ResourcesPage = () => {
 
 	const dispatch = useAppDispatch();
 	const { resources } = useAppSelector((state) => state.resource);
+
+	const [
+		hasMore,
+		setHasMore
+	] = useState(resources.length > 0);
 
 	const fetchResources = async () => {
 		setLoading(true);

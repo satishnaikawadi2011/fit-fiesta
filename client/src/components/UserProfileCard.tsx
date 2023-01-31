@@ -1,25 +1,24 @@
-import { Heading, Avatar, Box, Center, Image, Flex, Text, Stack, Button, useColorModeValue } from '@chakra-ui/react';
-import { USER_AVATAR_PLACEHOLDER, USER_COVER_IMAGE } from '../constants';
+import { Heading, Avatar, Box, Center, Image, Flex, Text, Stack, Button} from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import { IUser } from '../types/User';
 
 interface Props {
-	fullName: string;
-	username: string;
-	weight: number;
-	height: number;
-	targetWeight: number;
-	connections: number;
+	user: IUser;
 }
 
-const UserProfileCard: React.FC<Props> = ({ connections, fullName, height, targetWeight, username, weight }) => {
+const UserProfileCard: React.FC<Props> = ({ user }) => {
+
+	const navigate = useNavigate()
+	const { connections, fullName, height, targetWeight, username, weight,profileImg,coverImg } = user!;
 	return (
 		<Center>
 			<Box maxW={'300px'} w={'full'} bg={'gray.100'} boxShadow={'2xl'} rounded={'md'} overflow={'hidden'}>
-				<Image h={'120px'} w={'full'} src={USER_COVER_IMAGE} objectFit={'cover'} />
+				<Image h={'120px'} w={'full'} src={coverImg} objectFit={'cover'} />
 				<Flex justify={'center'} mt={-12}>
 					<Avatar
 						size={'xl'}
-						src={USER_AVATAR_PLACEHOLDER}
-						// alt={'Author'}
+						src={profileImg}
+						name={fullName}
 						css={{
 							border: '2px solid white'
 						}}
@@ -34,40 +33,11 @@ const UserProfileCard: React.FC<Props> = ({ connections, fullName, height, targe
 						<Text color={'gray.500'}>@{username}</Text>
 					</Stack>
 
-					<Stack>
-						{/* <Stack direction={'row'} justify={'center'} spacing={6}>
-							<Stack spacing={0} align={'center'}>
-								<Text fontWeight={600}>{connections}</Text>
-								<Text fontSize={'sm'} color={'gray.500'}>
-									Connection
-								</Text>
-							</Stack>
-							<Stack spacing={0} align={'center'}>
-								<Text fontWeight={600}>{height} cm</Text>
-								<Text fontSize={'sm'} color={'gray.500'}>
-									Height
-								</Text>
-							</Stack>
-						</Stack> */}
-						{/* <Stack mt={2} direction={'row'} justify={'center'} spacing={6}>
-							<Stack spacing={0} align={'center'}>
-								<Text fontWeight={600}>{weight} kg</Text>
-								<Text fontSize={'sm'} color={'gray.500'}>
-									Weight
-								</Text>
-							</Stack>
-							<Stack spacing={0} align={'center'}>
-								<Text fontWeight={600}>{targetWeight} kg</Text>
-								<Text fontSize={'sm'} color={'gray.500'}>
-									Target Weight
-								</Text>
-							</Stack>
-						</Stack> */}
-					</Stack>
+				
 					<Flex justify={'space-between'}>
 						<Item label="Weight" value={`${weight} kg`} />
 						<Item label="Target Weight" value={`${targetWeight} kg`} />
-						<Item label="Connections" value={`${connections}`} />
+						<Item label="Connections" value={`${connections?.length}`} />
 						<Item label="Height" value={`${height} cm`} />
 					</Flex>
 					<Button
@@ -81,6 +51,7 @@ const UserProfileCard: React.FC<Props> = ({ connections, fullName, height, targe
 							boxShadow: 'lg',
 							bgColor: 'primary.400'
 						}}
+						onClick={() =>  navigate('/profile')}
 					>
 						View Profile
 					</Button>
