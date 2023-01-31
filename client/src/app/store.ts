@@ -4,6 +4,7 @@ import uiReducer from './features/ui';
 import postReducer from './features/post';
 import eventReducer from './features/event';
 import resourceReducer from './features/resource';
+import commonReducer from './features/common';
 
 export const store = configureStore({
 	reducer:
@@ -12,7 +13,8 @@ export const store = configureStore({
 			ui: uiReducer,
 			post: postReducer,
 			event: eventReducer,
-			resource: resourceReducer
+			resource: resourceReducer,
+			common: commonReducer
 		}
 });
 
