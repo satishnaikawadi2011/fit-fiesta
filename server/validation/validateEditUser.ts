@@ -24,7 +24,7 @@ export const validateEditUser = async (data: Partial<IUser>) => {
 	if (email) {
 		const user = await User.findOne({ email });
 		if (user) {
-			return 'user with this email already exists,login instead!';
+			return 'user with this email already exists!';
 		}
 	}
 

@@ -1,10 +1,5 @@
 import {
 	Button,
-	FormControl,
-	FormErrorMessage,
-	FormLabel,
-	Image,
-	Input,
 	Modal,
 	ModalBody,
 	ModalCloseButton,
@@ -12,22 +7,21 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalOverlay,
-	Select,
 	Spinner,
-	Textarea,
-	useDisclosure,
 	Center
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
-import apiSauce from 'apisauce';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { addPost } from '../app/features/post';
 import { getCountryCode, getStateCode } from '../utils/country-state-city/getIsoCodes';
 import * as Yup from 'yup';
 import { City, Country, State } from 'country-state-city';
 import AppFormSelectField, { InputOptionsType } from './form/AppFormSelectField';
 import { Formik, FormikProps } from 'formik';
 import AppFormField from './form/AppFormField';
+import userApi from '../api/user'
+import useApi from '../hooks/useApi';
+import { updateUser } from '../app/features/auth';
+import AppAlert from './AppAlert';
 
 interface FormValues {
 	username: string;
@@ -114,9 +108,10 @@ interface Props {
 
 const EditProfileModal: React.FC<Props> = ({ isOpen, onClose }) => {
 	const initialRef = React.useRef<any>(null);
-	const hiddenFileInput = React.useRef<any>(null);
 
-	const { token, user } = useAppSelector((state) => state.auth);
+	const {data,error,errorMsg,loading,request:editUserProfileReq} = useApi(userApi.editUserProfile)
+
+	const { user } = useAppSelector((state) => state.auth);
 	const dispatch = useAppDispatch();
 
 	const iniCityName = user!.location!.split(',')[0].trim();
@@ -135,128 +130,54 @@ const EditProfileModal: React.FC<Props> = ({ isOpen, onClose }) => {
 		weight: user!.weight
 	};
 
-	const api = apiSauce.create({
-		baseURL: 'http://localhost:5000/api/post',
-		headers:
-			{
-				'Content-Type': 'multipart/form-data',
-				Authorization: `Bearer ${token}`
-			}
-	});
 
-	const [
-		file,
-		setFile
-	] = useState<any>('');
-	const [
-		previewUrl,
-		setPreviewUrl
-	] = useState('');
-
-	const [
-		content,
-		setContent
-	] = useState('');
-	const [
-		location,
-		setLocation
-	] = useState('');
-	const [
-		group,
-		setGroup
-	] = useState('');
-
-	const [
-		errors,
-		setErrors
-	] = React.useState<any>({});
-	const [
-		loading,
-		setLoading
-	] = useState(false);
-
-	const handleUploadImageClick = () => {
-		hiddenFileInput.current.click();
-	};
-
-	const handleImageChange = (e: any) => {
-		setFile((e.target.files as any)[0]);
-		console.log(e.target.files[0]);
-		if (e.target.files && e.target.files[0]) {
-			setPreviewUrl(URL.createObjectURL((e.target.files as any)[0]));
+	useEffect(() => {
+		if (!error && data) {
+			const d: any = (data as any).user;
+			dispatch(updateUser(d));
+			onClose()
 		}
-	};
-
-	const addPostHandler = async () => {
-		if (!content) {
-			setErrors({ content: 'Post content is required' });
-		}
-		else {
-			console.log(file, content, location, group);
-			const formData = new FormData();
-			formData.append('content', content);
-			formData.append('location', location);
-			formData.append('group', group);
-			formData.append('image', file);
-			setLoading(true);
-			const d: any = await api.post('/', formData);
-			const data = d.data;
-			dispatch(
-				addPost({
-					_id: data.post._id,
-					content: data.post.content,
-					createdAt: data.post.createdAt,
-					likesCount: data.post.likesCount,
-					image: data.post.image,
-					location: data.post.location,
-					group: data.post.group,
-					updatedAt: data.post.updatedAt,
-					user: { fullName: user!.fullName, username: user!.username, _id: user!._id },
-					likesUsers: [],
-					comments: []
-				})
-			);
-
-			setContent('');
-			setLocation('');
-			setFile('');
-			setGroup('');
-			setErrors({});
-			setLoading(false);
-			onClose();
-		}
-	};
+	},[data,error])
+	
 
 	const onSubmit = async (values: FormValues) => {
-		// console.log(values);
-		// const country = Country.getCountryByCode(values.country)!.name;
-		// const state = State.getStatesOfCountry(values.country).find((s) => s.isoCode === values.state)?.name;
-		// let location = `${country}`
-		// let city = ''
-		// // const location = `${values.city}, ${state}, ${country}`;
-		// if (state) {
-		// 	location = `${state} ,` + location;
-		// 	city = values.city;
-		// 	location = `${city} ,` + location;
-		// } else {
-		// 	city = '';
-		// }
-		// console.log(location);
-		// await registerUser({
-		// 	email: values.email,
-		// 	fullName: values.fullName,
-		// 	password: values.password,
-		// 	username: values.username,
-		// 	height: values.height,
-		// 	targetWeight: values.targetWeight,
-		// 	weight: values.weight,
-		// 	location
-		// });
+		console.log(values);
+		const country = Country.getCountryByCode(values.country)!.name;
+		const state = State.getStatesOfCountry(values.country).find((s) => s.isoCode === values.state)?.name;
+		let location = `${country}`
+		let city = ''
+		// const location = `${values.city}, ${state}, ${country}`;
+		if (state) {
+			location = `${state} ,` + location;
+			city = values.city;
+			location = `${city} ,` + location;
+		} else {
+			city = '';
+		}
+
+		let userData:any = {
+			fullName: values.fullName,
+			height: values.height,
+			targetWeight: values.targetWeight,
+			weight: values.weight,
+			location
+		}
+
+		if (values.email !== user!.email) userData.email = values.email;
+		if (values.username !== user!.username) userData.username = values.username;
+
+		await editUserProfileReq(userData);
 	};
 
 	return (
 		<React.Fragment>
-			<Modal
+			<Formik
+									initialValues={initialValues}
+									validationSchema={validationSchema}
+									onSubmit={onSubmit}
+								>
+				{({ handleSubmit, values }: FormikProps<FormValues>) => {
+					return <Modal
 				initialFocusRef={initialRef}
 				isOpen={isOpen}
 				onClose={
@@ -267,8 +188,9 @@ const EditProfileModal: React.FC<Props> = ({ isOpen, onClose }) => {
 			>
 				<ModalOverlay />
 				<ModalContent>
-					<ModalHeader>Add a post</ModalHeader>
-					<ModalCloseButton />
+					<ModalHeader>Edit profile</ModalHeader>
+							<ModalCloseButton />
+							
 					<ModalBody pb={6}>
 						{
 							loading ? <Center>
@@ -281,14 +203,9 @@ const EditProfileModal: React.FC<Props> = ({ isOpen, onClose }) => {
 								/>
 							</Center> :
 							<React.Fragment>
-								<Formik
-									initialValues={initialValues}
-									validationSchema={validationSchema}
-									onSubmit={onSubmit}
-								>
-									{({ handleSubmit, values }: FormikProps<FormValues>) => {
-										return (
+								
 											<React.Fragment>
+												{errorMsg && <AppAlert mb={3} title='Error!' description={errorMsg} status='error' />}
 												<AppFormField isRequired label="Full Name" name="fullName" />
 												<AppFormField isRequired label="Email" name="email" />
 												<AppFormField isRequired label="Username" name="username" />
@@ -320,22 +237,23 @@ const EditProfileModal: React.FC<Props> = ({ isOpen, onClose }) => {
 													inputOptions={updatedCities(values.country, values.state)}
 												/>
 											</React.Fragment>
-										);
-									}}
-								</Formik>
+										
 							</React.Fragment>}
 					</ModalBody>
 
 					<ModalFooter>
-						<Button isDisabled={loading} colorScheme="primary" onClick={addPostHandler} mr={3}>
-							Add
+						<Button isDisabled={loading} colorScheme="primary" onClick={handleSubmit as any} mr={3}>
+							Submit
 						</Button>
-						<Button isDisabled={loading} onClick={onClose}>
+						<Button  isDisabled={loading} onClick={onClose}>
 							Cancel
 						</Button>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>
+				}}
+			</Formik>
+			
 		</React.Fragment>
 	);
 };
