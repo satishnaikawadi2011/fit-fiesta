@@ -21,6 +21,9 @@ export const addEvent = async (req: any, res: Response) => {
 
 export const searchEvent = async (req: any, res: Response) => {
 	try {
+		const page = req.query.page || 1;
+		const limit = req.query.limit || 10;
+		const skip = (page - 1) * limit;
 		const searchQuery = req.params.query;
 		const events = await Event.find({
 			$or:
@@ -29,7 +32,14 @@ export const searchEvent = async (req: any, res: Response) => {
 					{ description: { $regex: searchQuery, $options: 'i' } },
 					{ location: { $regex: searchQuery, $options: 'i' } }
 				]
-		});
+		})
+			.skip(skip)
+			.limit(limit)
+			.sort({ date: 1 })
+			.populate('user', [
+				'fullName',
+				'username'
+			]);
 		res.json(events);
 	} catch (err) {
 		console.log(err);
