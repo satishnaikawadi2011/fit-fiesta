@@ -1,17 +1,22 @@
 import { SearchIcon } from '@chakra-ui/icons';
 import { Box, Input, InputGroup, InputLeftAddon, Icon, Button, useColorMode, IconButton } from '@chakra-ui/react';
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { setSearchTerm } from '../../app/features/common';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
 interface SearchBarProps {}
 
 const SearchBar: React.FC<SearchBarProps> = ({}) => {
-	const { searchTerm } = useAppSelector((state) => state.common);
 	const dispatch = useAppDispatch();
 	const { colorMode } = useColorMode();
 	const navigate = useNavigate();
+	const location = useLocation();
+	const [
+		query,
+		setQuery
+	] = useState('');
+	console.log(location);
 
 	return (
 		<Box my={4}>
@@ -32,15 +37,20 @@ const SearchBar: React.FC<SearchBarProps> = ({}) => {
 				<Input
 					bgColor={'#fff'}
 					type="search"
-					value={searchTerm}
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setSearchTerm(e.target.value))}
+					value={query}
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
 					placeholder="Search..."
 				/>
 				<IconButton
 					color="primary.300"
 					aria-label="Search database"
 					icon={<SearchIcon />}
-					onClick={() => navigate(`/search/${searchTerm}`)}
+					onClick={() => {
+						if (!query || query.trim() === '') return;
+						dispatch(setSearchTerm(query));
+						if (location.pathname === '/search') return;
+						navigate('/search');
+					}}
 					ml="2"
 					bgColor={'#fff'}
 				/>

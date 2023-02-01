@@ -1,29 +1,35 @@
+import { Flex, Text } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { setSearchTerm } from '../app/features/common';
-import { useAppDispatch } from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 import SearchPageLayout from '../components/search-page/SearchPageLayout';
+import SearchPosts from '../components/search-page/SearchPosts';
 
 const SearchPage = () => {
-	const dispatch = useAppDispatch();
-	const params: any = useParams();
+	const { searchTerm } = useAppSelector((state) => state.common);
+	const navigate = useNavigate();
 
 	useEffect(
 		() => {
-			const q = params.q;
-			// console.log(location, params);
-
-			dispatch(setSearchTerm(q));
+			if (!searchTerm) {
+				navigate('/');
+			}
 		},
 		[
-			dispatch,
-			params
+			searchTerm
 		]
 	);
 
 	return (
 		<SearchPageLayout>
-			<h1>This is content !!!</h1>
+			<Flex mb={3} fontStyle={'italic'} fontSize={'lg'} fontWeight={'bold'}>
+				<Text> Search results for :</Text>
+				<Text ml={2} color="primary.300">
+					{searchTerm}
+				</Text>
+			</Flex>
+			<SearchPosts />
 		</SearchPageLayout>
 	);
 };

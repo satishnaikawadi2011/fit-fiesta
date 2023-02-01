@@ -7,7 +7,7 @@ import ProfilePage from '../pages/profile';
 import ResourcesPage from '../pages/resources';
 import SearchPage from '../pages/search';
 
-export type RoutePathType = '/' | '/events' | '/resources' | '/profile' | '/search/:q';
+export type RoutePathType = '/' | '/events' | '/resources' | '/profile' | '/search';
 
 export interface RouteType {
 	path: RoutePathType;
@@ -19,7 +19,7 @@ const ClientRoutes: RouteType[] = [
 	{ path: '/events', element: <EventsPage /> },
 	{ path: '/resources', element: <ResourcesPage /> },
 	{ path: '/profile', element: <ProfilePage /> },
-	{ path: '/search/:q', element: <SearchPage /> }
+	{ path: '/search', element: <SearchPage /> }
 ];
 
 const AuthenticatedRoutes = () => {
