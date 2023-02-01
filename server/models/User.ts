@@ -25,12 +25,14 @@ const UserSchema = new Schema(
 		fullName:
 			{
 				type: String,
-				required: true
+				required: true,
+				index: true
 			},
 		username:
 			{
 				type: String,
-				required: true
+				required: true,
+				index: true
 			},
 		email:
 			{

@@ -154,7 +154,25 @@ export const fetchComments = async (req: any, res: Response) => {
 export const searchPost = async (req: any, res: Response) => {
 	try {
 		const searchQuery = req.params.query;
-		const posts = await Post.find({ $text: { $search: searchQuery } });
+		const page = req.query.page || 1;
+		const limit = req.query.limit || 10;
+		const skip = (page - 1) * limit;
+
+		const posts = await Post.find({
+			$or:
+				[
+					{ content: { $regex: searchQuery, $options: 'i' } },
+					{ location: { $regex: searchQuery, $options: 'i' } },
+					{ 'user.fullName': { $regex: searchQuery, $options: 'i' } },
+					{ 'user.username': { $regex: searchQuery, $options: 'i' } },
+					{ 'group.name': { $regex: searchQuery, $options: 'i' } }
+				]
+		})
+			.populate('user')
+			.populate('group')
+			.skip(skip)
+			.limit(limit)
+			.sort({ createdAt: -1 });
 		res.json(posts);
 	} catch (err) {
 		console.log(err);
