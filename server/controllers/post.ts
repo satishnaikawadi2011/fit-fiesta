@@ -204,8 +204,8 @@ export const fetchComments = async (req: any, res: Response) => {
 export const searchPost = async (req: any, res: Response) => {
 	try {
 		const searchQuery = req.params.query;
-		const page = req.query.page || 1;
-		const limit = req.query.limit || 10;
+		const page = parseInt(req.query.page) || 1;
+		const limit = parseInt(req.query.limit) || 10;
 		const skip = (page - 1) * limit;
 
 		const posts = await Post.aggregate([

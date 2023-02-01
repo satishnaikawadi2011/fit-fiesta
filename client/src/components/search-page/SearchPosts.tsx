@@ -78,9 +78,13 @@ const SearchPosts = () => {
 					</Center>
 				}
 				endMessage={
-					<p style={{ textAlign: 'center' }}>
-						<b>Yay! You have seen it all</b>
-					</p>
+
+						resultPosts.length === 0 ? <p style={{ textAlign: 'center' }}>
+							<b>No results found</b>
+						</p> :
+						<p style={{ textAlign: 'center' }}>
+							<b>Yay! You have seen it all</b>
+						</p>
 				}
 			>
 				{resultPosts.map((post) => {

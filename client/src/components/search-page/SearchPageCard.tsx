@@ -9,8 +9,8 @@ const SearchPageCard = () => {
 			<Text m={3} ml={5} fontWeight={'light'} fontSize={'xs'}>
 				On this page
 			</Text>
-			<Item title="People" name="people" />
 			<Item title="Posts" name="posts" />
+			<Item title="People" name="people" />
 			<Item title="Events" name="events" />
 			<Item title="Resources" name="resources" />
 			<Item title="Groups" name="groups" />

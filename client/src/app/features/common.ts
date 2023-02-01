@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit';
 
-export type SearchOptionType = 'people' | 'posts' | 'groups' | 'events' | 'resources' | '';
+export type SearchOptionType = 'people' | 'posts' | 'groups' | 'events' | 'resources';
 
 interface commonState {
 	searchTerm: string;
@@ -10,7 +10,7 @@ interface commonState {
 
 const initialState: commonState = {
 	searchTerm: '',
-	activeSearchOption: ''
+	activeSearchOption: 'posts'
 };
 
 export const commonSlice = createSlice({

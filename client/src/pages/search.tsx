@@ -9,6 +9,7 @@ import SearchPosts from '../components/search-page/SearchPosts';
 const SearchPage = () => {
 	const { searchTerm } = useAppSelector((state) => state.common);
 	const navigate = useNavigate();
+	const { activeSearchOption } = useAppSelector((state) => state.common);
 
 	useEffect(
 		() => {
@@ -29,7 +30,7 @@ const SearchPage = () => {
 					{searchTerm}
 				</Text>
 			</Flex>
-			<SearchPosts />
+			{activeSearchOption === 'posts' && <SearchPosts />}
 		</SearchPageLayout>
 	);
 };
