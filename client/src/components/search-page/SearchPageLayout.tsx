@@ -13,20 +13,11 @@ const SearchPageLayout: React.FC<Props> = ({ children }) => {
 	return (
 		<Layout title={`${searchTerm} | Search`}>
 			<Grid templateColumns="1fr 2fr" gap={4}>
-				<GridItem
-					marginTop={'6rem'}
-					padding={4}
-					height={'calc(100vh - 6rem)'}
-					position={'fixed'}
-					width={'33vw'}
-					left={0}
-				>
+				<GridItem height={'calc(100vh - 6rem)'} position={'fixed'} width={'33vw'} left={0}>
 					<SearchPageCard />
 				</GridItem>
 				<GridItem />
-				<GridItem marginTop={'6rem'} padding={10}>
-					{children}
-				</GridItem>
+				<GridItem padding={10}>{children}</GridItem>
 			</Grid>
 		</Layout>
 	);
