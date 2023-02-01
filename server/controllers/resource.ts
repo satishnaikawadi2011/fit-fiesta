@@ -41,3 +41,29 @@ export const getResources = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const searchResource = async (req: any, res: Response) => {
+	try {
+		const page = req.query.page || 1;
+		const limit = req.query.limit || 10;
+		const skip = (page - 1) * limit;
+		const searchQuery = req.params.query;
+		const resources = await Resource.find({
+			$or:
+				[
+					{ name: { $regex: searchQuery, $options: 'i' } },
+					{ description: { $regex: searchQuery, $options: 'i' } },
+					{ location: { $regex: searchQuery, $options: 'i' } },
+					{ category: { $regex: searchQuery, $options: 'i' } }
+				]
+		})
+			.skip(skip)
+			.limit(limit)
+			.sort({ createdAt: -1 });
+
+		res.json(resources);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};

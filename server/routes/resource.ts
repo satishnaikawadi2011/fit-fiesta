@@ -1,5 +1,5 @@
 import { setupCloudinary } from './../utils/setupCloudinary';
-import { addResource, getResources } from './../controllers/resource';
+import { addResource, getResources, searchResource } from './../controllers/resource';
 import express from 'express';
 import { isAuthenticated } from '../middlewares/isAuthenticated';
 
@@ -14,6 +14,8 @@ router.post(
 	],
 	addResource
 );
+
+router.get('/search/:query', isAuthenticated, searchResource);
 
 router.get('/', isAuthenticated, getResources);
 
