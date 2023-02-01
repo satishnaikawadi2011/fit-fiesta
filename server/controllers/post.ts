@@ -151,6 +151,56 @@ export const fetchComments = async (req: any, res: Response) => {
 	}
 };
 
+// ========================================================================================================================
+// ========================================================================================================================
+// ========================================================================================================================
+// ========================================================================================================================
+
+// VVIMP
+
+// The find, skip, limit, and sort are performed by the mongodb database on the server side.The result
+// is then sent back to mongoose where the populate is performed by submitting additional queries.
+
+// In the 'post' document in the database, the 'user' and 'group' fields contains an ObjectId, not an
+// object, so the fields `user.fullName', 'user.username', and 'group.name' don't exist, and therefore
+// don't match.
+
+// In order to filter these fields on the database server, you would need to use aggregate with separate
+// $lookup stages to retrieve the user and group documents in order for the server to consider
+// those fields.
+
+// Code With Problem
+
+// export const searchPost = async (req: any, res: Response) => {
+// 	try {
+// 		const searchQuery = req.params.query;
+// 		const page = req.query.page || 1;
+// 		const limit = req.query.limit || 10;
+// 		const skip = (page - 1) * limit;
+
+// 		const posts = await Post.find({
+// 			$or:
+// 				[
+// 					{ content: { $regex: searchQuery, $options: 'i' } },
+// 					{ location: { $regex: searchQuery, $options: 'i' } },
+// 					{ 'user.fullName': { $regex: searchQuery, $options: 'i' } },
+// 					{ 'user.username': { $regex: searchQuery, $options: 'i' } },
+// 					{ 'group.name': { $regex: searchQuery, $options: 'i' } }
+// 				]
+// 		})
+// 			.populate('user')
+// 			.populate('group')
+// 			.skip(skip)
+// 			.limit(limit)
+// 			.sort({ createdAt: -1 });
+// 		res.json(posts);
+// 	} catch (err) {
+// 		console.log(err);
+// 		return res.status(500).json({ message: 'Something went wrong!' });
+// 	}
+// };
+
+// Correct Code
 export const searchPost = async (req: any, res: Response) => {
 	try {
 		const searchQuery = req.params.query;
@@ -158,24 +208,75 @@ export const searchPost = async (req: any, res: Response) => {
 		const limit = req.query.limit || 10;
 		const skip = (page - 1) * limit;
 
-		const posts = await Post.find({
-			$or:
-				[
-					{ content: { $regex: searchQuery, $options: 'i' } },
-					{ location: { $regex: searchQuery, $options: 'i' } },
-					{ 'user.fullName': { $regex: searchQuery, $options: 'i' } },
-					{ 'user.username': { $regex: searchQuery, $options: 'i' } },
-					{ 'group.name': { $regex: searchQuery, $options: 'i' } }
-				]
-		})
-			.populate('user')
-			.populate('group')
-			.skip(skip)
-			.limit(limit)
-			.sort({ createdAt: -1 });
-		res.json(posts);
+		const posts = await Post.aggregate([
+			{
+				$lookup:
+					{
+						from: 'users',
+						localField: 'user',
+						foreignField: '_id',
+						as: 'userDoc'
+					}
+			},
+			{
+				$lookup:
+					{
+						from: 'groups',
+						localField: 'group',
+						foreignField: '_id',
+						as: 'groupDoc'
+					}
+			},
+			{
+				$match:
+					{
+						$or:
+							[
+								{ content: { $regex: searchQuery, $options: 'i' } },
+								{ location: { $regex: searchQuery, $options: 'i' } },
+								{ 'userDoc.fullName': { $regex: searchQuery, $options: 'i' } },
+								{ 'userDoc.username': { $regex: searchQuery, $options: 'i' } },
+								{ 'groupDoc.name': { $regex: searchQuery, $options: 'i' } }
+							]
+					}
+			},
+			{
+				$skip: skip
+			},
+			{
+				$limit: limit
+			},
+			{
+				$sort:
+					{
+						createdAt: -1
+					}
+			}
+		]);
+
+		const transformedPosts = posts.map((p) => {
+			const post = {
+				...p,
+				user: p.userDoc[0],
+				group:
+
+						p.groupDoc.length > 0 ? p.groupDoc[0] :
+						''
+			};
+
+			delete post.userDoc;
+			delete post.groupDoc;
+			return post;
+		});
+
+		res.json(transformedPosts);
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+// ========================================================================================================================
+// ========================================================================================================================
+// ========================================================================================================================
+// ========================================================================================================================
