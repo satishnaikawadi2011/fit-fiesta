@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import SearchEvents from '../components/search-page/SearchEvents';
 import SearchPageLayout from '../components/search-page/SearchPageLayout';
 import SearchPosts from '../components/search-page/SearchPosts';
+import SearchResources from '../components/search-page/SearchResources';
 
 const SearchPage = () => {
 	const { searchTerm } = useAppSelector((state) => state.common);
@@ -33,6 +34,7 @@ const SearchPage = () => {
 			</Flex>
 			{activeSearchOption === 'posts' && <SearchPosts />}
 			{activeSearchOption === 'events' && <SearchEvents />}
+			{activeSearchOption === 'resources' && <SearchResources />}
 		</SearchPageLayout>
 	);
 };
