@@ -209,6 +209,35 @@ export const getSentConnections = async (req: any, res: Response) => {
 	}
 };
 
+export const getMutualConnections = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const otherUserId = req.params.otherUserId;
+
+		const currentUser = await User.findById(userId).select('connections');
+		if (!currentUser) {
+			return res.status(404).json({ message: 'Current user not found' });
+		}
+		const otherUser = await User.findById(otherUserId).select('connections');
+		if (!otherUser) {
+			return res.status(404).json({ message: 'Other user not found' });
+		}
+
+		const mutualConnections = currentUser.connections.filter((conn: mongoose.Types.ObjectId) => {
+			return otherUser.connections.includes(conn);
+		});
+
+		const mutualConnectionsUsers = await User.find({
+			_id: { $in: mutualConnections }
+		}).select('-password');
+
+		return res.json({ mutualConnections: mutualConnectionsUsers });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
 export const searchUser = async (req: any, res: Response) => {
 	try {
 		const searchTerm = req.params.searchTerm;

@@ -1,5 +1,4 @@
-import { Box, Container } from '@chakra-ui/react';
-import React from 'react';
+import { Box } from '@chakra-ui/react';
 import { useAppSelector } from '../app/hooks';
 import Layout from '../components/layout/Layout';
 import UserProfile from '../components/UserProfile';

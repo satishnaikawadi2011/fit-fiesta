@@ -1,20 +1,14 @@
-import { Center, Grid, GridItem, Spinner } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import { Center, Spinner } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import AddButtons from '../components/AddButtons';
 import Layout from '../components/layout/Layout';
 import Post from '../components/Post';
-import UserProfileCard from '../components/UserProfileCard';
-import postApi from '../api/post';
-import useApi from '../hooks/useApi';
-import { IPost } from '../types/Post';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import apiClient from '../api/client';
 import { setPosts } from '../app/features/post';
 
 const HomePage = () => {
-	// const [posts, setPosts] = useState<IPost[]>([]);
-
 	const [
 		page,
 		setPage

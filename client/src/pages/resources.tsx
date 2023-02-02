@@ -1,5 +1,5 @@
 import { Center, Spinner } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import Layout from '../components/layout/Layout';
 import InfiniteScroll from 'react-infinite-scroll-component';

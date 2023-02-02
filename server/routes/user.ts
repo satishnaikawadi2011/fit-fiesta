@@ -11,7 +11,8 @@ import {
 	rejectConnection,
 	getConnections,
 	getPendingConnections,
-	getSentConnections
+	getSentConnections,
+	getMutualConnections
 } from './../controllers/user';
 import express from 'express';
 import { setupCloudinary } from '../utils/setupCloudinary';
@@ -37,6 +38,8 @@ router.get('/connections', isAuthenticated, getConnections);
 router.get('/pendingConnections', isAuthenticated, getPendingConnections);
 
 router.get('/sentConnections', isAuthenticated, getSentConnections);
+
+router.get('/mutualConnections/:otherUserId', isAuthenticated, getMutualConnections);
 
 router.get('/search/:searchTerm', isAuthenticated, searchUser);
 

@@ -1,4 +1,4 @@
-import { Flex, Container, Heading, Stack, Text, Button, Icon, IconProps } from '@chakra-ui/react';
+import { Flex, Container, Heading, Stack, Text, Button } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import FeatureList from '../components/landing/FeatureList';
 import Footer from '../components/landing/Footer';
