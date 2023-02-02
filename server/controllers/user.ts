@@ -157,6 +157,20 @@ export const rejectConnection = async (req: any, res: Response) => {
 	}
 };
 
+export const getConnections = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const user = await User.findById(userId).populate('connections');
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+		return res.json({ connections: user.connections });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
 export const searchUser = async (req: any, res: Response) => {
 	try {
 		const searchTerm = req.params.searchTerm;
