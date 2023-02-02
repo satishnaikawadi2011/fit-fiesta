@@ -10,7 +10,8 @@ import {
 	editUser,
 	rejectConnection,
 	getConnections,
-	getPendingConnections
+	getPendingConnections,
+	getSentConnections
 } from './../controllers/user';
 import express from 'express';
 import { setupCloudinary } from '../utils/setupCloudinary';
@@ -34,6 +35,8 @@ router.delete('/reject/:connectionId', isAuthenticated, rejectConnection);
 router.get('/connections', isAuthenticated, getConnections);
 
 router.get('/pendingConnections', isAuthenticated, getPendingConnections);
+
+router.get('/sentConnections', isAuthenticated, getSentConnections);
 
 router.get('/search/:searchTerm', isAuthenticated, searchUser);
 
