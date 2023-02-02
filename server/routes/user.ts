@@ -7,7 +7,8 @@ import {
 	searchUser,
 	editProfileImage,
 	editCoverImage,
-	editUser
+	editUser,
+	rejectConnection
 } from './../controllers/user';
 import express from 'express';
 import { setupCloudinary } from '../utils/setupCloudinary';
@@ -25,6 +26,8 @@ router.post('/login', login);
 router.post('/connect/:connectionId', isAuthenticated, makeConnectionRequest);
 
 router.post('/accept/:connectionId', isAuthenticated, acceptConnection);
+
+router.delete('/reject/:connectionId', isAuthenticated, rejectConnection);
 
 router.get('/search/:searchTerm', isAuthenticated, searchUser);
 

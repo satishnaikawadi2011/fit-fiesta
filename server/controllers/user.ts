@@ -124,6 +124,39 @@ export const acceptConnection = async (req: any, res: Response) => {
 	}
 };
 
+export const rejectConnection = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const connectionId = req.params.connectionId;
+
+		const recipient = await User.findById(userId);
+		if (!recipient) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+		const sender = await User.findById(connectionId);
+		if (!sender) {
+			return res.status(404).json({ message: 'Connection not found' });
+		}
+		if (!recipient.pendingConnections.includes(sender._id)) {
+			return res.status(404).json({ message: 'Connection request not found' });
+		}
+		recipient.pendingConnections = recipient.pendingConnections.filter((conn: mongoose.Types.ObjectId) => {
+			return conn.toString() !== sender._id.toString();
+		});
+
+		sender.sentConnections = sender.sentConnections.filter((conn: mongoose.Types.ObjectId) => {
+			return conn.toString() !== recipient._id.toString();
+		});
+
+		await recipient.save();
+		await sender.save();
+		return res.json({ message: 'Connection request rejected' });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
 export const searchUser = async (req: any, res: Response) => {
 	try {
 		const searchTerm = req.params.searchTerm;
