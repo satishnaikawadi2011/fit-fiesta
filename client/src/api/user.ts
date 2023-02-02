@@ -7,6 +7,11 @@ const editUserProfile = (userData: any) => {
 	return client.post(`${endpoint}/edit`, userData);
 };
 
+const getMutualConnections = (userId: string) => {
+	return client.get(`/mutualConnections/${userId}`);
+};
+
 export default {
-	editUserProfile
+	editUserProfile,
+	getMutualConnections
 };

@@ -17,6 +17,7 @@ import EditProfileImageModal from './components/EditProfileImageModal';
 import EditCoverImageModal from './components/EditCoverImageModal';
 import EditProfileModal from './components/EditProfileModal';
 import SearchPageCard from './components/search-page/SearchPageCard';
+import InvitationListItem from './components/InvitationListItem';
 
 function App() {
 	useEffect(() => {
@@ -28,9 +29,7 @@ function App() {
 	if (!isTokenExpired && user) {
 		apiClient.setHeader('Authorization', `Bearer ${token}`);
 		return <AuthenticatedRoutes />;
-		// return <UserProfile user={user} />;
-		// return <EditProfileModal isOpen={true} onClose={() => {}} />;
-		// return <SearchPageCard />;
+		// return <InvitationListItem />;
 	}
 	return <UnauthenticatedRoutes />;
 
