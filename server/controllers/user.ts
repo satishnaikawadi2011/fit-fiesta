@@ -93,25 +93,31 @@ export const acceptConnection = async (req: any, res: Response) => {
 		const userId = req.id;
 		const connectionId = req.params.connectionId;
 
-		const currentUser = await User.findById(userId);
-		if (!currentUser) {
+		const recipient = await User.findById(userId);
+		if (!recipient) {
 			return res.status(404).json({ message: 'User not found' });
 		}
-		const connection = await User.findById(connectionId);
-		if (!connection) {
+		const sender = await User.findById(connectionId);
+		if (!sender) {
 			return res.status(404).json({ message: 'Connection not found' });
 		}
-		if (!currentUser.pendingConnections.includes(connection._id)) {
+		if (!recipient.pendingConnections.includes(sender._id)) {
 			return res.status(404).json({ message: 'Connection request not found' });
 		}
-		currentUser.pendingConnections = currentUser.pendingConnections.filter((conn: mongoose.Types.ObjectId) => {
-			return conn.toString() !== connection._id.toString();
+		recipient.pendingConnections = recipient.pendingConnections.filter((conn: mongoose.Types.ObjectId) => {
+			return conn.toString() !== sender._id.toString();
 		});
-		currentUser.connections.push(connection._id);
-		connection.connections.push(currentUser._id);
-		await currentUser.save();
-		await connection.save();
-		return res.json({ currentUser });
+
+		sender.sentConnections = sender.sentConnections.filter((conn: mongoose.Types.ObjectId) => {
+			return conn.toString() !== recipient._id.toString();
+		});
+
+		recipient.connections.push(sender._id);
+		sender.connections.push(recipient._id);
+
+		await recipient.save();
+		await sender.save();
+		return res.json({ recipient });
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ message: 'Something went wrong!' });
