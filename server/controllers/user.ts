@@ -57,27 +57,29 @@ export const makeConnectionRequest = async (req: any, res: Response) => {
 			res.status(400).json({ message: 'Provide valid connectionId !' });
 		}
 
-		const user = await User.findById(userId);
-		const connectUser = await User.findById(connectionId);
+		const sender = await User.findById(userId);
+		const recipient = await User.findById(connectionId);
 
-		if (!connectUser) {
+		if (!recipient) {
 			return res.status(404).json({ message: 'User not found !' });
 		}
 
-		const userConnections = user!.connections;
-		const connectUserPendingConnections = connectUser.pendingConnections;
+		const userConnections = sender!.connections;
+		const recipientPendingConnections = recipient.pendingConnections;
 
 		if (userConnections.some((connection) => connection.equals(connectionId))) {
 			return res.status(409).json({ message: 'Connection already exists' });
 		}
 
-		if (connectUserPendingConnections.some((connection) => connection.equals(connectionId))) {
+		if (recipientPendingConnections.some((connection) => connection.equals(connectionId))) {
 			return res.status(409).json({ message: 'Connection request already sent' });
 		}
 
-		connectUserPendingConnections.push(connectionId);
-		await user!.save();
-		await connectUser.save();
+		sender!.sentConnections.push(recipient._id);
+		recipientPendingConnections.push(sender!._id);
+
+		await sender!.save();
+		await recipient.save();
 
 		return res.status(200).json({ message: 'Connection request sent' });
 	} catch (err) {
