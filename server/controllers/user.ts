@@ -160,11 +160,28 @@ export const rejectConnection = async (req: any, res: Response) => {
 export const getConnections = async (req: any, res: Response) => {
 	try {
 		const userId = req.id;
-		const user = await User.findById(userId).populate('connections');
+		const user = await User.findById(userId).populate({ path: 'connections', select: '-password' });
 		if (!user) {
 			return res.status(404).json({ message: 'User not found' });
 		}
 		return res.json({ connections: user.connections });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
+export const getPendingConnections = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const user = await User.findById(userId).populate({
+			path: 'pendingConnections',
+			select: '-password'
+		});
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+		return res.json({ pendingConnections: user.pendingConnections });
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ message: 'Something went wrong!' });

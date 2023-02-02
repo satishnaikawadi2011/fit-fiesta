@@ -9,7 +9,8 @@ import {
 	editCoverImage,
 	editUser,
 	rejectConnection,
-	getConnections
+	getConnections,
+	getPendingConnections
 } from './../controllers/user';
 import express from 'express';
 import { setupCloudinary } from '../utils/setupCloudinary';
@@ -31,6 +32,8 @@ router.post('/accept/:connectionId', isAuthenticated, acceptConnection);
 router.delete('/reject/:connectionId', isAuthenticated, rejectConnection);
 
 router.get('/connections', isAuthenticated, getConnections);
+
+router.get('/pendingConnections', isAuthenticated, getPendingConnections);
 
 router.get('/search/:searchTerm', isAuthenticated, searchUser);
 
