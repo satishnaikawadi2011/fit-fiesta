@@ -15,6 +15,7 @@ export interface IUser {
 	posts?: Array<string>;
 	connections?: Array<string>;
 	pendingConnections?: Array<string>;
+	sentConnections?: Array<string>;
 	createdAt: string;
 	updatedAt: string;
 }
