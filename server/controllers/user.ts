@@ -159,8 +159,15 @@ export const rejectConnection = async (req: any, res: Response) => {
 
 export const getConnections = async (req: any, res: Response) => {
 	try {
+		const page = parseInt(req.query.page) || 1;
+		const limit = parseInt(req.query.limit) || 10;
+		const skip = (page - 1) * limit;
 		const userId = req.id;
-		const user = await User.findById(userId).populate({ path: 'connections', select: '-password' });
+		const user = await User.findById(userId)
+			.populate({ path: 'connections', select: '-password' })
+			.skip(skip)
+			.limit(limit);
+
 		if (!user) {
 			return res.status(404).json({ message: 'User not found' });
 		}
