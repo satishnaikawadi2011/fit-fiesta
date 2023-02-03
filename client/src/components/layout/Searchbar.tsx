@@ -3,7 +3,7 @@ import { Box, Input, InputGroup, InputLeftAddon, Icon, Button, useColorMode, Ico
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { setSearchTerm } from '../../app/features/common';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch } from '../../app/hooks';
 
 interface SearchBarProps {}
 
@@ -16,7 +16,6 @@ const SearchBar: React.FC<SearchBarProps> = ({}) => {
 		query,
 		setQuery
 	] = useState('');
-	console.log(location);
 
 	return (
 		<Box my={4}>
