@@ -1,6 +1,6 @@
 import { validateEventData } from './../validation/validateEventData';
-import { Request, Response } from 'express';
-import Event, { IEvent } from '../models/Event';
+import { Response } from 'express';
+import Event from '../models/Event';
 
 export const addEvent = async (req: any, res: Response) => {
 	try {
