@@ -11,17 +11,17 @@ import {
 	Center
 } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { getCountryCode, getStateCode } from '../utils/country-state-city/getIsoCodes';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { getCountryCode, getStateCode } from '../../utils/country-state-city/getIsoCodes';
 import * as Yup from 'yup';
 import { City, Country, State } from 'country-state-city';
-import AppFormSelectField, { InputOptionsType } from './form/AppFormSelectField';
+import AppFormSelectField, { InputOptionsType } from '../form/AppFormSelectField';
 import { Formik, FormikProps } from 'formik';
-import AppFormField from './form/AppFormField';
-import userApi from '../api/user'
-import useApi from '../hooks/useApi';
-import { updateUser } from '../app/features/auth';
-import AppAlert from './AppAlert';
+import AppFormField from '../form/AppFormField';
+import userApi from '../../api/user'
+import useApi from '../../hooks/useApi';
+import { updateUser } from '../../app/features/auth';
+import AppAlert from '../AppAlert';
 
 interface FormValues {
 	username: string;

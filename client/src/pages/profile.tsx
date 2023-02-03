@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { useAppSelector } from '../app/hooks';
 import Layout from '../components/layout/Layout';
-import UserProfile from '../components/UserProfile';
+import UserProfile from '../components/user/UserProfile';
 
 const ProfilePage = () => {
 	const { user } = useAppSelector((state) => state.auth);

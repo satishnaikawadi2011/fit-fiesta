@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import userApi from '../../api/user';
 import useApi from '../../hooks/useApi';
 import { IUser } from '../../types/User';
-import MutualConnsModel from '../MutualConnsModel';
+import MutualConnsModel from './MutualConnsModel';
 
 interface Props {
 	_id: string;

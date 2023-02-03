@@ -15,7 +15,7 @@ import React, { useEffect, useState } from 'react';
 import useApi from '../../hooks/useApi';
 import userApi from '../../api/user';
 import { IUser } from '../../types/User';
-import MutualConnsModel from '../MutualConnsModel';
+import MutualConnsModel from './MutualConnsModel';
 
 interface Props {
 	user: IUser;

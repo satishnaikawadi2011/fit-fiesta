@@ -17,7 +17,7 @@ import {
 	useDisclosure
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { isValidURL } from '../utils/isValidURL';
+import { isValidURL } from '../../utils/isValidURL';
 
 interface Props {
 	isOpen: boolean;

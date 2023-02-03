@@ -20,8 +20,8 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import apiSauce from 'apisauce';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { addPost } from '../app/features/post';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { addPost } from '../../app/features/post';
 
 interface Props {
 	isOpen: boolean;

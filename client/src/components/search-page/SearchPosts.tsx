@@ -4,7 +4,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import apiClient from '../../api/client';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { IPost } from '../../types/Post';
-import Post from '../Post';
+import Post from '../post/Post';
 
 const SearchPosts = () => {
 	const [

@@ -1,7 +1,7 @@
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Divider } from '@chakra-ui/react';
 import React from 'react';
-import { IUser } from '../types/User';
-import UserListItem from './UserListItem';
+import { IUser } from '../../types/User';
+import UserListItem from '../user/UserListItem';
 
 interface Props {
 	isOpen: boolean;

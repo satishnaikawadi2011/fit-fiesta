@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import AddButtons from '../components/AddButtons';
 import Layout from '../components/layout/Layout';
-import Post from '../components/Post';
+import Post from '../components/post/Post';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import apiClient from '../api/client';
 import { setPosts } from '../app/features/post';

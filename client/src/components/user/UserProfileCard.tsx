@@ -1,6 +1,6 @@
 import { Heading, Avatar, Box, Center, Image, Flex, Text, Stack, Button} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { IUser } from '../types/User';
+import { IUser } from '../../types/User';
 
 interface Props {
 	user: IUser;

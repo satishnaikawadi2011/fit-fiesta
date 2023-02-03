@@ -15,8 +15,8 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import apiSauce from 'apisauce';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { updateUser } from '../app/features/auth';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { updateUser } from '../../app/features/auth';
 
 interface Props {
 	isOpen: boolean;

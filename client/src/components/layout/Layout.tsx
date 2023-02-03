@@ -3,7 +3,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useAppSelector } from '../../app/hooks';
 import { APP_NAME } from '../../constants';
-import UserProfileCard from '../UserProfileCard';
+import UserProfileCard from '../user/UserProfileCard';
 import Header from './Header/Header';
 import classes from './layout.module.css';
 

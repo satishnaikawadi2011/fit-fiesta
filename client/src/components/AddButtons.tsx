@@ -9,10 +9,10 @@ import {
 	setIsCreateGroupModalOpen
 } from '../app/features/ui';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import AddEventModal from './AddEventModal';
-import AddPostModal from './AddPostModal';
-import AddResourceModal from './AddResourceModal';
-import CreateGroupModal from './CreateGroupModal';
+import AddEventModal from './add-modals/AddEventModal';
+import AddPostModal from './add-modals/AddPostModal';
+import AddResourceModal from './add-modals/AddResourceModal';
+import CreateGroupModal from './add-modals/CreateGroupModal';
 
 interface ItemProps {
 	title: string;

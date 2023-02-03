@@ -1,6 +1,6 @@
 import { Avatar, Box, Flex, Heading, Image, Link, Text, Icon, FlexProps, Stack, IconButton } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { IUser } from '../types/User';
+import { IUser } from '../../types/User';
 import { GiBodyHeight } from 'react-icons/gi';
 import { MdMail } from 'react-icons/md';
 import { FaCamera, FaUserEdit, FaWeight } from 'react-icons/fa';

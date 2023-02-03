@@ -1,6 +1,6 @@
 import { Avatar, Box, Flex, Heading, Text } from '@chakra-ui/react';
 import React from 'react';
-import { IUser } from '../types/User';
+import { IUser } from '../../types/User';
 
 interface Props {
 	user: IUser;

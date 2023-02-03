@@ -4,15 +4,15 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import React, { useEffect, useState } from 'react';
 import { FaThumbsUp } from 'react-icons/fa';
-import { likePost } from '../app/features/post';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { likePost } from '../../app/features/post';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import CommentInput from './CommentInput';
-import postApi from '../api/post';
-import useApi from '../hooks/useApi';
-import { PRIMARY } from '../constants/colors';
-import apiClient from '../api/client';
+import postApi from '../../api/post';
+import useApi from '../../hooks/useApi';
+import { PRIMARY } from '../../constants/colors';
+import apiClient from '../../api/client';
 import Comment from './Comment';
-import { IComment } from '../types/Comment';
+import { IComment } from '../../types/Comment';
 import ReactDOM from 'react-dom';
 
 interface PostProps {
