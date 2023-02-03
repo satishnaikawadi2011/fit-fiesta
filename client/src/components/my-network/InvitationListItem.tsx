@@ -1,9 +1,9 @@
 import { Avatar, Box, Button, Flex, Heading, Link, Skeleton, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import userApi from '../api/user';
-import useApi from '../hooks/useApi';
-import { IUser } from '../types/User';
-import MutualConnsModel from './MutualConnsModel';
+import userApi from '../../api/user';
+import useApi from '../../hooks/useApi';
+import { IUser } from '../../types/User';
+import MutualConnsModel from '../MutualConnsModel';
 
 interface Props {
 	_id: string;

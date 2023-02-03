@@ -12,10 +12,10 @@ import {
 	SkeletonCircle
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import useApi from '../hooks/useApi';
-import userApi from '../api/user';
-import { IUser } from '../types/User';
-import MutualConnsModel from './MutualConnsModel';
+import useApi from '../../hooks/useApi';
+import userApi from '../../api/user';
+import { IUser } from '../../types/User';
+import MutualConnsModel from '../MutualConnsModel';
 
 interface Props {
 	user: IUser;

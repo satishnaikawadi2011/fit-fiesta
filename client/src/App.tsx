@@ -17,7 +17,7 @@ import EditProfileImageModal from './components/EditProfileImageModal';
 import EditCoverImageModal from './components/EditCoverImageModal';
 import EditProfileModal from './components/EditProfileModal';
 import SearchPageCard from './components/search-page/SearchPageCard';
-import InvitationListItem from './components/InvitationListItem';
+import InvitationListItem from './components/my-network/InvitationListItem';
 
 function App() {
 	useEffect(() => {
