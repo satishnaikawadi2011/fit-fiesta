@@ -9,8 +9,12 @@ export const addEvent = async (req: any, res: Response) => {
 		if (message) {
 			return res.status(400).json({ message });
 		}
-		const image = req.file.path;
-		const event = new Event({ name, location, image, user: req.id, group, description, date });
+		const image =
+			req.file ? req.file.path :
+			undefined;
+		let g = undefined;
+		if (group != '') g = group;
+		const event = new Event({ name, location, image, user: req.id, group: g, description, date });
 		await event.save();
 		return res.status(201).json({ event });
 	} catch (err) {
