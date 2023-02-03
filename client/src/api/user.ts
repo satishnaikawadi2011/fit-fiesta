@@ -8,10 +8,15 @@ const editUserProfile = (userData: any) => {
 };
 
 const getMutualConnections = (userId: string) => {
-	return client.get(`/mutualConnections/${userId}`);
+	return client.get(`${endpoint}/mutualConnections/${userId}`);
+};
+
+const getInvitations = () => {
+	return client.get(`${endpoint}/pendingConnections`);
 };
 
 export default {
 	editUserProfile,
-	getMutualConnections
+	getMutualConnections,
+	getInvitations
 };

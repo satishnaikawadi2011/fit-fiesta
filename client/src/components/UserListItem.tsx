@@ -10,11 +10,11 @@ const UserListItem: React.FC<Props> = ({ user }) => {
 	const { fullName, username, profileImg } = user;
 	return (
 		<Flex alignItems={'center'}>
-			<Avatar src={profileImg} height={'80px'} width={'80px'} size="xl" mr={4} />
+			<Avatar src={profileImg} height={'60px'} width={'60px'} mr={4} />
 			<Box>
 				<Heading fontSize={'lg'}>{fullName}</Heading>
 				<Text fontSize={'md'} fontWeight={'medium'} color="gray.400">
-					{username}
+					@{username}
 				</Text>
 			</Box>
 		</Flex>

@@ -1,4 +1,4 @@
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody } from '@chakra-ui/react';
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Divider } from '@chakra-ui/react';
 import React from 'react';
 import { IUser } from '../types/User';
 import UserListItem from './UserListItem';
@@ -21,7 +21,12 @@ const MutualConnsModel: React.FC<Props> = ({ isOpen, onClose, mutualConns, name 
 					<ModalCloseButton />
 					<ModalBody pb={6}>
 						{mutualConns.map((conn) => {
-							return <UserListItem key={conn._id} user={conn} />;
+							return (
+								<React.Fragment>
+									<UserListItem key={conn._id} user={conn} />
+									<Divider />
+								</React.Fragment>
+							);
 						})}
 					</ModalBody>
 				</ModalContent>

@@ -18,7 +18,9 @@ const MyNetworkPageLayout: React.FC<Props> = ({ children }) => {
 					<NavigationCard />
 				</GridItem>
 				<GridItem />
-				<GridItem padding={10}>{children}</GridItem>
+				<GridItem mt={10} mx={3}>
+					{children}
+				</GridItem>
 			</Grid>
 		</Layout>
 	);

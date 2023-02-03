@@ -16,11 +16,14 @@ const useApi = (apiFunc: Function) => {
 
 	const [errorMsg, setErrorMsg] = useState('')
 
+	
+
 	const request = async (...args: any) => {
 		setError(false)
 		setErrorMsg('')
 		setLoading(true);
 		const response = await apiFunc(...args);
+		console.log("Here",response)
 		setLoading(false);
 
 		if (!response?.ok) {

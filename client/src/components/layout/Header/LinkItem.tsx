@@ -44,7 +44,12 @@ const LinkItem: React.FC<Props> = ({ Icon, title, path }) => {
 
 	const handleLinkClick = () => {
 		setActiveLink(path);
-		navigate(path);
+		if (path !== '/my-network/:section') {
+			navigate(path);
+		}
+		else {
+			navigate('/my-network/invitations');
+		}
 	};
 
 	return (
