@@ -47,13 +47,13 @@ const Header: React.FC = () => {
 		>
 			<Flex align="center" mr={5}>
 				<Logo width={'5rem'} height={'5rem'} fill="#A2D2FF" cursor={'pointer'} onClick={() => navigate('/')} />
-				<SearchBar onSearch={() => {}} />
+				<SearchBar />
 			</Flex>
 			<HStack width={{ md: 'auto' }} spacing={{ sm: '10', md: '10' }} alignItems="center" ml="auto">
 				<LinkItem path="/" Icon={AiFillHome} title="Home" />
 				<LinkItem path="/resources" Icon={GrResources} title="Resources" />
 				<LinkItem path="/events" Icon={MdEventNote} title="Events" />
-				<LinkItem path="/" Icon={BiNetworkChart} title="My Network" />
+				<LinkItem path="/my-network/:section" Icon={BiNetworkChart} title="My Network" />
 			</HStack>
 		</Flex>
 	);

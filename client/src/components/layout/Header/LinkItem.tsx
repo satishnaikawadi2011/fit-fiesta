@@ -6,6 +6,16 @@ import { setActiveLink } from '../../../app/features/ui';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { RoutePathType } from '../../../routes/authenticated-routes';
 
+const matchUrl = (url: string): string | null => {
+	const pattern = /^\/my-network\/[^\/]+$/;
+	const match = url.match(pattern);
+	if (match) {
+		return match[0];
+	}
+	else {
+		return null;
+	}
+};
 interface Props {
 	Icon: IconType;
 	title: string;
@@ -27,7 +37,10 @@ const LinkItem: React.FC<Props> = ({ Icon, title, path }) => {
 		]
 	);
 
-	const isActive = path === activeLink;
+	const isActive =
+
+			path !== '/my-network/:section' ? path === activeLink :
+			matchUrl(location.pathname);
 
 	const handleLinkClick = () => {
 		setActiveLink(path);
