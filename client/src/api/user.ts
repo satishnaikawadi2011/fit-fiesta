@@ -15,8 +15,13 @@ const getInvitations = () => {
 	return client.get(`${endpoint}/pendingConnections`);
 };
 
+const getConnections = () => {
+	return client.get(`${endpoint}/connections`);
+};
+
 export default {
 	editUserProfile,
 	getMutualConnections,
-	getInvitations
+	getInvitations,
+	getConnections
 };
