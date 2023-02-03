@@ -75,7 +75,7 @@ const ResourcesPage = () => {
 				}
 			>
 				{resources.map((resource) => {
-					return <Resource resource={resource} />;
+					return <Resource key={resource._id} resource={resource} />;
 				})}
 			</InfiniteScroll>
 		</Layout>

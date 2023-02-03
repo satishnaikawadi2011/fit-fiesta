@@ -21,10 +21,14 @@ import { PRIMARY } from '../../../constants/colors';
 import LinkItem from './LinkItem';
 import SearchBar from '../Searchbar';
 import { useNavigate } from 'react-router-dom';
+import HeaderMenu from './HeaderMenu';
+import { useAppSelector } from '../../../app/hooks';
 
 const Header: React.FC = () => {
 	const { colorMode, toggleColorMode } = useColorMode();
 	const navigate = useNavigate();
+
+	const { user } = useAppSelector((state) => state.auth);
 
 	return (
 		<Flex
@@ -54,6 +58,7 @@ const Header: React.FC = () => {
 				<LinkItem path="/resources" Icon={GrResources} title="Resources" />
 				<LinkItem path="/events" Icon={MdEventNote} title="Events" />
 				<LinkItem path="/my-network/:section" Icon={BiNetworkChart} title="My Network" />
+				<HeaderMenu user={user!} />
 			</HStack>
 		</Flex>
 	);
