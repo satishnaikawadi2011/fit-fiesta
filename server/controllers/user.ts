@@ -270,6 +270,39 @@ export const removeConnection = async (req: any, res: Response) => {
 	}
 };
 
+export const withdrawSentConnectionRequest = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const otherUserId = req.params.otherUserId;
+
+		const currentUser = await User.findById(userId);
+		if (!currentUser) {
+			return res.status(404).json({ message: 'Current user not found' });
+		}
+
+		const otherUser = await User.findById(otherUserId);
+		if (!otherUser) {
+			return res.status(404).json({ message: 'Other user not found' });
+		}
+
+		currentUser.sentConnections = currentUser.sentConnections.filter((conn) => {
+			return otherUser._id.toString() !== conn.toString();
+		});
+
+		otherUser.pendingConnections = otherUser.pendingConnections.filter((conn) => {
+			return currentUser._id.toString() !== conn.toString();
+		});
+
+		await currentUser.save();
+		await otherUser.save();
+
+		return res.json({ message: 'Sent connection request withdrawn successfully!' });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
 export const searchUser = async (req: any, res: Response) => {
 	try {
 		const searchTerm = req.params.searchTerm;
