@@ -310,6 +310,30 @@ export const withdrawSentConnectionRequest = async (req: any, res: Response) => 
 	}
 };
 
+export const suggestConnections = async (req: any, res: Response) => {
+	try {
+		const page = req.query.page || 1;
+		const limit = req.query.limit || 10;
+		const skip = (page - 1) * limit;
+		const currentUserId = req.id;
+
+		// Find all users who are not already connected or pending connections with the current user
+		const suggestedUsers = await User.find({
+			_id: { $ne: currentUserId },
+			connections: { $ne: currentUserId },
+			pendingConnections: { $ne: currentUserId },
+			sentConnections: { $ne: currentUserId }
+		})
+			.skip(skip)
+			.limit(limit);
+
+		res.json({ suggestedUsers });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
 export const searchUser = async (req: any, res: Response) => {
 	try {
 		const searchTerm = req.params.searchTerm;

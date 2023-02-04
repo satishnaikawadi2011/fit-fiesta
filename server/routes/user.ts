@@ -14,7 +14,8 @@ import {
 	getSentConnections,
 	getMutualConnections,
 	removeConnection,
-	withdrawSentConnectionRequest
+	withdrawSentConnectionRequest,
+	suggestConnections
 } from './../controllers/user';
 import express from 'express';
 import { setupCloudinary } from '../utils/setupCloudinary';
@@ -46,6 +47,8 @@ router.get('/mutualConnections/:otherUserId', isAuthenticated, getMutualConnecti
 router.delete('/remove/:otherUserId', isAuthenticated, removeConnection);
 
 router.delete('/withdraw/:otherUserId', isAuthenticated, withdrawSentConnectionRequest);
+
+router.get('/suggest', isAuthenticated, suggestConnections);
 
 router.get('/search/:searchTerm', isAuthenticated, searchUser);
 
