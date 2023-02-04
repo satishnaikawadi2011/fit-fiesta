@@ -23,10 +23,15 @@ const getSuggestedUsers = () => {
 	return client.get(`${endpoint}/suggest`);
 };
 
+const connect = (userId: string) => {
+	return client.post(`${endpoint}/connect/${userId}`);
+};
+
 export default {
 	editUserProfile,
 	getMutualConnections,
 	getInvitations,
 	getConnections,
-	getSuggestedUsers
+	getSuggestedUsers,
+	connect
 };
