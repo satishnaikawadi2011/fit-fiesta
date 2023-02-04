@@ -27,11 +27,36 @@ const connect = (userId: string) => {
 	return client.post(`${endpoint}/connect/${userId}`);
 };
 
+const acceptConnectionRequest = (userId: string) => {
+	return client.post(`${endpoint}/accept/${userId}`);
+};
+
+const rejectConnectionRequest = (userId: string) => {
+	return client.delete(`${endpoint}/reject/${userId}`);
+};
+
+const getSentConnectionsRequests = () => {
+	return client.get(`${endpoint}/sentConnections`);
+};
+
+const removeConnection = (userId: string) => {
+	return client.delete(`${endpoint}/remove/${userId}`);
+};
+
+const withdrawSentConnectionRequest = (userId: string) => {
+	return client.delete(`${endpoint}/withdraw/${userId}`);
+};
+
 export default {
 	editUserProfile,
 	getMutualConnections,
 	getInvitations,
 	getConnections,
 	getSuggestedUsers,
-	connect
+	connect,
+	acceptConnectionRequest,
+	withdrawSentConnectionRequest,
+	removeConnection,
+	getSentConnectionsRequests,
+	rejectConnectionRequest
 };

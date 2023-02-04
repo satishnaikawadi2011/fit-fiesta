@@ -6,6 +6,7 @@ import Connections from '../components/my-network/Connections';
 import Invitations from '../components/my-network/Invitations';
 import MyNetworkPageLayout from '../components/my-network/MyNetworkPageLayout';
 import People from '../components/my-network/People';
+import SentRequests from '../components/my-network/SentRequests';
 
 const MyNetworkPage = () => {
 	const { activeMyNetworkOption } = useAppSelector((state) => state.common);
@@ -15,6 +16,7 @@ const MyNetworkPage = () => {
 			{activeMyNetworkOption === 'invitations' && <Invitations />}
 			{activeMyNetworkOption === 'connections' && <Connections />}
 			{activeMyNetworkOption === 'people' && <People />}
+			{activeMyNetworkOption === 'sent requests' && <SentRequests />}
 		</MyNetworkPageLayout>
 	);
 };

@@ -5,6 +5,7 @@ import postReducer from './features/post';
 import eventReducer from './features/event';
 import resourceReducer from './features/resource';
 import commonReducer from './features/common';
+import userReducer from './features/user';
 
 export const store = configureStore({
 	reducer:
@@ -14,7 +15,8 @@ export const store = configureStore({
 			post: postReducer,
 			event: eventReducer,
 			resource: resourceReducer,
-			common: commonReducer
+			common: commonReducer,
+			user: userReducer
 		}
 });
 
