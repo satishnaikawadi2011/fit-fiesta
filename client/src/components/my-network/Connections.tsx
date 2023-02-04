@@ -1,18 +1,16 @@
 import { Box, Center, Divider, Flex, Spinner, Text } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import userApi from '../../api/user';
+import { setConnections } from '../../app/features/user';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import useApi from '../../hooks/useApi';
-import { IUser } from '../../types/User';
 import UserListItem from '../user/UserListItem';
 import ConnectionMenu from './ConnectionMenu';
 
 const Connections = () => {
+	const dispatch = useAppDispatch();
+	const { connections } = useAppSelector((state) => state.user);
 	const { data: connectionsData, error, errorMsg, loading, request }: any = useApi(userApi.getConnections);
-
-	const [
-		connections,
-		setConnections
-	] = useState<IUser[]>([]);
 
 	useEffect(() => {
 		request();
@@ -21,7 +19,7 @@ const Connections = () => {
 	useEffect(
 		() => {
 			if (connectionsData) {
-				setConnections(connectionsData.connections);
+				dispatch(setConnections(connectionsData.connections));
 			}
 		},
 		[

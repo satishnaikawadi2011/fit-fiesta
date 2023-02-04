@@ -1,17 +1,15 @@
 import { Box, Center, Divider, Spinner, Text } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import userApi from '../../api/user';
+import { setInvitations } from '../../app/features/user';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import useApi from '../../hooks/useApi';
-import { IUser } from '../../types/User';
 import InvitationListItem from './InvitationListItem';
 
 const Invitations = () => {
+	const dispatch = useAppDispatch();
+	const { invitations } = useAppSelector((state) => state.user);
 	const { data: invitationsData, error, errorMsg, loading, request }: any = useApi(userApi.getInvitations);
-
-	const [
-		invitations,
-		setInvitations
-	] = useState<IUser[]>([]);
 
 	useEffect(() => {
 		request();
@@ -20,7 +18,7 @@ const Invitations = () => {
 	useEffect(
 		() => {
 			if (invitationsData) {
-				setInvitations(invitationsData.pendingConnections);
+				dispatch(setInvitations(invitationsData.pendingConnections));
 			}
 		},
 		[

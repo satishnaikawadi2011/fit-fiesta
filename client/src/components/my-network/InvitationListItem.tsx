@@ -1,8 +1,12 @@
 import { Avatar, Box, Button, Flex, Heading, Link, Skeleton, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import userApi from '../../api/user';
+import { removeInvitation } from '../../app/features/user';
+import { useAppDispatch } from '../../app/hooks';
 import useApi from '../../hooks/useApi';
+import useApiUpdated from '../../hooks/useApiUpdated';
 import { IUser } from '../../types/User';
+import { userLog } from '../../utils/swal/userLog';
 import MutualConnsModel from './MutualConnsModel';
 
 interface Props {
@@ -13,9 +17,53 @@ interface Props {
 }
 
 const InvitationListItem: React.FC<Props> = ({ _id, name, profileImg, username }) => {
+	const dispatch = useAppDispatch();
 	const { data: mutualConnsData, error, errorMsg, loading, request: getMutualConnsReq }: any = useApi(
 		userApi.getMutualConnections
 	);
+
+	const { data: accceptData, error: acceptErr, request: acceptConnReq } = useApiUpdated(
+		userApi.acceptConnectionRequest
+	);
+	const { data: rejectData, error: rejecttErr, request: rejectConnReq } = useApiUpdated(
+		userApi.rejectConnectionRequest
+	);
+
+	useEffect(
+		() => {
+			if (accceptData && !acceptErr) {
+				userLog('success', 'Connection request accepted successfully!').then(() => {
+					dispatch(removeInvitation(_id));
+				});
+			}
+		},
+		[
+			accceptData,
+			acceptErr
+		]
+	);
+
+	useEffect(
+		() => {
+			if (rejectData && !rejecttErr) {
+				userLog('success', 'Connection request rejected successfully!').then(() => {
+					dispatch(removeInvitation(_id));
+				});
+			}
+		},
+		[
+			rejectData,
+			rejecttErr
+		]
+	);
+
+	const ignoreHandler = async () => {
+		await rejectConnReq(_id);
+	};
+
+	const acceptHandler = async () => {
+		await acceptConnReq(_id);
+	};
 
 	const [
 		mutualConns,
@@ -68,10 +116,16 @@ const InvitationListItem: React.FC<Props> = ({ _id, name, profileImg, username }
 					</Box>
 				</Flex>
 				<Flex>
-					<Button rounded="full" mr={3}>
+					<Button onClick={ignoreHandler} rounded="full" mr={3}>
 						Ignore
 					</Button>
-					<Button rounded="full" bgColor={'primary.200'} color="white" _hover={{ bgColor: 'primary.300' }}>
+					<Button
+						onClick={acceptHandler}
+						rounded="full"
+						bgColor={'primary.200'}
+						color="white"
+						_hover={{ bgColor: 'primary.300' }}
+					>
 						Accept
 					</Button>
 				</Flex>
