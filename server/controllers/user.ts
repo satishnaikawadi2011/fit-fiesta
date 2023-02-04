@@ -313,7 +313,7 @@ export const withdrawSentConnectionRequest = async (req: any, res: Response) => 
 export const suggestConnections = async (req: any, res: Response) => {
 	try {
 		const page = req.query.page || 1;
-		const limit = req.query.limit || 10;
+		const limit = req.query.limit || 100;
 		const skip = (page - 1) * limit;
 		const currentUserId = req.id;
 

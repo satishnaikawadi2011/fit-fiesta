@@ -8,7 +8,7 @@ type ReturnData<T> = {
   errorMsg: string;
 };
 
-const useApi = <T>(apiFunc: (...args: any[]) => Promise<T>): ReturnData<T> => {
+const useApiUpdated = <T>(apiFunc:any): ReturnData<T> => {
   const [data, setData] = useState<T>();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -36,4 +36,4 @@ const useApi = <T>(apiFunc: (...args: any[]) => Promise<T>): ReturnData<T> => {
   return { data, loading, error, request, errorMsg };
 };
 
-export default useApi;
+export default useApiUpdated;

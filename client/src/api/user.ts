@@ -19,9 +19,14 @@ const getConnections = () => {
 	return client.get(`${endpoint}/connections`);
 };
 
+const getSuggestedUsers = () => {
+	return client.get(`${endpoint}/suggest`);
+};
+
 export default {
 	editUserProfile,
 	getMutualConnections,
 	getInvitations,
-	getConnections
+	getConnections,
+	getSuggestedUsers
 };

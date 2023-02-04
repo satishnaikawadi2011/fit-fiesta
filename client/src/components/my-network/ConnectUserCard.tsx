@@ -28,7 +28,7 @@ const ConnectUserCard: React.FC<Props> = ({ user }) => {
 		userApi.getMutualConnections
     );
     
-    const mutualConns: IUser[] = (mutualConnsData as any)?.data.mutualConnections
+    const mutualConns: IUser[] = (mutualConnsData as any)?.data?.mutualConnections || []
     
     const [showConnsModal, setShowConnsModal] = useState(false)
 
