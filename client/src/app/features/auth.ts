@@ -40,7 +40,7 @@ export const authSlice = createSlice({
 					storage.clear();
 				},
 			updateUser:
-				(state, action: PayloadAction<any>) => {
+				(state, action: PayloadAction<Partial<IUser>>) => {
 					const user = state.user!;
 					Object.assign(user, action.payload);
 					state.user = user;

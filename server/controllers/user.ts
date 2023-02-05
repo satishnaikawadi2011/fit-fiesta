@@ -337,6 +337,9 @@ export const suggestConnections = async (req: any, res: Response) => {
 export const searchUser = async (req: any, res: Response) => {
 	try {
 		const searchTerm = req.params.searchTerm;
+		const page = req.query.page || 1;
+		const limit = req.query.limit || 10;
+		const skip = (page - 1) * limit;
 
 		const users = await User.find({
 			$or:
@@ -345,7 +348,9 @@ export const searchUser = async (req: any, res: Response) => {
 					{ username: { $regex: searchTerm, $options: 'i' } },
 					{ email: { $regex: searchTerm, $options: 'i' } }
 				]
-		});
+		})
+			.skip(skip)
+			.limit(limit);
 		res.json(users);
 	} catch (err) {
 		console.log(err);

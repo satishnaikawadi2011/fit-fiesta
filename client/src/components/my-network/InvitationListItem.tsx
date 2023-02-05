@@ -1,8 +1,9 @@
 import { Avatar, Box, Button, Flex, Heading, Link, Skeleton, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import userApi from '../../api/user';
+import { updateUser } from '../../app/features/auth';
 import { removeInvitation } from '../../app/features/user';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import useApi from '../../hooks/useApi';
 import useApiUpdated from '../../hooks/useApiUpdated';
 import { IUser } from '../../types/User';
@@ -18,6 +19,7 @@ interface Props {
 
 const InvitationListItem: React.FC<Props> = ({ _id, name, profileImg, username }) => {
 	const dispatch = useAppDispatch();
+	const { user: authUser } = useAppSelector((state) => state.auth);
 	const { data: mutualConnsData, error, errorMsg, loading, request: getMutualConnsReq }: any = useApi(
 		userApi.getMutualConnections
 	);
@@ -34,6 +36,12 @@ const InvitationListItem: React.FC<Props> = ({ _id, name, profileImg, username }
 			if (accceptData && !acceptErr) {
 				userLog('success', 'Connection request accepted successfully!').then(() => {
 					dispatch(removeInvitation(_id));
+					const updatedConns = [
+						_id,
+						...authUser!.connections!
+					];
+					const updatedInvitations = authUser!.pendingConnections!.filter((c) => c !== _id);
+					dispatch(updateUser({ connections: updatedConns, pendingConnections: updatedInvitations }));
 				});
 			}
 		},
@@ -48,6 +56,8 @@ const InvitationListItem: React.FC<Props> = ({ _id, name, profileImg, username }
 			if (rejectData && !rejecttErr) {
 				userLog('success', 'Connection request rejected successfully!').then(() => {
 					dispatch(removeInvitation(_id));
+					const updatedInvitations = authUser!.pendingConnections!.filter((c) => c !== _id);
+					dispatch(updateUser({ pendingConnections: updatedInvitations }));
 				});
 			}
 		},

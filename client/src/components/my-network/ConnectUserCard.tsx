@@ -18,7 +18,7 @@ import { IUser } from '../../types/User';
 import MutualConnsModel from './MutualConnsModel';
 import useApiUpdated from '../../hooks/useApiUpdated';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { setActiveMyNetworkOption } from '../../app/features/common';
 
 interface Props {
@@ -29,6 +29,7 @@ const ConnectUserCard: React.FC<Props> = ({ user }) => {
 	const { _id, fullName, username, profileImg, coverImg } = user;
 	const navigate = useNavigate()
 	const dispatch = useAppDispatch()
+	const { user: authUser } = useAppSelector((state) => state.auth);
     
     const { data: mutualConnsData, error, errorMsg, loading, request: getMutualConnsReq } = useApi(
 		userApi.getMutualConnections
@@ -38,7 +39,11 @@ const ConnectUserCard: React.FC<Props> = ({ user }) => {
     
     const mutualConns: IUser[] = (mutualConnsData as any)?.data?.mutualConnections || []
     
-    const [showConnsModal, setShowConnsModal] = useState(false)
+	const [showConnsModal, setShowConnsModal] = useState(false)
+	
+	const isConnection = authUser!.connections!.includes(user._id)
+	const isPendingConn = authUser!.pendingConnections!.includes(user._id)
+	const isSentReqConn = authUser!.sentConnections!.includes(user._id)
 
 	useEffect(() => {
 		getMutualConnsReq(_id);
@@ -49,13 +54,15 @@ const ConnectUserCard: React.FC<Props> = ({ user }) => {
 		dispatch(setActiveMyNetworkOption('sent requests'))
 		navigate('/my-network/sent requests')
 	}
+
+	console.log(fullName,isConnection,isPendingConn,isSentReqConn)
     
     if (loading) return <SkeletonComponent/>
 
 	return (
 		<React.Fragment>
 			<MutualConnsModel isOpen={showConnsModal} onClose={() => setShowConnsModal(false)} name={fullName} mutualConns={mutualConns} />
-			<Box maxW={'230px'} w={'full'} bg={'gray.100'} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
+			<Box height={'full'} maxW={'230px'} w={'full'} bg={'gray.100'} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
 				<Image h={'100px'} w={'full'} src={coverImg} objectFit={'cover'} />
 				<Flex justify={'center'} mt={-12}>
 					<Avatar
@@ -77,9 +84,13 @@ const ConnectUserCard: React.FC<Props> = ({ user }) => {
 						{mutualConns.length !== 0 && <Link my={2} color={'gray.400'} fontWeight={'light'} fontSize={'sm'}>
 							{getMutualConnStr(mutualConns)}
 						</Link>}
-						<Button onClick={connectHandler} isLoading={connectLoad} my={4} variant={'outline'} colorScheme="primary">
+						{!isConnection && !isPendingConn && <Button onClick={connectHandler} isLoading={connectLoad} my={4} variant={'outline'} colorScheme="primary">
 							Connect
-						</Button>
+						</Button>}
+						
+						{isSentReqConn && <Button  isDisabled my={4} variant={'outline'} colorScheme="primary">
+							Pending
+						</Button>}
 					</Center>
 				</Box>
 			</Box>

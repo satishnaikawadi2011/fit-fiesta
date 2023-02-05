@@ -1,8 +1,9 @@
 import { Avatar, Box, Button, Flex, Heading, Link, Skeleton, Text } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import userApi from '../../api/user';
+import { updateUser } from '../../app/features/auth';
 import { withdrawRequest } from '../../app/features/user';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import useApiUpdated from '../../hooks/useApiUpdated';
 import { userLog } from '../../utils/swal/userLog';
 
@@ -16,12 +17,15 @@ interface Props {
 const SentRequestsListItem: React.FC<Props> = ({ _id, name, profileImg, username }) => {
 	const { data, error, loading, request: withdrawReq } = useApiUpdated<any>(userApi.withdrawSentConnectionRequest);
 	const dispatch = useAppDispatch();
+	const { user: authUser } = useAppSelector((state) => state.auth);
 
 	useEffect(
 		() => {
 			if (data && !error) {
 				userLog('success', 'Sent request withdrawn successfully!').then(() => {
 					dispatch(withdrawRequest(_id));
+					const updatedSentReqs = authUser!.sentConnections!.filter((c) => c !== _id);
+					dispatch(updateUser({ sentConnections: updatedSentReqs }));
 				});
 			}
 		},

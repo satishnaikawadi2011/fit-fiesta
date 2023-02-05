@@ -8,6 +8,7 @@ import { IUser } from '../../types/User';
 import userApi from '../../api/user';
 import { userLog } from '../../utils/swal/userLog';
 import { removeConnection } from '../../app/features/user';
+import { updateUser } from '../../app/features/auth';
 
 interface Props {
 	user: IUser;
@@ -15,6 +16,7 @@ interface Props {
 
 const ConnectionMenu: React.FC<Props> = ({ user }) => {
 	const dispatch = useAppDispatch();
+	const { user: authUser } = useAppSelector((state) => state.auth);
 	const { data: removeConnData, error: removeConnErr, errorMsg, loading, request: removeConn } = useApiUpdated<any>(
 		userApi.removeConnection
 	);
@@ -24,6 +26,8 @@ const ConnectionMenu: React.FC<Props> = ({ user }) => {
 			if (removeConnData && !removeConnErr) {
 				userLog('success', 'Connection removed successfully!').then(() => {
 					dispatch(removeConnection(user._id));
+					const updatedConns = authUser!.connections!.filter((c) => c !== user._id);
+					dispatch(updateUser({ connections: updatedConns }));
 				});
 			}
 		},
