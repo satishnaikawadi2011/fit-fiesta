@@ -7,7 +7,9 @@ export interface IGroup {
 	members: string[];
 	events: string[];
 	posts: string[];
-	image: string;
+	profileImg: string;
+	admin: string;
+	coverImg: string;
 }
 
 const GroupSchema = new Schema(
@@ -28,9 +30,22 @@ const GroupSchema = new Schema(
 					ref: 'User'
 				}
 			],
-		image:
+		admin:
 			{
-				type: String
+				type: Schema.Types.ObjectId,
+				ref: 'User'
+			},
+		profileImg:
+			{
+				type: String,
+				default:
+					'https://res.cloudinary.com/dyfm31f1n/image/upload/v1675624958/fit-fiesta/placeholders/group_utrk67.jpg'
+			},
+		coverImg:
+			{
+				type: String,
+				default:
+					'https://res.cloudinary.com/dyfm31f1n/image/upload/v1675059731/fit-fiesta/placeholders/bg_qr4vtm.jpg'
 			},
 		events:
 			[

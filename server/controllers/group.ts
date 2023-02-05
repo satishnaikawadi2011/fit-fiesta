@@ -17,16 +17,18 @@ export const createGroup = async (req: any, res: Response) => {
 			return res.status(404).json({ message: 'User not found' });
 		}
 
-		const image = req.file.path;
-
+		const image =
+			req.file ? req.file.path :
+			undefined;
 		const group = await new Group({
 			name,
 			description,
-			image,
+			profileImg: image,
 			members:
 				[
 					req.id
-				]
+				],
+			admin: req.id
 		});
 		currentUser.groups.push(group._id);
 		await group.save();
