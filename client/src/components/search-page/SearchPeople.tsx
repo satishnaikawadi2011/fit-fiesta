@@ -1,4 +1,4 @@
-import { Center, Spinner } from '@chakra-ui/react';
+import { Box, Center, Grid, Spinner } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import apiClient from '../../api/client';
@@ -85,8 +85,13 @@ const SearchPeople = () => {
 						</p>
 				}
 			>
-				{resultPeople.map((p) => {
-					return <ConnectUserCard key={p._id} user={p} />;
+				<Grid templateColumns="repeat(auto-fit, minmax(230px, 1fr))" gap={6} />
+				{resultPeople.map((u) => {
+					return (
+						<Box key={u._id}>
+							<ConnectUserCard user={u} />
+						</Box>
+					);
 				})}
 			</InfiniteScroll>
 		</React.Fragment>

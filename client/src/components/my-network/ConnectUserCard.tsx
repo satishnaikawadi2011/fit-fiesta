@@ -20,6 +20,7 @@ import useApiUpdated from '../../hooks/useApiUpdated';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { setActiveMyNetworkOption } from '../../app/features/common';
+import { updateUser } from '../../app/features/auth';
 
 interface Props {
 	user: IUser;
@@ -51,6 +52,8 @@ const ConnectUserCard: React.FC<Props> = ({ user }) => {
 	
 	const connectHandler = async() => {
 		await connectReq(_id)
+		const updatedSentReqs = [_id,...authUser!.sentConnections!]
+		dispatch(updateUser({ sentConnections: updatedSentReqs }));
 		dispatch(setActiveMyNetworkOption('sent requests'))
 		navigate('/my-network/sent requests')
 	}
@@ -84,7 +87,7 @@ const ConnectUserCard: React.FC<Props> = ({ user }) => {
 						{mutualConns.length !== 0 && <Link my={2} color={'gray.400'} fontWeight={'light'} fontSize={'sm'}>
 							{getMutualConnStr(mutualConns)}
 						</Link>}
-						{!isConnection && !isPendingConn && <Button onClick={connectHandler} isLoading={connectLoad} my={4} variant={'outline'} colorScheme="primary">
+						{!isConnection && !isPendingConn && !isSentReqConn && <Button onClick={connectHandler} isLoading={connectLoad} my={4} variant={'outline'} colorScheme="primary">
 							Connect
 						</Button>}
 						

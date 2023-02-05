@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../app/hooks';
 import SearchEvents from '../components/search-page/SearchEvents';
 import SearchPageLayout from '../components/search-page/SearchPageLayout';
+import SearchPeople from '../components/search-page/SearchPeople';
 import SearchPosts from '../components/search-page/SearchPosts';
 import SearchResources from '../components/search-page/SearchResources';
 
@@ -34,6 +35,7 @@ const SearchPage = () => {
 			{activeSearchOption === 'posts' && <SearchPosts />}
 			{activeSearchOption === 'events' && <SearchEvents />}
 			{activeSearchOption === 'resources' && <SearchResources />}
+			{activeSearchOption === 'people' && <SearchPeople />}
 		</SearchPageLayout>
 	);
 };
