@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from '../../../app/features/auth';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { IUser } from '../../../types/User';
+import AppBadge from '../../app/badge/AppBadge';
 
 interface Props {
 	user: IUser;
@@ -29,20 +30,34 @@ interface Props {
 
 const CustomMenuButton = forwardRef((props, ref) => {
 	const { user } = useAppSelector((state) => state.auth);
+	const { notifications } = useAppSelector((state) => state.user);
+	let count = 0;
+	notifications.forEach((n) => {
+		if (n.read === false) count++;
+	});
 	return (
-		<Flex ref={ref} {...props} flexDirection={'column'} alignItems="center" cursor={'pointer'}>
-			<Avatar src={user!.profileImg} size={'md'} />
-			<Flex alignItems="center">
-				<Text fontSize={'sm'}>Me</Text>
-				<Icon ml={1} as={AiFillCaretDown} />
-			</Flex>
-		</Flex>
+		<Box ref={ref} {...props}>
+			<AppBadge content={count} bgColor="#FA3E3E" hideZero contentColor="#fff">
+				<Flex flexDirection={'column'} alignItems="center" cursor={'pointer'}>
+					<Avatar src={user!.profileImg} size={'md'} />
+					<Flex alignItems="center">
+						<Text fontSize={'sm'}>Me</Text>
+						<Icon ml={1} as={AiFillCaretDown} />
+					</Flex>
+				</Flex>
+			</AppBadge>
+		</Box>
 	);
 });
 
 const HeaderMenu: React.FC<Props> = ({ user }) => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+	const { notifications } = useAppSelector((state) => state.user);
+	let count = 0;
+	notifications.forEach((n) => {
+		if (n.read === false) count++;
+	});
 	return (
 		<Menu>
 			<MenuButton as={CustomMenuButton} aria-label="Options" />
@@ -80,6 +95,20 @@ const HeaderMenu: React.FC<Props> = ({ user }) => {
 				>
 					Sign Out
 				</Link>
+				<Divider mt={2} />
+				<Flex justifyContent={'space-between'}>
+					<Link
+						onClick={() => {
+							dispatch(logout());
+							navigate('/login');
+						}}
+						fontSize={'sm'}
+						fontWeight={'light'}
+					>
+						Notificaations
+					</Link>
+					<AppBadge content={count} bgColor="#FA3E3E" hideZero contentColor="#fff" />
+				</Flex>
 			</MenuList>
 		</Menu>
 	);

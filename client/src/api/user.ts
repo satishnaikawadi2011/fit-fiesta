@@ -47,6 +47,10 @@ const withdrawSentConnectionRequest = (userId: string) => {
 	return client.delete(`${endpoint}/withdraw/${userId}`);
 };
 
+const getNotifications = () => {
+	return client.get(`${endpoint}/notifications`);
+};
+
 export default {
 	editUserProfile,
 	getMutualConnections,
@@ -58,5 +62,6 @@ export default {
 	withdrawSentConnectionRequest,
 	removeConnection,
 	getSentConnectionsRequests,
-	rejectConnectionRequest
+	rejectConnectionRequest,
+	getNotifications
 };

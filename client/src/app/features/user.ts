@@ -1,16 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { INotification } from '../../types/Notification';
 import { IUser } from '../../types/User';
 
 interface userState {
 	sentConnetionRequests: IUser[];
 	invitations: IUser[];
 	connections: IUser[];
+	notifications: INotification[];
 }
 
 const initialState: userState = {
 	sentConnetionRequests: [],
 	connections: [],
-	invitations: []
+	invitations: [],
+	notifications: []
 };
 
 export const userSlice = createSlice({
@@ -41,6 +44,16 @@ export const userSlice = createSlice({
 			removeInvitation:
 				(state, action: PayloadAction<string>) => {
 					state.invitations = state.invitations.filter((inv) => inv._id !== action.payload);
+				},
+			setNotifications:
+				(state, action: PayloadAction<INotification[]>) => {
+					state.notifications = action.payload;
+				},
+			markNotificationsAsRead:
+				(state, action: PayloadAction<INotification[]>) => {
+					for (let i = 0; i < state.notifications.length; i++) {
+						state.notifications[i].read = true;
+					}
 				}
 		}
 });
@@ -51,7 +64,9 @@ export const {
 	setConnections,
 	removeConnection,
 	setInvitations,
-	removeInvitation
+	removeInvitation,
+	setNotifications,
+	markNotificationsAsRead
 } = userSlice.actions;
 
 export default userSlice.reducer;
