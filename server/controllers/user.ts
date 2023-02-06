@@ -502,3 +502,14 @@ export const getNotifications = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const markNotifictionsAsRead = async (req: any, res: Response) => {
+	try {
+		const notificationIds = req.body.notificationIds;
+		const updatedNotifications = await Notification.updateMany({ _id: { $in: notificationIds } }, { read: true });
+		return res.json({ message: 'Notifications marked as read!' });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};

@@ -16,7 +16,8 @@ import {
 	removeConnection,
 	withdrawSentConnectionRequest,
 	suggestConnections,
-	getNotifications
+	getNotifications,
+	markNotifictionsAsRead
 } from './../controllers/user';
 import express from 'express';
 import { setupCloudinary } from '../utils/setupCloudinary';
@@ -54,6 +55,8 @@ router.get('/suggest', isAuthenticated, suggestConnections);
 router.get('/search/:searchTerm', isAuthenticated, searchUser);
 
 router.get('/notifications', isAuthenticated, getNotifications);
+
+router.patch('/notifications/read', isAuthenticated, markNotifictionsAsRead);
 
 router.post(
 	'/profileImg',
