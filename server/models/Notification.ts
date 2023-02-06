@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { io } from '../app';
 import { IUser } from './User';
 const Schema = mongoose.Schema;
 
@@ -67,5 +68,10 @@ const NotificationSchema = new Schema(
 );
 
 const Notification = mongoose.model('Notification', NotificationSchema);
+
+Notification.watch().on('change', (data: any) => {
+	// console.log(data);
+	io.emit('notification', data.fullDocument);
+});
 
 export default Notification;

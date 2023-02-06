@@ -5,6 +5,7 @@ import { validateRegister } from '../validation/validateRegister';
 import { validateLogin } from '../validation/validateLogin';
 import mongoose from 'mongoose';
 import { validateEditUser } from '../validation/validateEditUser';
+import Notification, { getNotificationMessage, NotificationType } from '../models/Notification';
 
 export const register = async (req: Request, res: Response) => {
 	try {
@@ -57,7 +58,7 @@ export const makeConnectionRequest = async (req: any, res: Response) => {
 			res.status(400).json({ message: 'Provide valid connectionId !' });
 		}
 
-		const sender = await User.findById(userId);
+		const sender = (await User.findById(userId)) as any;
 		const recipient = await User.findById(connectionId);
 
 		if (!recipient) {
@@ -67,11 +68,11 @@ export const makeConnectionRequest = async (req: any, res: Response) => {
 		const userConnections = sender!.connections;
 		const recipientPendingConnections = recipient.pendingConnections;
 
-		if (userConnections.some((connection) => connection.equals(connectionId))) {
+		if (userConnections.some((connection: any) => connection.equals(connectionId))) {
 			return res.status(409).json({ message: 'Connection already exists' });
 		}
 
-		if (recipientPendingConnections.some((connection) => connection.equals(connectionId))) {
+		if (recipientPendingConnections.some((connection: any) => connection.equals(connectionId))) {
 			return res.status(409).json({ message: 'Connection request already sent' });
 		}
 
@@ -80,6 +81,19 @@ export const makeConnectionRequest = async (req: any, res: Response) => {
 
 		await sender!.save();
 		await recipient.save();
+
+		const type: NotificationType = 'connection_request_made';
+		const message = getNotificationMessage(type, sender);
+		const notification = new Notification({
+			recipients:
+				[
+					recipient._id
+				],
+			image: sender!.profileImg,
+			type,
+			message
+		});
+		await notification.save();
 
 		return res.status(200).json({ message: 'Connection request sent' });
 	} catch (err) {
@@ -117,6 +131,20 @@ export const acceptConnection = async (req: any, res: Response) => {
 
 		await recipient.save();
 		await sender.save();
+
+		const type: NotificationType = 'connection_request_accepted';
+		const message = getNotificationMessage(type, recipient as any);
+		const notification = new Notification({
+			recipients:
+				[
+					sender._id
+				],
+			image: recipient!.profileImg,
+			type,
+			message
+		});
+		await notification.save();
+
 		return res.json({ recipient });
 	} catch (err) {
 		console.log(err);
@@ -150,6 +178,20 @@ export const rejectConnection = async (req: any, res: Response) => {
 
 		await recipient.save();
 		await sender.save();
+
+		const type: NotificationType = 'connection_request_rejected';
+		const message = getNotificationMessage(type, recipient as any);
+		const notification = new Notification({
+			recipients:
+				[
+					sender._id
+				],
+			image: recipient!.profileImg,
+			type,
+			message
+		});
+		await notification.save();
+
 		return res.json({ message: 'Connection request rejected' });
 	} catch (err) {
 		console.log(err);
@@ -270,6 +312,19 @@ export const removeConnection = async (req: any, res: Response) => {
 		await currentUser.save();
 		await otherUser.save();
 
+		const type: NotificationType = 'removed_from_connection';
+		const message = getNotificationMessage(type, currentUser as any);
+		const notification = new Notification({
+			recipients:
+				[
+					otherUserId._id
+				],
+			image: currentUser!.profileImg,
+			type,
+			message
+		});
+		await notification.save();
+
 		return res.json({ message: 'Connection removed successfully!' });
 	} catch (err) {
 		console.log(err);
@@ -302,6 +357,19 @@ export const withdrawSentConnectionRequest = async (req: any, res: Response) => 
 
 		await currentUser.save();
 		await otherUser.save();
+
+		const type: NotificationType = 'connection_request_withdrawn';
+		const message = getNotificationMessage(type, currentUser as any);
+		const notification = new Notification({
+			recipients:
+				[
+					otherUserId._id
+				],
+			image: currentUser!.profileImg,
+			type,
+			message
+		});
+		await notification.save();
 
 		return res.json({ message: 'Sent connection request withdrawn successfully!' });
 	} catch (err) {
