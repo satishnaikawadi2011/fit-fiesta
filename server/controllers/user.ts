@@ -489,3 +489,16 @@ export const editUser = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const getNotifications = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const notifications = await Notification.find({
+			recipients: { $elemMatch: { $eq: userId } }
+		});
+		return res.status(200).json(notifications);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};

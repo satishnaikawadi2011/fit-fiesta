@@ -15,7 +15,8 @@ import {
 	getMutualConnections,
 	removeConnection,
 	withdrawSentConnectionRequest,
-	suggestConnections
+	suggestConnections,
+	getNotifications
 } from './../controllers/user';
 import express from 'express';
 import { setupCloudinary } from '../utils/setupCloudinary';
@@ -51,6 +52,8 @@ router.delete('/withdraw/:otherUserId', isAuthenticated, withdrawSentConnectionR
 router.get('/suggest', isAuthenticated, suggestConnections);
 
 router.get('/search/:searchTerm', isAuthenticated, searchUser);
+
+router.get('/notifications', isAuthenticated, getNotifications);
 
 router.post(
 	'/profileImg',

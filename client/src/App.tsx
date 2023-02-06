@@ -29,13 +29,13 @@ function App() {
 
 	if (!isTokenExpired && user) {
 		apiClient.setHeader('Authorization', `Bearer ${token}`);
-		// return <AuthenticatedRoutes />;
+		return <AuthenticatedRoutes />;
 		// return <InvitationListItem />;
-		return (
-			<AppBadge content={2} bgColor="red">
-				<GrAddCircle size={100} />
-			</AppBadge>
-		);
+		// return (
+		// 	<AppBadge content={2} bgColor="red">
+		// 		<GrAddCircle size={100} />
+		// 	</AppBadge>
+		// );
 	}
 	return <UnauthenticatedRoutes />;
 
