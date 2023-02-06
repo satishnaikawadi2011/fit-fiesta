@@ -18,6 +18,7 @@ import EditCoverImageModal from './components/user/EditCoverImageModal';
 import EditProfileModal from './components/user/EditProfileModal';
 import SearchPageCard from './components/search-page/SearchPageCard';
 import InvitationListItem from './components/my-network/InvitationListItem';
+import AppBadge from './components/app/badge/AppBadge';
 
 function App() {
 	useEffect(() => {
@@ -28,8 +29,13 @@ function App() {
 
 	if (!isTokenExpired && user) {
 		apiClient.setHeader('Authorization', `Bearer ${token}`);
-		return <AuthenticatedRoutes />;
+		// return <AuthenticatedRoutes />;
 		// return <InvitationListItem />;
+		return (
+			<AppBadge content={2} bgColor="red">
+				<GrAddCircle size={100} />
+			</AppBadge>
+		);
 	}
 	return <UnauthenticatedRoutes />;
 

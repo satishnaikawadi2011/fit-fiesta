@@ -21,7 +21,7 @@ import AppFormField from '../form/AppFormField';
 import userApi from '../../api/user'
 import useApi from '../../hooks/useApi';
 import { updateUser } from '../../app/features/auth';
-import AppAlert from '../AppAlert';
+import AppAlert from '../app/AppAlert';
 
 interface FormValues {
 	username: string;
