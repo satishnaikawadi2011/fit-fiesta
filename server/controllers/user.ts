@@ -509,9 +509,14 @@ export const editUser = async (req: any, res: Response) => {
 export const getNotifications = async (req: any, res: Response) => {
 	try {
 		const userId = req.id;
+		const page = req.query.page || 1;
+		const limit = req.query.limit || 100;
+		const skip = (page - 1) * limit;
 		const notifications = await Notification.find({
 			recipients: { $elemMatch: { $eq: userId } }
-		});
+		})
+			.skip(skip)
+			.limit(limit);
 		return res.status(200).json(notifications);
 	} catch (err) {
 		console.log(err);

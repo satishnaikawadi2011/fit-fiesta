@@ -3,11 +3,19 @@ import HomePage from '../pages';
 import EventsPage from '../pages/events';
 import MyNetworkPage from '../pages/my-network';
 import NotFoundPage from '../pages/not-found';
+import NotificationsPage from '../pages/notifications';
 import ProfilePage from '../pages/profile';
 import ResourcesPage from '../pages/resources';
 import SearchPage from '../pages/search';
 
-export type RoutePathType = '/' | '/events' | '/resources' | '/profile' | '/search' | '/my-network/:section';
+export type RoutePathType =
+	| '/'
+	| '/events'
+	| '/resources'
+	| '/profile'
+	| '/search'
+	| '/my-network/:section'
+	| '/notifications';
 
 export interface RouteType {
 	path: RoutePathType;
@@ -20,7 +28,8 @@ const ClientRoutes: RouteType[] = [
 	{ path: '/resources', element: <ResourcesPage /> },
 	{ path: '/profile', element: <ProfilePage /> },
 	{ path: '/search', element: <SearchPage /> },
-	{ path: '/my-network/:section', element: <MyNetworkPage /> }
+	{ path: '/my-network/:section', element: <MyNetworkPage /> },
+	{ path: '/notifications', element: <NotificationsPage /> }
 ];
 
 const AuthenticatedRoutes = () => {

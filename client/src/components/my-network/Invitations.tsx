@@ -40,7 +40,7 @@ const Invitations = () => {
 			<Box p={5}>
 				{invitations.map((inv) => {
 					return (
-						<React.Fragment>
+						<React.Fragment key={inv._id}>
 							<InvitationListItem
 								_id={inv._id}
 								name={inv.fullName}

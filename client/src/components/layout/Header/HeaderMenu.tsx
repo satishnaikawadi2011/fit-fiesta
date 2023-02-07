@@ -99,8 +99,7 @@ const HeaderMenu: React.FC<Props> = ({ user }) => {
 				<Flex justifyContent={'space-between'}>
 					<Link
 						onClick={() => {
-							dispatch(logout());
-							navigate('/login');
+							navigate('/notifications');
 						}}
 						fontSize={'sm'}
 						fontWeight={'light'}
