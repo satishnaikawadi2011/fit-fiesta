@@ -360,6 +360,7 @@ export const withdrawSentConnectionRequest = async (req: any, res: Response) => 
 
 		const type: NotificationType = 'connection_request_withdrawn';
 		const message = getNotificationMessage(type, currentUser as any);
+		console.log(otherUser._id);
 		const notification = new Notification({
 			recipients:
 				[
@@ -454,6 +455,21 @@ export const editCoverImage = async (req: any, res: Response) => {
 		}
 		await User.findByIdAndUpdate(userId, { coverImg: image }, { new: true });
 		return res.json({ coverImg: image });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
+export const getUser = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+
+		const user = await User.findById(userId);
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+		return res.status(200).json({ user });
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ message: 'Something went wrong!' });

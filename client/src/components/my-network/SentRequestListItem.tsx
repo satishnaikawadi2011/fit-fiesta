@@ -15,7 +15,9 @@ interface Props {
 }
 
 const SentRequestsListItem: React.FC<Props> = ({ _id, name, profileImg, username }) => {
-	const { data, error, loading, request: withdrawReq } = useApiUpdated<any>(userApi.withdrawSentConnectionRequest);
+	const { data, error, loading, request: withdrawReq, errorMsg } = useApiUpdated<any>(
+		userApi.withdrawSentConnectionRequest
+	);
 	const dispatch = useAppDispatch();
 	const { user: authUser } = useAppSelector((state) => state.auth);
 
@@ -32,6 +34,17 @@ const SentRequestsListItem: React.FC<Props> = ({ _id, name, profileImg, username
 		[
 			data,
 			error
+		]
+	);
+
+	useEffect(
+		() => {
+			if (errorMsg) {
+				userLog('error', errorMsg);
+			}
+		},
+		[
+			errorMsg
 		]
 	);
 

@@ -17,7 +17,8 @@ import {
 	withdrawSentConnectionRequest,
 	suggestConnections,
 	getNotifications,
-	markNotifictionsAsRead
+	markNotifictionsAsRead,
+	getUser
 } from './../controllers/user';
 import express from 'express';
 import { setupCloudinary } from '../utils/setupCloudinary';
@@ -31,6 +32,8 @@ const { upload } = setupCloudinary();
 router.post('/register', register);
 
 router.post('/login', login);
+
+router.get('/', isAuthenticated, getUser);
 
 router.post('/connect/:connectionId', isAuthenticated, makeConnectionRequest);
 

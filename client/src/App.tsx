@@ -1,6 +1,6 @@
 import './App.css';
 import UnauthenticatedRoutes from './routes/unauthenticated-routes';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import { isExpired } from './utils/isExpired';
 import AuthenticatedRoutes from './routes/authenticated-routes';
@@ -26,14 +26,28 @@ import { setNotifications } from './app/features/user';
 
 function App() {
 	const dispatch = useAppDispatch();
+	const [
+		runFetchCalls,
+		setRunFetchCalls
+	] = useState(false);
 	const { data: notificationData, request: getNotificationsReq, loading: notificationLoad } = useApiUpdated<
 		INotification[]
 	>(userApi.getNotifications);
 
 	useEffect(() => {
 		getAllDataFromStorage();
-		getNotificationsReq();
 	}, []);
+
+	useEffect(
+		() => {
+			if (runFetchCalls) {
+				getNotificationsReq();
+			}
+		},
+		[
+			runFetchCalls
+		]
+	);
 
 	useEffect(
 		() => {
@@ -47,6 +61,18 @@ function App() {
 	);
 	const { user, expiryDate, token } = useAppSelector((state) => state.auth);
 	const isTokenExpired = isExpired(expiryDate);
+
+	useEffect(
+		() => {
+			if (!isTokenExpired && user) {
+				setRunFetchCalls(true);
+			}
+		},
+		[
+			user,
+			isExpired
+		]
+	);
 
 	if (notificationLoad) {
 		return (

@@ -38,9 +38,8 @@ const NotificationSchema = new Schema(
 		recipients:
 			[
 				{
-					type: mongoose.Schema.Types.ObjectId,
-					ref: 'User',
-					required: true
+					type: Schema.Types.ObjectId,
+					ref: 'User'
 				}
 			],
 		message:
