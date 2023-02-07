@@ -25,6 +25,7 @@ import userApi from './api/user';
 import { setNotifications } from './app/features/user';
 import { IUser } from './types/User';
 import { updateUser } from './app/features/auth';
+import NotificationListItem from './components/NotificationListItem';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -79,6 +80,7 @@ function App() {
 	);
 
 	const { user, expiryDate, token } = useAppSelector((state) => state.auth);
+	const { notifications } = useAppSelector((state) => state.user);
 	const isTokenExpired = isExpired(expiryDate);
 
 	useEffect(
@@ -103,7 +105,8 @@ function App() {
 
 	if (!isTokenExpired && user) {
 		apiClient.setHeader('Authorization', `Bearer ${token}`);
-		return <AuthenticatedRoutes />;
+		// return <AuthenticatedRoutes />;
+		return <NotificationListItem notification={notifications[0]} />;
 		// return <InvitationListItem />;
 		// return (
 		// 	<AppBadge content={2} bgColor="red">
