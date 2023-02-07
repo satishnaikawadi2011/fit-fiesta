@@ -336,6 +336,7 @@ export const withdrawSentConnectionRequest = async (req: any, res: Response) => 
 	try {
 		const userId = req.id;
 		const otherUserId = req.params.otherUserId;
+		console.log('otherUserId =======> ', otherUserId);
 
 		const currentUser = await User.findById(userId);
 		if (!currentUser) {
@@ -360,11 +361,10 @@ export const withdrawSentConnectionRequest = async (req: any, res: Response) => 
 
 		const type: NotificationType = 'connection_request_withdrawn';
 		const message = getNotificationMessage(type, currentUser as any);
-		console.log(otherUser._id);
 		const notification = new Notification({
 			recipients:
 				[
-					otherUserId._id
+					otherUserId
 				],
 			image: currentUser!.profileImg,
 			type,

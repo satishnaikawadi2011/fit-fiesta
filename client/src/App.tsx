@@ -23,6 +23,8 @@ import useApiUpdated from './hooks/useApiUpdated';
 import { INotification } from './types/Notification';
 import userApi from './api/user';
 import { setNotifications } from './app/features/user';
+import { IUser } from './types/User';
+import { updateUser } from './app/features/auth';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -34,6 +36,10 @@ function App() {
 		INotification[]
 	>(userApi.getNotifications);
 
+	const { data: userData, request: getUserDetailsReq, loading: getUserLoading } = useApiUpdated<{ user: IUser }>(
+		userApi.getUserDetails
+	);
+
 	useEffect(() => {
 		getAllDataFromStorage();
 	}, []);
@@ -42,6 +48,7 @@ function App() {
 		() => {
 			if (runFetchCalls) {
 				getNotificationsReq();
+				getUserDetailsReq();
 			}
 		},
 		[
@@ -59,6 +66,18 @@ function App() {
 			notificationData
 		]
 	);
+
+	useEffect(
+		() => {
+			if (userData) {
+				dispatch(updateUser(userData.user));
+			}
+		},
+		[
+			userData
+		]
+	);
+
 	const { user, expiryDate, token } = useAppSelector((state) => state.auth);
 	const isTokenExpired = isExpired(expiryDate);
 
@@ -74,7 +93,7 @@ function App() {
 		]
 	);
 
-	if (notificationLoad) {
+	if (notificationLoad || getUserLoading) {
 		return (
 			<Center height={'100vh'}>
 				<Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="primary.300" size="xl" />
