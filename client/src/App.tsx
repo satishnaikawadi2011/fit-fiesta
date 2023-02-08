@@ -113,8 +113,12 @@ function App() {
 
 	useEffect(
 		() => {
+			console.log('Sockets');
 			const eventListener = (data: INotification) => {
-				dispatch(increaseUnreadNotificationsCount(1));
+				console.log('Sockets Here');
+				if (user && data.recipients.includes(user!._id)) {
+					dispatch(increaseUnreadNotificationsCount(1));
+				}
 			};
 			socket.on('notification', eventListener);
 
@@ -123,7 +127,8 @@ function App() {
 			};
 		},
 		[
-			socket
+			socket,
+			user
 		]
 	);
 
