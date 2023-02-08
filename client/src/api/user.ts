@@ -59,6 +59,10 @@ const getUnreadNotificationsCount = () => {
 	return client.get(`${endpoint}/notifications/unread`);
 };
 
+const markAllNotificationsAsRead = () => {
+	return client.patch(`${endpoint}/notifications/read-all`);
+};
+
 export default {
 	editUserProfile,
 	getMutualConnections,
@@ -73,5 +77,6 @@ export default {
 	rejectConnectionRequest,
 	getNotifications,
 	getUserDetails,
-	getUnreadNotificationsCount
+	getUnreadNotificationsCount,
+	markAllNotificationsAsRead
 };

@@ -1,17 +1,24 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import apiClient from '../api/client';
-import { setNotifications } from '../app/features/user';
+import { setNotifications, setUnreadNotificationsCount } from '../app/features/user';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import Layout from '../components/layout/Layout';
 import { Box, Center, Heading, Spinner } from '@chakra-ui/react';
 import NotificationListItem from '../components/NotificationListItem';
 import socket from '../socket';
 import { INotification } from '../types/Notification';
+import useApiUpdated from '../hooks/useApiUpdated';
+import userApi from '../api/user';
 
 const NotificationsPage = () => {
 	const dispatch = useAppDispatch();
-	const { notifications } = useAppSelector((state) => state.user);
+	const [
+		notifications,
+		setNotifications
+	] = useState<INotification[]>([]);
 	const { user } = useAppSelector((state) => state.auth);
+
+	const { request: readAllReq } = useApiUpdated<any>(userApi.markAllNotificationsAsRead);
 
 	const [
 		pageNumber,
@@ -52,12 +59,11 @@ const NotificationsPage = () => {
 		if (!data.data || !data.data.length) {
 			setHasMore(false);
 		}
-		dispatch(
-			setNotifications([
-				...notifications,
-				...data.data
-			])
-		);
+
+		setNotifications([
+			...notifications,
+			...data.data
+		]);
 		setLoading(false);
 	};
 
@@ -74,12 +80,10 @@ const NotificationsPage = () => {
 		() => {
 			const eventListener = (data: INotification) => {
 				if (user && data.recipients.includes(user!._id)) {
-					dispatch(
-						setNotifications([
-							data,
-							...notifications
-						])
-					);
+					setNotifications([
+						data,
+						...notifications
+					]);
 				}
 			};
 			socket.on('notification', eventListener);
@@ -94,6 +98,17 @@ const NotificationsPage = () => {
 			notifications
 		]
 	);
+
+	const closePageHandler = async () => {
+		await readAllReq();
+		dispatch(setUnreadNotificationsCount(0));
+	};
+
+	useEffect(() => {
+		return () => {
+			closePageHandler();
+		};
+	}, []);
 
 	return (
 		<Layout title="Home" withProfile>
