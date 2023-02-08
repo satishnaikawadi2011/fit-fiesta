@@ -6,6 +6,8 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Layout from '../components/layout/Layout';
 import { Box, Center, Heading, Spinner } from '@chakra-ui/react';
 import NotificationListItem from '../components/NotificationListItem';
+import socket from '../socket';
+import { INotification } from '../types/Notification';
 
 const NotificationsPage = () => {
 	// const [
@@ -110,7 +112,6 @@ const NotificationsPage = () => {
 
 	const fetchData = async () => {
 		setLoading(true);
-		// Make API call to fetch data for the current page number
 		const data: any = await apiClient.get(
 			`http://localhost:5000/api/user/notifications?limit=5&page=${pageNumber}`
 		);
@@ -134,6 +135,17 @@ const NotificationsPage = () => {
 			pageNumber
 		]
 	);
+
+	useEffect(() => {
+		socket.on('notification', (data: INotification) => {
+			dispatch(
+				setNotifications([
+					data,
+					...notifications
+				])
+			);
+		});
+	}, []);
 
 	return (
 		<Layout title="Home" withProfile>

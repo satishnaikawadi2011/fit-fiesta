@@ -55,6 +55,10 @@ const getUserDetails = () => {
 	return client.get(`${endpoint}`);
 };
 
+const getUnreadNotificationsCount = () => {
+	return client.get(`${endpoint}/notifications/unread`);
+};
+
 export default {
 	editUserProfile,
 	getMutualConnections,
@@ -68,5 +72,6 @@ export default {
 	getSentConnectionsRequests,
 	rejectConnectionRequest,
 	getNotifications,
-	getUserDetails
+	getUserDetails,
+	getUnreadNotificationsCount
 };

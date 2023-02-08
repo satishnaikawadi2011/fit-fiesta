@@ -30,14 +30,10 @@ interface Props {
 
 const CustomMenuButton = forwardRef((props, ref) => {
 	const { user } = useAppSelector((state) => state.auth);
-	const { notifications } = useAppSelector((state) => state.user);
-	let count = 0;
-	notifications.forEach((n) => {
-		if (n.read === false) count++;
-	});
+	const { unreadNotificationsCount } = useAppSelector((state) => state.user);
 	return (
 		<Box ref={ref} {...props}>
-			<AppBadge content={count} bgColor="#FA3E3E" hideZero contentColor="#fff">
+			<AppBadge content={unreadNotificationsCount} bgColor="#FA3E3E" hideZero contentColor="#fff">
 				<Flex flexDirection={'column'} alignItems="center" cursor={'pointer'}>
 					<Avatar src={user!.profileImg} size={'md'} />
 					<Flex alignItems="center">
@@ -53,11 +49,8 @@ const CustomMenuButton = forwardRef((props, ref) => {
 const HeaderMenu: React.FC<Props> = ({ user }) => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const { notifications } = useAppSelector((state) => state.user);
-	let count = 0;
-	notifications.forEach((n) => {
-		if (n.read === false) count++;
-	});
+	const { unreadNotificationsCount } = useAppSelector((state) => state.user);
+
 	return (
 		<Menu>
 			<MenuButton as={CustomMenuButton} aria-label="Options" />
@@ -106,7 +99,7 @@ const HeaderMenu: React.FC<Props> = ({ user }) => {
 					>
 						Notificaations
 					</Link>
-					<AppBadge content={count} bgColor="#FA3E3E" hideZero contentColor="#fff" />
+					<AppBadge content={unreadNotificationsCount} bgColor="#FA3E3E" hideZero contentColor="#fff" />
 				</Flex>
 			</MenuList>
 		</Menu>

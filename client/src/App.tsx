@@ -22,7 +22,7 @@ import AppBadge from './components/app/badge/AppBadge';
 import useApiUpdated from './hooks/useApiUpdated';
 import { INotification } from './types/Notification';
 import userApi from './api/user';
-import { setNotifications } from './app/features/user';
+import { increaseUnreadNotificationsCount, setNotifications, setUnreadNotificationsCount } from './app/features/user';
 import { IUser } from './types/User';
 import { updateUser } from './app/features/auth';
 import socket from './socket';
@@ -42,6 +42,10 @@ function App() {
 		userApi.getUserDetails
 	);
 
+	const { data: unreadCntData, request: getUnreadCntReq, loading: unreadCntLoad } = useApiUpdated<{
+		unreadCount: number;
+	}>(userApi.getUnreadNotificationsCount);
+
 	useEffect(() => {
 		getAllDataFromStorage();
 	}, []);
@@ -51,6 +55,7 @@ function App() {
 			if (runFetchCalls) {
 				getNotificationsReq();
 				getUserDetailsReq();
+				getUnreadCntReq();
 			}
 		},
 		[
@@ -66,6 +71,17 @@ function App() {
 		},
 		[
 			notificationData
+		]
+	);
+
+	useEffect(
+		() => {
+			if (unreadCntData) {
+				dispatch(setUnreadNotificationsCount(unreadCntData.unreadCount));
+			}
+		},
+		[
+			unreadCntData
 		]
 	);
 
@@ -95,17 +111,21 @@ function App() {
 		]
 	);
 
-	useEffect(() => {
-		socket.on('notification', (data: INotification) => {
-			console.log('Socket event', data);
-			dispatch(
-				setNotifications([
-					data,
-					...notifications
-				])
-			);
-		});
-	}, []);
+	useEffect(
+		() => {
+			const eventListener = (data: INotification) => {
+				dispatch(increaseUnreadNotificationsCount(1));
+			};
+			socket.on('notification', eventListener);
+
+			return () => {
+				socket.off('notification', eventListener);
+			};
+		},
+		[
+			socket
+		]
+	);
 
 	if (notificationLoad || getUserLoading) {
 		return (

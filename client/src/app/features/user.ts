@@ -8,13 +8,15 @@ interface userState {
 	invitations: IUser[];
 	connections: IUser[];
 	notifications: INotification[];
+	unreadNotificationsCount: number;
 }
 
 const initialState: userState = {
 	sentConnetionRequests: [],
 	connections: [],
 	invitations: [],
-	notifications: []
+	notifications: [],
+	unreadNotificationsCount: 0
 };
 
 export const userSlice = createSlice({
@@ -55,6 +57,14 @@ export const userSlice = createSlice({
 					for (let i = 0; i < state.notifications.length; i++) {
 						state.notifications[i].read = true;
 					}
+				},
+			setUnreadNotificationsCount:
+				(state, action: PayloadAction<number>) => {
+					state.unreadNotificationsCount = action.payload;
+				},
+			increaseUnreadNotificationsCount:
+				(state, action: PayloadAction<number>) => {
+					state.unreadNotificationsCount += action.payload;
 				}
 		}
 });
@@ -67,7 +77,9 @@ export const {
 	setInvitations,
 	removeInvitation,
 	setNotifications,
-	markNotificationsAsRead
+	markNotificationsAsRead,
+	setUnreadNotificationsCount,
+	increaseUnreadNotificationsCount
 } = userSlice.actions;
 
 export default userSlice.reducer;
