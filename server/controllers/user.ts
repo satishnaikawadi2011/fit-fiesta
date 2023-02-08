@@ -536,6 +536,20 @@ export const markNotifictionsAsRead = async (req: any, res: Response) => {
 	}
 };
 
+export const markAllNotifictionsAsRead = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const updatedNotifications = await Notification.updateMany(
+			{ recipients: { $elemMatch: { $eq: userId } } },
+			{ read: true }
+		);
+		return res.json({ message: 'All Notifications marked as read!' });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
 export const getUnreadNotificationsCount = async (req: any, res: Response) => {
 	try {
 		const userId = req.id;

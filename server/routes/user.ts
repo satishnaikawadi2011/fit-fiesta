@@ -19,7 +19,8 @@ import {
 	getNotifications,
 	markNotifictionsAsRead,
 	getUser,
-	getUnreadNotificationsCount
+	getUnreadNotificationsCount,
+	markAllNotifictionsAsRead
 } from './../controllers/user';
 import express from 'express';
 import { setupCloudinary } from '../utils/setupCloudinary';
@@ -61,6 +62,8 @@ router.get('/search/:searchTerm', isAuthenticated, searchUser);
 router.get('/notifications', isAuthenticated, getNotifications);
 
 router.patch('/notifications/read', isAuthenticated, markNotifictionsAsRead);
+
+router.patch('/notifications/read-all', isAuthenticated, markAllNotifictionsAsRead);
 
 router.get('/notifications/unread', isAuthenticated, getUnreadNotificationsCount);
 
