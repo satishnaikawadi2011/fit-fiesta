@@ -18,7 +18,8 @@ import {
 	suggestConnections,
 	getNotifications,
 	markNotifictionsAsRead,
-	getUser
+	getUser,
+	getUnreadNotificationsCount
 } from './../controllers/user';
 import express from 'express';
 import { setupCloudinary } from '../utils/setupCloudinary';
@@ -60,6 +61,8 @@ router.get('/search/:searchTerm', isAuthenticated, searchUser);
 router.get('/notifications', isAuthenticated, getNotifications);
 
 router.patch('/notifications/read', isAuthenticated, markNotifictionsAsRead);
+
+router.get('/notifications/unread', isAuthenticated, getUnreadNotificationsCount);
 
 router.post(
 	'/profileImg',

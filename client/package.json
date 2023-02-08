@@ -27,6 +27,7 @@
     "react-icons": "^4.7.1",
     "react-infinite-scroll-component": "^6.1.0",
     "react-redux": "^8.0.5",
+    "socket.io-client": "^4.6.0",
     "sweetalert2": "^11.7.1",
     "sweetalert2-react-content": "^5.0.7",
     "yup": "^0.32.11"

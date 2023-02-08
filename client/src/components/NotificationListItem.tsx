@@ -7,14 +7,16 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 interface Props {
 	notification: INotification;
+	refe?: any;
 }
 
 dayjs.extend(relativeTime);
 
-const NotificationListItem: React.FC<Props> = ({ notification }) => {
+const NotificationListItem: React.FC<Props> = ({ notification, refe }) => {
 	const { createdAt, image, message, read, type } = notification;
 	return (
 		<Flex
+			ref={refe}
 			p={2}
 			justifyContent={'space-between'}
 			bgColor={

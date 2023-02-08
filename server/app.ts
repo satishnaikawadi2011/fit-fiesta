@@ -37,7 +37,12 @@ app.use(notFoundRoute);
 app.use(errorHandler);
 
 const server = require('http').Server(app);
-export const io = require('socket.io')(server);
+export const io = require('socket.io')(server, {
+	cors:
+		{
+			origin: '*'
+		}
+});
 
 server.listen(5000, () => {
 	console.log('Server started on port 5000');

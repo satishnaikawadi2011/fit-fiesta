@@ -510,13 +510,14 @@ export const getNotifications = async (req: any, res: Response) => {
 	try {
 		const userId = req.id;
 		const page = req.query.page || 1;
-		const limit = req.query.limit || 100;
+		const limit = req.query.limit || 5;
 		const skip = (page - 1) * limit;
 		const notifications = await Notification.find({
 			recipients: { $elemMatch: { $eq: userId } }
 		})
 			.skip(skip)
-			.limit(limit);
+			.limit(limit)
+			.sort({ createdAt: -1 });
 		return res.status(200).json(notifications);
 	} catch (err) {
 		console.log(err);
@@ -529,6 +530,20 @@ export const markNotifictionsAsRead = async (req: any, res: Response) => {
 		const notificationIds = req.body.notificationIds;
 		const updatedNotifications = await Notification.updateMany({ _id: { $in: notificationIds } }, { read: true });
 		return res.json({ message: 'Notifications marked as read!' });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
+export const getUnreadNotificationsCount = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const unreadCount = await Notification.countDocuments({
+			recipients: { $elemMatch: { $eq: userId } },
+			read: false
+		});
+		res.json({ unreadCount });
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ message: 'Something went wrong!' });

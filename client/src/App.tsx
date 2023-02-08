@@ -25,9 +25,11 @@ import userApi from './api/user';
 import { setNotifications } from './app/features/user';
 import { IUser } from './types/User';
 import { updateUser } from './app/features/auth';
+import socket from './socket';
 
 function App() {
 	const dispatch = useAppDispatch();
+	const { notifications } = useAppSelector((state) => state.user);
 	const [
 		runFetchCalls,
 		setRunFetchCalls
@@ -92,6 +94,18 @@ function App() {
 			isExpired
 		]
 	);
+
+	useEffect(() => {
+		socket.on('notification', (data: INotification) => {
+			console.log('Socket event', data);
+			dispatch(
+				setNotifications([
+					data,
+					...notifications
+				])
+			);
+		});
+	}, []);
 
 	if (notificationLoad || getUserLoading) {
 		return (

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { INotification } from '../../types/Notification';
 import { IUser } from '../../types/User';
+import { removeDuplicates } from '../../utils/removeDuplicates';
 
 interface userState {
 	sentConnetionRequests: IUser[];
@@ -47,7 +48,7 @@ export const userSlice = createSlice({
 				},
 			setNotifications:
 				(state, action: PayloadAction<INotification[]>) => {
-					state.notifications = action.payload;
+					state.notifications = removeDuplicates(action.payload);
 				},
 			markNotificationsAsRead:
 				(state, action: PayloadAction<INotification[]>) => {
