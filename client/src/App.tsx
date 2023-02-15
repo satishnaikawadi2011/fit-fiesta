@@ -26,6 +26,7 @@ import { increaseUnreadNotificationsCount, setNotifications, setUnreadNotificati
 import { IUser } from './types/User';
 import { updateUser } from './app/features/auth';
 import socket from './socket';
+import GroupCard from './components/GroupCard';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -142,7 +143,26 @@ function App() {
 
 	if (!isTokenExpired && user) {
 		apiClient.setHeader('Authorization', `Bearer ${token}`);
-		return <AuthenticatedRoutes />;
+		// return <AuthenticatedRoutes />;
+		return (
+			<GroupCard
+				group={
+					{
+						name: 'Java EE Professionals',
+						profileImg:
+							'https://media.licdn.com/dms/image/C4D07AQEsq3raakiWNA/group-logo_image-shrink_48x48/0/1631371734374?e=1677088800&v=beta&t=HJt4-jFNAE3uH4nmT0G_2RFSeSqFR-LjcXqcNT8cAjQ',
+						description:
+							'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae sit accusantium magnam inventore ea placeat velit vero officiis. Alias dolorum aperiam suscipit distinctio fuga, ratione error odit mollitia in adipisci reiciendis sapiente neque ea hic molestiae doloribus quaerat, sed nam? Facere eius facilis maxime, soluta, tenetur consequatur alias mollitia dicta voluptatum suscipit tempora veniam velit nobis dolores deleniti, quasi quaerat totam officia esse enim. Non explicabo, dignissimos exercitationem dicta labore fuga tempora ea velit vero, optio eos, quo placeat accusamus officiis vitae ducimus debitis sint? Totam reiciendis aspernatur nemo, sed ipsam culpa eveniet nesciunt nostrum dolorem beatae, optio ratione tempora?',
+						members:
+							[
+								's',
+								'b'
+							],
+						_id: ''
+					} as any
+				}
+			/>
+		);
 		// return <InvitationListItem />;
 		// return (
 		// 	<AppBadge content={2} bgColor="red">
