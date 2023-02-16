@@ -82,8 +82,8 @@ export const userSlice = createSlice({
 			removeReceivedGroupRequest:
 				(state, action: PayloadAction<IReceivedGroupJoinRequest>) => {
 					const { group, requestingUser } = action.payload;
-					state.receivedGroupRequests = state.receivedGroupRequests.filter((req) => {
-						return req.group !== group || req.requestingUser !== requestingUser;
+					state.receivedGroupRequests = state.receivedGroupRequests.filter((req: any) => {
+						return req.group._id !== group || req.requestingUser._id !== requestingUser;
 					});
 				},
 			withdrawSentGroupRequest:

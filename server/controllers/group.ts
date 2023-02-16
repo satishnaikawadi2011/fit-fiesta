@@ -106,7 +106,7 @@ export const acceptJoinRequest = async (req: any, res: Response) => {
 
 		const adminId = group!.admin;
 
-		if (userId !== adminId) {
+		if (userId !== adminId!.toString()) {
 			return res.status(401).json({ message: 'You are not a admin of this group ' });
 		}
 
@@ -175,7 +175,7 @@ export const rejectJoinRequest = async (req: any, res: Response) => {
 
 		const adminId = group!.admin;
 
-		if (userId !== adminId) {
+		if (userId !== adminId!.toString()) {
 			return res.status(401).json({ message: 'You are not a admin of this group ' });
 		}
 

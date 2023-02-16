@@ -14,6 +14,8 @@ const NavigationCard = () => {
 			<Item title="Connections" name="connections" />
 			<Item title="Sent Requests" name="sent requests" />
 			<Item title="People" name="people" />
+			<Item title="Received Group Requests" name="received_group_requests" />
+			<Item title="Sent Group Requests" name="sent_group_requests" />
 		</Box>
 	);
 };

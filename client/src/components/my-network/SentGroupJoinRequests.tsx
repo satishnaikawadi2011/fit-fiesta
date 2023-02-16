@@ -11,7 +11,7 @@ const SentGroupJoinRequests = () => {
 	const { sentGroupRequests } = useAppSelector((state) => state.user);
 	const dispatch = useAppDispatch();
 	const { data, error, loading, request: getSentJoinGrpReqs } = useApiUpdated<{ sentGroupJoinRequests: IGroup[] }>(
-		userApi.getSentConnectionsRequests
+		userApi.getSentRequestsToJoinGroups
 	);
 
 	useEffect(() => {
