@@ -63,6 +63,14 @@ const markAllNotificationsAsRead = () => {
 	return client.patch(`${endpoint}/notifications/read-all`);
 };
 
+const getSentRequestsToJoinGroups = () => {
+	return client.get(`${endpoint}/groupSentRequests`);
+};
+
+const getReceivedRequestsToJoinGroups = () => {
+	return client.get(`${endpoint}/groupPendingRequests`);
+};
+
 export default {
 	editUserProfile,
 	getMutualConnections,
@@ -78,5 +86,7 @@ export default {
 	getNotifications,
 	getUserDetails,
 	getUnreadNotificationsCount,
-	markAllNotificationsAsRead
+	markAllNotificationsAsRead,
+	getSentRequestsToJoinGroups,
+	getReceivedRequestsToJoinGroups
 };

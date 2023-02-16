@@ -2,7 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit';
 
 export type SearchOptionType = 'people' | 'posts' | 'groups' | 'events' | 'resources';
-export type MyNetworkNavigationType = 'invitations' | 'connections' | 'sent requests' | 'people';
+export type MyNetworkNavigationType =
+	| 'invitations'
+	| 'connections'
+	| 'sent requests'
+	| 'people'
+	| 'sent_group_requests'
+	| 'received_group_requests';
 
 interface commonState {
 	searchTerm: string;
