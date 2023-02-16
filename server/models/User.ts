@@ -115,6 +115,20 @@ const UserSchema = new Schema(
 					type: Schema.Types.ObjectId,
 					ref: 'User'
 				}
+			],
+		groupPendingRequests:
+			[
+				{
+					type: Schema.Types.ObjectId,
+					ref: 'User'
+				}
+			],
+		groupSentRequests:
+			[
+				{
+					type: Schema.Types.ObjectId,
+					ref: 'Group'
+				}
 			]
 	},
 	{ timestamps: true }

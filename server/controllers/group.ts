@@ -1,6 +1,8 @@
+import { getNotificationMessage, NotificationType } from './../models/Notification';
 import { Request, Response } from 'express';
 import Group from '../models/Group';
 import User from '../models/User';
+import Notification from '../models/Notification';
 import { validateGroupData } from './../validation/validateGroupData';
 
 export const createGroup = async (req: any, res: Response) => {
@@ -60,6 +62,56 @@ export const joinGroup = async (req: any, res: Response) => {
 		await group.save();
 		await currentUser.save();
 		return res.json({ group });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
+export const makeJoinRequest = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const groupId = req.params.groupId;
+
+		const group = await Group.findById(groupId);
+		if (!group) {
+			return res.status(404).json({ message: 'Group not found' });
+		}
+
+		const sender = (await User.findById(userId))!;
+		const admin = await User.findById(group.admin)!;
+
+		const userGroups = sender.groups;
+		const adminGroupPendingRequests = admin!.groupPendingRequests;
+
+		if (userGroups.some((g: any) => g.equals(userId))) {
+			return res.status(409).json({ message: 'User is already a part of group' });
+		}
+
+		if (adminGroupPendingRequests.some((g: any) => g.equals(userId))) {
+			return res.status(409).json({ message: 'Join request already sent' });
+		}
+
+		sender!.groupSentRequests.push(group._id);
+		adminGroupPendingRequests.push(sender!._id);
+
+		await sender!.save();
+		await admin!.save();
+
+		const type: NotificationType = 'join_group_request_made';
+		const message = getNotificationMessage(type, sender as any, group as any);
+		const notification = new Notification({
+			recipients:
+				[
+					admin!._id
+				],
+			image: sender!.profileImg,
+			type,
+			message
+		});
+		await notification.save();
+
+		return res.status(200).json({ message: 'Join request sent' });
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ message: 'Something went wrong!' });
