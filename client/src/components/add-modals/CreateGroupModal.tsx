@@ -1,5 +1,6 @@
 import {
 	Button,
+	Center,
 	FormControl,
 	FormErrorMessage,
 	FormLabel,
@@ -13,9 +14,12 @@ import {
 	ModalHeader,
 	ModalOverlay,
 	Select,
+	Spinner,
 	Textarea
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import apiSauce from 'apisauce';
+import { useAppSelector } from '../../app/hooks';
 
 interface Props {
 	isOpen: boolean;
@@ -25,6 +29,22 @@ interface Props {
 const CreateGroupModal: React.FC<Props> = ({ isOpen, onClose }) => {
 	const initialRef = React.useRef<any>(null);
 	const hiddenFileInput = React.useRef<any>(null);
+
+	const { token } = useAppSelector((state) => state.auth);
+
+	const api = apiSauce.create({
+		baseURL: 'http://localhost:5000/api/group',
+		headers:
+			{
+				'Content-Type': 'multipart/form-data',
+				Authorization: `Bearer ${token}`
+			}
+	});
+
+	const [
+		loading,
+		setLoading
+	] = useState(false);
 
 	const [
 		file,
@@ -61,7 +81,7 @@ const CreateGroupModal: React.FC<Props> = ({ isOpen, onClose }) => {
 		}
 	};
 
-	const createGroupHandler = () => {
+	const createGroupHandler = async () => {
 		if (!name) {
 			setErrors({ name: 'Group name is required' });
 		}
@@ -70,48 +90,86 @@ const CreateGroupModal: React.FC<Props> = ({ isOpen, onClose }) => {
 		}
 		else {
 			console.log(file, name, description);
+			const formData = new FormData();
+			formData.append('name', name);
+			formData.append('image', file);
+			formData.append('description', description);
+
+			setLoading(true);
+			const d: any = await api.post('/', formData);
+			const data = d.data;
+
 			setName('');
 			setDescription('');
 			setFile('');
 			setErrors({});
+			setLoading(false);
+			onClose();
 		}
 	};
 
 	return (
 		<React.Fragment>
-			<Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
+			<Modal
+				initialFocusRef={initialRef}
+				isOpen={isOpen}
+				onClose={
+
+						!loading ? onClose :
+						() => {}
+				}
+			>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>Create a group</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody pb={6}>
-						<FormControl isRequired isInvalid={errors.name}>
-							<FormLabel>Name</FormLabel>
-							<Input value={name} onChange={(e) => setName(e.target.value)} ref={initialRef} />
-							<FormErrorMessage>{errors.name}</FormErrorMessage>
-						</FormControl>
-						<FormControl mt={4} isRequired isInvalid={errors.description}>
-							<FormLabel>Description</FormLabel>
-							<Input value={description} onChange={(e) => setDescription(e.target.value)} />
-							<FormErrorMessage>{errors.description}</FormErrorMessage>
-						</FormControl>
-						<input
-							type="file"
-							onChange={handleImageChange}
-							style={{ display: 'none' }}
-							ref={hiddenFileInput}
-							accept="image/*"
-						/>
-						<Button onClick={handleUploadImageClick} mt={3} variant={'outline'} colorScheme="primary">
-							Choose a Image
-						</Button>
-						{previewUrl && <Image mt={3} src={previewUrl} />}
+						{
+							loading ? <Center>
+								<Spinner
+									thickness="4px"
+									speed="0.65s"
+									emptyColor="gray.200"
+									color="primary.300"
+									size="xl"
+								/>
+							</Center> :
+							<React.Fragment>
+								<FormControl isRequired isInvalid={errors.name}>
+									<FormLabel>Name</FormLabel>
+									<Input value={name} onChange={(e) => setName(e.target.value)} ref={initialRef} />
+									<FormErrorMessage>{errors.name}</FormErrorMessage>
+								</FormControl>
+								<FormControl mt={4} isRequired isInvalid={errors.description}>
+									<FormLabel>Description</FormLabel>
+									<Input value={description} onChange={(e) => setDescription(e.target.value)} />
+									<FormErrorMessage>{errors.description}</FormErrorMessage>
+								</FormControl>
+								<input
+									type="file"
+									onChange={handleImageChange}
+									style={{ display: 'none' }}
+									ref={hiddenFileInput}
+									accept="image/*"
+								/>
+								<Button
+									onClick={handleUploadImageClick}
+									mt={3}
+									variant={'outline'}
+									colorScheme="primary"
+								>
+									Choose a Image
+								</Button>
+								{previewUrl && <Image mt={3} src={previewUrl} />}
+							</React.Fragment>}
 					</ModalBody>
 					<ModalFooter>
-						<Button colorScheme="primary" onClick={createGroupHandler} mr={3}>
+						<Button isDisabled={loading} colorScheme="primary" onClick={createGroupHandler} mr={3}>
 							Create
 						</Button>
-						<Button onClick={onClose}>Cancel</Button>
+						<Button isDisabled={loading} onClick={onClose}>
+							Cancel
+						</Button>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>
