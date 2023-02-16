@@ -157,3 +157,65 @@ export const acceptJoinRequest = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const rejectJoinRequest = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const senderId = req.params.senderId;
+		const groupId = req.params.groupId;
+
+		const group = await Group.findById(groupId);
+		if (!group) {
+			return res.status(404).json({ message: 'Group not found' });
+		}
+
+		const adminId = group!.admin;
+
+		if (userId !== adminId) {
+			return res.status(401).json({ message: 'You are not a admin of this group ' });
+		}
+
+		const admin = await User.findById(adminId);
+		if (!admin) {
+			return res.status(404).json({ message: 'Admin not found' });
+		}
+
+		const sender = await User.findById(senderId);
+		if (!sender) {
+			return res.status(404).json({ message: 'Sender not found' });
+		}
+
+		if (!admin.groupPendingRequests.includes(sender._id)) {
+			return res.status(404).json({ message: 'Join request not found' });
+		}
+
+		admin.groupPendingRequests = admin.groupPendingRequests.filter((r: mongoose.Types.ObjectId) => {
+			return r.toString() !== sender._id.toString();
+		});
+
+		sender.groupSentRequests = sender.groupSentRequests.filter((r: mongoose.Types.ObjectId) => {
+			return r.toString() !== group._id.toString();
+		});
+
+		await admin.save();
+		await sender.save();
+
+		const type: NotificationType = 'join_group_request_rejected';
+		const message = getNotificationMessage(type, undefined, group as any);
+		const notification = new Notification({
+			recipients:
+				[
+					sender._id
+				],
+			image: group!.profileImg,
+			type,
+			message
+		});
+		await notification.save();
+
+		return res.json({ message: 'Join request rejected' });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
