@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../app/hooks';
 import SearchEvents from '../components/search-page/SearchEvents';
+import SearchGroups from '../components/search-page/SearchGroups';
 import SearchPageLayout from '../components/search-page/SearchPageLayout';
 import SearchPeople from '../components/search-page/SearchPeople';
 import SearchPosts from '../components/search-page/SearchPosts';
@@ -36,6 +37,7 @@ const SearchPage = () => {
 			{activeSearchOption === 'events' && <SearchEvents />}
 			{activeSearchOption === 'resources' && <SearchResources />}
 			{activeSearchOption === 'people' && <SearchPeople />}
+			{activeSearchOption === 'groups' && <SearchGroups />}
 		</SearchPageLayout>
 	);
 };

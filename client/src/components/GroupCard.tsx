@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Grid, Heading, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, Flex, Grid, Heading, Text } from '@chakra-ui/react';
 import React from 'react';
 import { useAppSelector } from '../app/hooks';
 import { IGroup } from '../types/Group';
@@ -6,18 +6,21 @@ import { numberToString } from '../utils/numberToString';
 
 interface Props {
 	group: IGroup;
+	refe?: any;
 }
 
-const GroupCard: React.FC<Props> = ({ group }) => {
+const GroupCard: React.FC<Props> = ({ group, refe }) => {
 	const { profileImg, description, name, members } = group;
 	const { user: authUser } = useAppSelector((state) => state.auth);
 	const isMember = authUser!.groups!.includes(group._id);
 	const isPending = authUser!.groupPendingRequests!.includes(group._id);
 	const isSentReq = authUser!.groupSentRequests!.includes(group._id);
 	return (
-		<Grid templateColumns="100px 1fr 100px">
-			<Avatar src={profileImg} name={name} />
-			<Box>
+		<Grid bg={'gray.100'} boxShadow={'lg'} mb={5} py={5} templateColumns="60px 1fr 100px" ref={refe}>
+			<Flex justifyContent={'center'}>
+				<Avatar src={profileImg} name={name} />
+			</Flex>
+			<Box ml={3}>
 				<Heading fontSize={'md'} fontWeight="medium">
 					{name}
 				</Heading>
