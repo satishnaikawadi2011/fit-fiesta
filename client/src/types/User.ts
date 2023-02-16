@@ -16,6 +16,8 @@ export interface IUser {
 	connections?: Array<string>;
 	pendingConnections?: Array<string>;
 	sentConnections?: Array<string>;
+	groupPendingRequests?: string[];
+	groupSentRequests?: string[];
 	createdAt: string;
 	updatedAt: string;
 }

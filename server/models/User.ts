@@ -19,6 +19,8 @@ export interface IUser {
 	connections: string[];
 	pendingConnections: string[];
 	sentConnections: string[];
+	groupPendingRequests: string[];
+	groupSentRequests: string[];
 }
 
 const UserSchema = new Schema(
