@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IGroup } from '../../types/Group';
 import { INotification } from '../../types/Notification';
-import { IUser } from '../../types/User';
+import { IReceivedGroupJoinRequest, IUser } from '../../types/User';
 import { removeDuplicates } from '../../utils/removeDuplicates';
 
 interface userState {
 	sentConnetionRequests: IUser[];
 	invitations: IUser[];
 	connections: IUser[];
-	receivedGroupRequests: IUser[];
+	receivedGroupRequests: IReceivedGroupJoinRequest[];
 	sentGroupRequests: IGroup[];
 	notifications: INotification[];
 	unreadNotificationsCount: number;
@@ -72,7 +72,7 @@ export const userSlice = createSlice({
 					state.unreadNotificationsCount += action.payload;
 				},
 			setReceivedGroupRequests:
-				(state, action: PayloadAction<IUser[]>) => {
+				(state, action: PayloadAction<IReceivedGroupJoinRequest[]>) => {
 					state.receivedGroupRequests = action.payload;
 				},
 			setSentGroupRequests:
@@ -80,10 +80,11 @@ export const userSlice = createSlice({
 					state.sentGroupRequests = action.payload;
 				},
 			removeReceivedGroupRequest:
-				(state, action: PayloadAction<string>) => {
-					state.receivedGroupRequests = state.receivedGroupRequests.filter(
-						(req) => req._id !== action.payload
-					);
+				(state, action: PayloadAction<IReceivedGroupJoinRequest>) => {
+					const { group, requestingUser } = action.payload;
+					state.receivedGroupRequests = state.receivedGroupRequests.filter((req) => {
+						return req.group !== group || req.requestingUser !== requestingUser;
+					});
 				},
 			withdrawSentGroupRequest:
 				(state, action: PayloadAction<string>) => {

@@ -588,13 +588,21 @@ export const getMyGroups = async (req: any, res: Response) => {
 export const getPendingRequestsToJoinMyGroups = async (req: any, res: Response) => {
 	try {
 		const userId = req.id;
-		const user = await User.findById(userId).populate({
-			path: 'groupPendingRequests',
-			select: '-password'
-		});
+		const user = await User.findById(userId)
+			.populate({
+				path: 'receivedGroupJoinRequests.group',
+				model: 'Group'
+			})
+			.populate({
+				path: 'receivedGroupJoinRequests.requestingUser',
+				model: 'User',
+				select: '-password'
+			});
+
 		if (!user) {
 			return res.status(404).json({ message: 'User not found' });
 		}
+
 		return res.json({ receivedGroupJoinRequests: user.receivedGroupJoinRequests });
 	} catch (err) {
 		console.log(err);
@@ -606,7 +614,7 @@ export const getSentRequestsToJoinGroups = async (req: any, res: Response) => {
 	try {
 		const userId = req.id;
 		const user = await User.findById(userId).populate({
-			path: 'groupSentRequests',
+			path: 'sentGroupJoinRequests',
 			select: '-password'
 		});
 

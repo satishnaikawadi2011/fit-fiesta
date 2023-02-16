@@ -1,3 +1,8 @@
+export interface IReceivedGroupJoinRequest {
+	requestingUser: string;
+	group: string;
+}
+
 export interface IUser {
 	_id: string;
 	fullName: string;
@@ -16,10 +21,7 @@ export interface IUser {
 	connections?: Array<string>;
 	pendingConnections?: Array<string>;
 	sentConnections?: Array<string>;
-	receivedGroupJoinRequests?: {
-		requestingUser: string;
-		group: string;
-	}[];
+	receivedGroupJoinRequests?: IReceivedGroupJoinRequest[];
 	sentGroupJoinRequests?: string[];
 	createdAt: string;
 	updatedAt: string;
