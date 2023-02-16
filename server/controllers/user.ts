@@ -563,3 +563,62 @@ export const getUnreadNotificationsCount = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const getMyGroups = async (req: any, res: Response) => {
+	try {
+		const page = parseInt(req.query.page) || 1;
+		const limit = parseInt(req.query.limit) || 10;
+		const skip = (page - 1) * limit;
+		const userId = req.id;
+		const user = await User.findById(userId)
+			.populate({ path: 'groups', select: '-password' })
+			.skip(skip)
+			.limit(limit);
+
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+		return res.json({ groups: user.groups });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
+export const getPendingRequestsToJoinMyGroups = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const user = await User.findById(userId).populate({
+			path: 'groupPendingRequests',
+			select: '-password'
+		});
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+		return res.json({ groupPendingRequests: user.groupPendingRequests });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
+export const getSentRequestsToJoinGroups = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const user = await User.findById(userId).populate({
+			path: 'groupSentRequests',
+			select: '-password'
+		});
+
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		const groupSentRequests = user.groupSentRequests;
+
+		return res.json({ groupSentRequests });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};

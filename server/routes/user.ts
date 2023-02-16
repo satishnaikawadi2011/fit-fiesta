@@ -20,7 +20,10 @@ import {
 	markNotifictionsAsRead,
 	getUser,
 	getUnreadNotificationsCount,
-	markAllNotifictionsAsRead
+	markAllNotifictionsAsRead,
+	getMyGroups,
+	getPendingRequestsToJoinMyGroups,
+	getSentRequestsToJoinGroups
 } from './../controllers/user';
 import express from 'express';
 import { setupCloudinary } from '../utils/setupCloudinary';
@@ -86,5 +89,11 @@ router.post(
 );
 
 router.post('/edit', isAuthenticated, editUser);
+
+router.get('/groups', isAuthenticated, getMyGroups);
+
+router.get('/groupPendingRequests', isAuthenticated, getPendingRequestsToJoinMyGroups);
+
+router.get('/groupSentRequests', isAuthenticated, getSentRequestsToJoinGroups);
 
 export default router;
