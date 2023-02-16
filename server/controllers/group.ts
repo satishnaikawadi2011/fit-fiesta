@@ -219,3 +219,63 @@ export const rejectJoinRequest = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const searchGroup = async (req: any, res: Response) => {
+	try {
+		const searchQuery = req.params.query;
+		const page = parseInt(req.query.page) || 1;
+		const limit = parseInt(req.query.limit) || 10;
+		const skip = (page - 1) * limit;
+
+		const groups = await Group.aggregate([
+			{
+				$lookup:
+					{
+						from: 'users',
+						localField: 'admin',
+						foreignField: '_id',
+						as: 'adminDoc'
+					}
+			},
+			{
+				$match:
+					{
+						$or:
+							[
+								{ name: { $regex: searchQuery, $options: 'i' } },
+								{ description: { $regex: searchQuery, $options: 'i' } },
+								{ 'adminDoc.fullName': { $regex: searchQuery, $options: 'i' } },
+								{ 'adminDoc.username': { $regex: searchQuery, $options: 'i' } }
+							]
+					}
+			},
+			{
+				$skip: skip
+			},
+			{
+				$limit: limit
+			},
+			{
+				$sort:
+					{
+						createdAt: -1
+					}
+			}
+		]);
+
+		const transformedGroups = groups.map((g) => {
+			const group = {
+				...g,
+				admin: g.adminDoc[0]
+			};
+
+			delete group.adminDoc;
+			return group;
+		});
+
+		res.json(transformedGroups);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
