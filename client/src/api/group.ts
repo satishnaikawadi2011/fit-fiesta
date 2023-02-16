@@ -15,8 +15,13 @@ const rejectReceivedGroupRequest = (groupId: string, userId: string) => {
 	return client.post(`${endpoint}/reject/${groupId}/${userId}`);
 };
 
+const withdrawSentGroupRequest = (groupId: string) => {
+	return client.delete(`${endpoint}/withdraw/${groupId}`);
+};
+
 export default {
 	makeRequestToJoinGroup,
 	acceptReceivedGroupRequest,
-	rejectReceivedGroupRequest
+	rejectReceivedGroupRequest,
+	withdrawSentGroupRequest
 };
