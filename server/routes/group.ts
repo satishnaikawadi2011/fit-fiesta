@@ -1,5 +1,5 @@
 import { setupCloudinary } from './../utils/setupCloudinary';
-import { createGroup, joinGroup } from './../controllers/group';
+import { acceptJoinRequest, createGroup, makeJoinRequest } from './../controllers/group';
 import express from 'express';
 import { isAuthenticated } from '../middlewares/isAuthenticated';
 
@@ -15,6 +15,8 @@ router.post(
 	createGroup
 );
 
-router.post('/join/:groupId', isAuthenticated, joinGroup);
+router.post('/join/:groupId', isAuthenticated, makeJoinRequest);
+
+router.post('/join/:groupId/:senderId', isAuthenticated, acceptJoinRequest);
 
 export default router;
