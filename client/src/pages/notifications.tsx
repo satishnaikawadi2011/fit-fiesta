@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import apiClient from '../api/client';
-import { setNotifications, setUnreadNotificationsCount } from '../app/features/user';
+import { useEffect } from 'react';
+import { setUnreadNotificationsCount } from '../app/features/user';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import Layout from '../components/layout/Layout';
 import { Box, Center, Heading, Spinner } from '@chakra-ui/react';
@@ -9,72 +8,21 @@ import socket from '../socket';
 import { INotification } from '../types/Notification';
 import useApiUpdated from '../hooks/useApiUpdated';
 import userApi from '../api/user';
+import useInfiniteScrollPagination from '../hooks/useInfiniteScroll';
 
 const NotificationsPage = () => {
 	const dispatch = useAppDispatch();
-	const [
-		notifications,
-		setNotifications
-	] = useState<INotification[]>([]);
 	const { user } = useAppSelector((state) => state.auth);
 
-	const { request: readAllReq } = useApiUpdated<any>(userApi.markAllNotificationsAsRead);
-
-	const [
-		pageNumber,
-		setPageNumber
-	] = useState(1);
-	const [
+	const {
 		hasMore,
-		setHasMore
-	] = useState(true);
-	const [
+		lastItemRef,
 		loading,
-		setLoading
-	] = useState(false);
-	const observer: any = useRef();
+		items: notifications,
+		setItems: setNotifications
+	} = useInfiniteScrollPagination<INotification>('/api/user/notifications', 5);
 
-	const lastBookElementRef = useCallback(
-		(node: any) => {
-			if (loading) return;
-			if (observer.current) observer.current.disconnect();
-			observer.current = new IntersectionObserver((entries) => {
-				if (entries[0].isIntersecting && hasMore) {
-					setPageNumber((prevPageNumber) => prevPageNumber + 1);
-				}
-			});
-			if (node) observer.current.observe(node);
-		},
-		[
-			loading,
-			hasMore
-		]
-	);
-
-	const fetchData = async () => {
-		setLoading(true);
-		const data: any = await apiClient.get(
-			`http://localhost:5000/api/user/notifications?limit=5&page=${pageNumber}`
-		);
-		if (!data.data || !data.data.length) {
-			setHasMore(false);
-		}
-
-		setNotifications([
-			...notifications,
-			...data.data
-		]);
-		setLoading(false);
-	};
-
-	useEffect(
-		() => {
-			fetchData();
-		},
-		[
-			pageNumber
-		]
-	);
+	const { request: readAllReq } = useApiUpdated<any>(userApi.markAllNotificationsAsRead);
 
 	useEffect(
 		() => {
@@ -118,7 +66,7 @@ const NotificationsPage = () => {
 				</Heading>
 				{notifications.map((item, index) => {
 					if (notifications.length === index + 1) {
-						return <NotificationListItem refe={lastBookElementRef} key={item._id} notification={item} />;
+						return <NotificationListItem refe={lastItemRef} key={item._id} notification={item} />;
 					}
 					return <NotificationListItem key={item._id} notification={item} />;
 				})}
