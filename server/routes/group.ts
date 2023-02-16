@@ -4,7 +4,8 @@ import {
 	createGroup,
 	makeJoinRequest,
 	rejectJoinRequest,
-	searchGroup
+	searchGroup,
+	withdrawSentJoinGroupRequest
 } from './../controllers/group';
 import express from 'express';
 import { isAuthenticated } from '../middlewares/isAuthenticated';
@@ -26,6 +27,8 @@ router.post('/join/:groupId', isAuthenticated, makeJoinRequest);
 router.post('/accept/:groupId/:senderId', isAuthenticated, acceptJoinRequest);
 
 router.post('/reject/:groupId/:senderId', isAuthenticated, rejectJoinRequest);
+
+router.delete('/withdraw/:groupId', isAuthenticated, withdrawSentJoinGroupRequest);
 
 router.get('/search/:query', isAuthenticated, searchGroup);
 

@@ -227,6 +227,58 @@ export const rejectJoinRequest = async (req: any, res: Response) => {
 	}
 };
 
+export const withdrawSentJoinGroupRequest = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const groupId = req.params.groupId;
+
+		const user = await User.findById(userId);
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		const group = await Group.findById(groupId);
+		if (!group) {
+			return res.status(404).json({ message: 'Group not found' });
+		}
+
+		const adminId = group!.admin;
+		const admin = await User.findById(adminId);
+		if (!admin) {
+			return res.status(404).json({ message: 'Admin not found' });
+		}
+
+		user.sentGroupJoinRequests = user.sentGroupJoinRequests.filter((r) => {
+			return group._id.toString() !== r.toString();
+		});
+
+		admin.receivedGroupJoinRequests = admin.receivedGroupJoinRequests.filter((r) => {
+			return !r.group.equals(groupId) || !r.requestingUser.equals(userId);
+		});
+
+		await user.save();
+		await admin.save();
+
+		const type: NotificationType = 'join_group_request_withdrawn';
+		const message = getNotificationMessage(type, user as any, group as any);
+		const notification = new Notification({
+			recipients:
+				[
+					admin._id
+				],
+			image: user!.profileImg,
+			type,
+			message
+		});
+		await notification.save();
+
+		return res.json({ message: 'Join request withdrawn successfully!' });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
 export const searchGroup = async (req: any, res: Response) => {
 	try {
 		const searchQuery = req.params.query;

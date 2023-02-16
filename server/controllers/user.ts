@@ -336,7 +336,6 @@ export const withdrawSentConnectionRequest = async (req: any, res: Response) => 
 	try {
 		const userId = req.id;
 		const otherUserId = req.params.otherUserId;
-		console.log('otherUserId =======> ', otherUserId);
 
 		const currentUser = await User.findById(userId);
 		if (!currentUser) {
