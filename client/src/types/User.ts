@@ -16,8 +16,11 @@ export interface IUser {
 	connections?: Array<string>;
 	pendingConnections?: Array<string>;
 	sentConnections?: Array<string>;
-	groupPendingRequests?: string[];
-	groupSentRequests?: string[];
+	receivedGroupJoinRequests?: {
+		requestingUser: string;
+		group: string;
+	}[];
+	sentGroupJoinRequests?: string[];
 	createdAt: string;
 	updatedAt: string;
 }

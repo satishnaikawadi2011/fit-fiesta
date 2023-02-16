@@ -1,5 +1,5 @@
 import { getNotificationMessage, NotificationType } from './../models/Notification';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import Group from '../models/Group';
 import User from '../models/User';
 import Notification from '../models/Notification';
@@ -56,19 +56,19 @@ export const makeJoinRequest = async (req: any, res: Response) => {
 		const sender = (await User.findById(userId))!;
 		const admin = await User.findById(group.admin)!;
 
-		const userGroups = sender.groups;
-		const adminGroupPendingRequests = admin!.groupPendingRequests;
+		const senderGroups = sender.groups;
+		const adminReceivedRequests = admin!.receivedGroupJoinRequests;
 
-		if (userGroups.some((g: any) => g.equals(userId))) {
-			return res.status(409).json({ message: 'User is already a part of group' });
+		if (senderGroups.some((g: any) => g.equals(groupId))) {
+			return res.status(409).json({ message: 'User is already a member of group' });
 		}
 
-		if (adminGroupPendingRequests.some((g: any) => g.equals(userId))) {
+		if (adminReceivedRequests.some((r) => r.requestingUser.equals(userId) && r.group.equals(groupId))) {
 			return res.status(409).json({ message: 'Join request already sent' });
 		}
 
-		sender!.groupSentRequests.push(group._id);
-		adminGroupPendingRequests.push(sender!._id);
+		sender!.sentGroupJoinRequests.push(group._id);
+		adminReceivedRequests.push({ group: group._id, requestingUser: sender!._id });
 
 		await sender!.save();
 		await admin!.save();
@@ -120,15 +120,18 @@ export const acceptJoinRequest = async (req: any, res: Response) => {
 			return res.status(404).json({ message: 'Sender not found' });
 		}
 
-		if (!admin.groupPendingRequests.includes(sender._id)) {
+		const idx = admin.receivedGroupJoinRequests.findIndex(
+			(r) => r.group.equals(groupId) && r.requestingUser.equals(senderId)
+		);
+		if (idx === -1) {
 			return res.status(404).json({ message: 'Join request not found' });
 		}
 
-		admin.groupPendingRequests = admin.groupPendingRequests.filter((r: mongoose.Types.ObjectId) => {
-			return r.toString() !== sender._id.toString();
+		admin.receivedGroupJoinRequests = admin.receivedGroupJoinRequests.filter((r) => {
+			return !r.group.equals(groupId) || !r.requestingUser.equals(senderId);
 		});
 
-		sender.groupSentRequests = sender.groupSentRequests.filter((r: mongoose.Types.ObjectId) => {
+		sender.sentGroupJoinRequests = sender.sentGroupJoinRequests.filter((r) => {
 			return r.toString() !== group._id.toString();
 		});
 
@@ -137,6 +140,7 @@ export const acceptJoinRequest = async (req: any, res: Response) => {
 
 		await group.save();
 		await sender.save();
+		await admin.save();
 
 		const type: NotificationType = 'join_group_request_accepted';
 		const message = getNotificationMessage(type, undefined, group as any);
@@ -185,15 +189,18 @@ export const rejectJoinRequest = async (req: any, res: Response) => {
 			return res.status(404).json({ message: 'Sender not found' });
 		}
 
-		if (!admin.groupPendingRequests.includes(sender._id)) {
+		const idx = admin.receivedGroupJoinRequests.findIndex(
+			(r) => r.group.equals(groupId) && r.requestingUser.equals(senderId)
+		);
+		if (idx === -1) {
 			return res.status(404).json({ message: 'Join request not found' });
 		}
 
-		admin.groupPendingRequests = admin.groupPendingRequests.filter((r: mongoose.Types.ObjectId) => {
-			return r.toString() !== sender._id.toString();
+		admin.receivedGroupJoinRequests = admin.receivedGroupJoinRequests.filter((r) => {
+			return !r.group.equals(groupId) || !r.requestingUser.equals(senderId);
 		});
 
-		sender.groupSentRequests = sender.groupSentRequests.filter((r: mongoose.Types.ObjectId) => {
+		sender.sentGroupJoinRequests = sender.sentGroupJoinRequests.filter((r) => {
 			return r.toString() !== group._id.toString();
 		});
 

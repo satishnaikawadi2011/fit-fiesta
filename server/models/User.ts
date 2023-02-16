@@ -21,6 +21,11 @@ export interface IUser {
 	sentConnections: string[];
 	groupPendingRequests: string[];
 	groupSentRequests: string[];
+	receivedGroupJoinRequests: {
+		requestingUser: string;
+		group: string;
+	}[];
+	sentGroupJoinRequests: string[];
 }
 
 const UserSchema = new Schema(
@@ -118,14 +123,24 @@ const UserSchema = new Schema(
 					ref: 'User'
 				}
 			],
-		groupPendingRequests:
+		receivedGroupJoinRequests:
 			[
 				{
-					type: Schema.Types.ObjectId,
-					ref: 'User'
+					requestingUser:
+						{
+							type: Schema.Types.ObjectId,
+							ref: 'User',
+							required: true
+						},
+					group:
+						{
+							type: Schema.Types.ObjectId,
+							ref: 'Group',
+							required: true
+						}
 				}
 			],
-		groupSentRequests:
+		sentGroupJoinRequests:
 			[
 				{
 					type: Schema.Types.ObjectId,

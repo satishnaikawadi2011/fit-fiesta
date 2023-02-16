@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IGroup } from '../../types/Group';
 import { INotification } from '../../types/Notification';
 import { IUser } from '../../types/User';
 import { removeDuplicates } from '../../utils/removeDuplicates';
@@ -7,6 +8,8 @@ interface userState {
 	sentConnetionRequests: IUser[];
 	invitations: IUser[];
 	connections: IUser[];
+	receivedGroupRequests: IUser[];
+	sentGroupRequests: IGroup[];
 	notifications: INotification[];
 	unreadNotificationsCount: number;
 }
@@ -16,6 +19,8 @@ const initialState: userState = {
 	connections: [],
 	invitations: [],
 	notifications: [],
+	receivedGroupRequests: [],
+	sentGroupRequests: [],
 	unreadNotificationsCount: 0
 };
 
@@ -65,6 +70,24 @@ export const userSlice = createSlice({
 			increaseUnreadNotificationsCount:
 				(state, action: PayloadAction<number>) => {
 					state.unreadNotificationsCount += action.payload;
+				},
+			setReceivedGroupRequests:
+				(state, action: PayloadAction<IUser[]>) => {
+					state.receivedGroupRequests = action.payload;
+				},
+			setSentGroupRequests:
+				(state, action: PayloadAction<IGroup[]>) => {
+					state.sentGroupRequests = action.payload;
+				},
+			removeReceivedGroupRequest:
+				(state, action: PayloadAction<string>) => {
+					state.receivedGroupRequests = state.receivedGroupRequests.filter(
+						(req) => req._id !== action.payload
+					);
+				},
+			withdrawSentGroupRequest:
+				(state, action: PayloadAction<string>) => {
+					state.sentGroupRequests = state.sentGroupRequests.filter((r) => r._id !== action.payload);
 				}
 		}
 });
@@ -79,7 +102,11 @@ export const {
 	setNotifications,
 	markNotificationsAsRead,
 	setUnreadNotificationsCount,
-	increaseUnreadNotificationsCount
+	increaseUnreadNotificationsCount,
+	removeReceivedGroupRequest,
+	setReceivedGroupRequests,
+	setSentGroupRequests,
+	withdrawSentGroupRequest
 } = userSlice.actions;
 
 export default userSlice.reducer;

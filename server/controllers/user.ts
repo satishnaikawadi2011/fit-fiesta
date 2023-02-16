@@ -595,7 +595,7 @@ export const getPendingRequestsToJoinMyGroups = async (req: any, res: Response) 
 		if (!user) {
 			return res.status(404).json({ message: 'User not found' });
 		}
-		return res.json({ groupPendingRequests: user.groupPendingRequests });
+		return res.json({ receivedGroupJoinRequests: user.receivedGroupJoinRequests });
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ message: 'Something went wrong!' });
@@ -614,9 +614,9 @@ export const getSentRequestsToJoinGroups = async (req: any, res: Response) => {
 			return res.status(404).json({ message: 'User not found' });
 		}
 
-		const groupSentRequests = user.groupSentRequests;
+		const sentGroupJoinRequests = user.sentGroupJoinRequests;
 
-		return res.json({ groupSentRequests });
+		return res.json({ sentGroupJoinRequests });
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ message: 'Something went wrong!' });
