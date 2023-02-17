@@ -1,4 +1,4 @@
-import { Box, Heading } from '@chakra-ui/react';
+import { Box, Divider, Heading } from '@chakra-ui/react';
 import React from 'react';
 import { IUser } from '../../types/User';
 import UserListItem from '../user/UserListItem';
@@ -11,13 +11,22 @@ interface Props {
 const MembersSection: React.FC<Props> = ({ admin, members }) => {
 	const filteredMembers = members.filter((m) => m._id !== admin._id);
 	return (
-		<Box maxW={'300px'} w={'full'} bg={'gray.100'} boxShadow={'2xl'} rounded={'md'} overflow={'hidden'}>
-			<Heading>Admin</Heading>
-			<UserListItem user={admin} />
-			<Heading>Members</Heading>
-			{filteredMembers.map((m) => {
-				return <UserListItem user={m} />;
-			})}
+		<Box pb={5} maxW={'300px'} w={'full'} bg={'gray.100'} boxShadow={'2xl'} rounded={'md'} overflow={'auto'}>
+			<Heading p={4} fontSize={'xl'}>
+				Admin
+			</Heading>
+			<Box px={2}>
+				<UserListItem user={admin} />
+			</Box>
+			<Divider mt={2} />
+			<Heading p={4} fontSize={'xl'}>
+				Members
+			</Heading>
+			<Box px={2}>
+				{filteredMembers.map((m) => {
+					return <UserListItem user={m} />;
+				})}
+			</Box>
 		</Box>
 	);
 };

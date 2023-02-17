@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import GroupDetailsPageLayout from '../components/group/GroupDetailsPageLayout';
 import HomePage from '../pages';
 import EventsPage from '../pages/events';
+import GroupDetailsPage from '../pages/group/group-details';
 import MyNetworkPage from '../pages/my-network';
 import NotFoundPage from '../pages/not-found';
 import NotificationsPage from '../pages/notifications';
@@ -32,7 +32,7 @@ const ClientRoutes: RouteType[] = [
 	{ path: '/search', element: <SearchPage /> },
 	{ path: '/my-network/:section', element: <MyNetworkPage /> },
 	{ path: '/notifications', element: <NotificationsPage /> },
-	{ path: '/group/:groupId', element: <GroupDetailsPageLayout /> }
+	{ path: '/group/:groupId', element: <GroupDetailsPage /> }
 ];
 
 const AuthenticatedRoutes = () => {

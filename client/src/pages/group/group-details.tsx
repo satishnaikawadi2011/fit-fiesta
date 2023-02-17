@@ -1,18 +1,14 @@
-import { Flex, Text } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useAppSelector } from '../../app/hooks';
+import GroupDetails from '../../components/group/GroupDetails';
+import GroupDetailsPageLayout from '../../components/group/GroupDetailsPageLayout';
 
-const GrpupDetailsPage = () => {
-	// const { activeMyNetworkOption } = useAppSelector((state) => state.common);
-	// return (
-	// 	<MyNetworkPageLayout>
-	// 		{activeMyNetworkOption === 'invitations' && <Invitations />}
-	// 		{activeMyNetworkOption === 'connections' && <Connections />}
-	// 		{activeMyNetworkOption === 'people' && <People />}
-	// 		{activeMyNetworkOption === 'sent requests' && <SentRequests />}
-	// 		{activeMyNetworkOption === 'received_group_requests' && <ReceivedGroupJoinRequests />}
-	// 		{activeMyNetworkOption === 'sent_group_requests' && <SentGroupJoinRequests />}
-	// 	</MyNetworkPageLayout>
-	// );
+const GroupDetailsPage = () => {
+	const { groupDetails } = useAppSelector((state) => state.group);
+	return (
+		<GroupDetailsPageLayout>
+			<GroupDetails group={groupDetails as any} />
+		</GroupDetailsPageLayout>
+	);
 };
 
-export default GrpupDetailsPage;
+export default GroupDetailsPage;

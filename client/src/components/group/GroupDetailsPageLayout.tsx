@@ -1,6 +1,5 @@
 import { Center, Grid, GridItem, Spinner } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
-import { MyNetworkNavigationType } from '../../app/features/common';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import useApiUpdated from '../../hooks/useApiUpdated';
 import { IGroup } from '../../types/Group';
@@ -39,7 +38,7 @@ const GroupDetailsPageLayout: React.FC<Props> = ({ children }) => {
 		]
 	);
 
-	if (error) {
+	if (error || !groupDetails) {
 		return <NotFoundPage />;
 	}
 
@@ -52,13 +51,24 @@ const GroupDetailsPageLayout: React.FC<Props> = ({ children }) => {
 	}
 
 	return (
-		<Layout title={`${groupDetails!.name}`}>
-			<Grid templateColumns="1fr 2fr" gap={4}>
-				<GridItem mt={10} mx={3}>
+		<Layout
+			title={`${
+				groupDetails ? groupDetails!.name :
+				'Page Not Found'}`}
+		>
+			<Grid templateColumns="2fr 1fr" gap={4}>
+				<GridItem width={'66vw'} mx={3}>
 					{children}
 				</GridItem>
 				<GridItem />
-				<GridItem height={'calc(100vh - 6rem)'} position={'fixed'} width={'33vw'} right={0}>
+				<GridItem
+					ml={5}
+					height={'calc(100vh - 6rem)'}
+					position={'fixed'}
+					width={'33vw'}
+					right={-10}
+					overflow="auto"
+				>
 					<MembersSection members={groupDetails!.members as any} admin={groupDetails!.admin as any} />
 				</GridItem>
 			</Grid>
