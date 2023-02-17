@@ -5,6 +5,7 @@ import User from '../models/User';
 import Notification from '../models/Notification';
 import { validateGroupData } from './../validation/validateGroupData';
 import mongoose from 'mongoose';
+import { isValidObjectId } from '../utils/isValidId';
 
 export const createGroup = async (req: any, res: Response) => {
 	try {
@@ -376,6 +377,10 @@ export const getGroupDetails = async (req: any, res: Response) => {
 	try {
 		const userId = req.id;
 		const groupId = req.params.groupId;
+
+		if (!isValidObjectId(groupId)) {
+			return res.status(404).json({ message: 'Please provide valid groupId!' });
+		}
 
 		const group = await Group.findById(groupId)
 			.populate({ path: 'members', select: '-password' })

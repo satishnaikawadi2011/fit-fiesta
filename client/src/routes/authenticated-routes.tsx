@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import GroupDetailsPageLayout from '../components/group/GroupDetailsPageLayout';
 import HomePage from '../pages';
 import EventsPage from '../pages/events';
 import MyNetworkPage from '../pages/my-network';
@@ -15,7 +16,8 @@ export type RoutePathType =
 	| '/profile'
 	| '/search'
 	| '/my-network/:section'
-	| '/notifications';
+	| '/notifications'
+	| '/group/:groupId';
 
 export interface RouteType {
 	path: RoutePathType;
@@ -29,7 +31,8 @@ const ClientRoutes: RouteType[] = [
 	{ path: '/profile', element: <ProfilePage /> },
 	{ path: '/search', element: <SearchPage /> },
 	{ path: '/my-network/:section', element: <MyNetworkPage /> },
-	{ path: '/notifications', element: <NotificationsPage /> }
+	{ path: '/notifications', element: <NotificationsPage /> },
+	{ path: '/group/:groupId', element: <GroupDetailsPageLayout /> }
 ];
 
 const AuthenticatedRoutes = () => {
