@@ -23,10 +23,15 @@ const getMutualConnsFromGroup = (groupId: string) => {
 	return client.get(`${endpoint}/mutualConnections/${groupId}`);
 };
 
+const getGroupDetails = (groupId: string) => {
+	return client.get(`${endpoint}/${groupId}`);
+};
+
 export default {
 	makeRequestToJoinGroup,
 	acceptReceivedGroupRequest,
 	rejectReceivedGroupRequest,
 	withdrawSentGroupRequest,
-	getMutualConnsFromGroup
+	getMutualConnsFromGroup,
+	getGroupDetails
 };

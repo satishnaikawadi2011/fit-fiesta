@@ -6,6 +6,7 @@ import eventReducer from './features/event';
 import resourceReducer from './features/resource';
 import commonReducer from './features/common';
 import userReducer from './features/user';
+import groupReducer from './features/group';
 
 export const store = configureStore({
 	reducer:
@@ -16,7 +17,8 @@ export const store = configureStore({
 			event: eventReducer,
 			resource: resourceReducer,
 			common: commonReducer,
-			user: userReducer
+			user: userReducer,
+			group: groupReducer
 		}
 });
 

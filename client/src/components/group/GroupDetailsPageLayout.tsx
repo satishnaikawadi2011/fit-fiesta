@@ -9,7 +9,6 @@ interface Props {
 }
 
 const MyNetworkPageLayout: React.FC<Props> = ({ children }) => {
-	const { activeMyNetworkOption } = useAppSelector((state) => state.common);
 	return (
 		// <Layout title={`${activeMyNetworkOption} | My Network`}>
 		// 	<Grid templateColumns="1fr 2fr" gap={4}>
