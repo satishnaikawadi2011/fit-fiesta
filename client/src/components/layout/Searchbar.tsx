@@ -18,7 +18,7 @@ const SearchBar: React.FC<SearchBarProps> = ({}) => {
 	] = useState('');
 
 	return (
-		<Box my={4}>
+		<Box my={4} display={{ base: 'none', md: 'block' }}>
 			<InputGroup>
 				<InputLeftAddon
 					bgColor={'#fff'}

@@ -74,7 +74,7 @@ const LinkItem: React.FC<Props> = ({ Icon, title, path }) => {
 			>
 				{title}
 			</Text>
-			{isActive && <Box display={{ base: 'none', md: 'block' }} width={'150%'} height={0.5} bgColor={PRIMARY} />}
+			{isActive && <Box display={{ base: 'none', md: 'block' }} width={'120%'} height={0.5} bgColor={PRIMARY} />}
 		</Flex>
 	);
 };

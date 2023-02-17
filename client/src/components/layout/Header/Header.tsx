@@ -27,6 +27,9 @@ import HomeIcon from '../../../icons/HomeIcon';
 import ResourceIcon from '../../../icons/ResourceIcon';
 import EventIcon from '../../../icons/EventIcon';
 import ConnectionIcon from '../../../icons/ConnectionIcon';
+import { SearchIcon } from '@chakra-ui/icons';
+import SearchModal from '../SearchModal';
+import { useState } from 'react';
 
 const Header: React.FC = () => {
 	const { colorMode, toggleColorMode } = useColorMode();
@@ -34,16 +37,19 @@ const Header: React.FC = () => {
 
 	const { user } = useAppSelector((state) => state.auth);
 
+	const [
+		isSearchModalOpen,
+		setIsSearchModalOpen
+	] = useState(false);
+
 	return (
 		<Flex
 			zIndex={1000}
 			width={'100vw'}
 			position={'fixed'}
-			as="nav"
-			align="center"
-			justify="space-between"
-			wrap="wrap"
-			padding="0.5rem"
+			height={'60px'}
+			justifyContent={'space-between'}
+			alignItems={'center'}
 			bg={'gray.100'}
 			top={0}
 			color={
@@ -53,11 +59,23 @@ const Header: React.FC = () => {
 			}
 			boxShadow="md"
 		>
+			<SearchModal isOpen={isSearchModalOpen} onClose={() => setIsSearchModalOpen(false)} />
 			<Flex align="center" mr={5}>
-				<Logo width={'5rem'} height={'5rem'} fill="#A2D2FF" cursor={'pointer'} onClick={() => navigate('/')} />
+				<Box display={{ base: 'none', md: 'block' }}>
+					<Logo
+						width={'4rem'}
+						height={'4rem'}
+						fill="#A2D2FF"
+						cursor={'pointer'}
+						onClick={() => navigate('/')}
+					/>
+				</Box>
 				<SearchBar />
 			</Flex>
-			<HStack width={{ md: 'auto' }} spacing={{ sm: '10', md: '10' }} alignItems="center" ml="auto">
+			<HStack height={'100%'} justifyContent={'space-around'} width={{ base: '100%', md: '50%' }}>
+				<Box display={{ base: 'block', md: 'none' }}>
+					<SearchIcon width={30} height={30} cursor="pointer" onClick={() => setIsSearchModalOpen(true)} />
+				</Box>
 				<LinkItem path="/" Icon={HomeIcon} title="Home" />
 				<LinkItem path="/resources" Icon={ResourceIcon} title="Resources" />
 				<LinkItem path="/events" Icon={EventIcon} title="Events" />

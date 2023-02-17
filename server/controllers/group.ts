@@ -303,7 +303,7 @@ export const searchGroup = async (req: any, res: Response) => {
 						$or:
 							[
 								{ name: { $regex: searchQuery, $options: 'i' } },
-								{ description: { $regex: searchQuery, $options: 'i' } },
+								// { description: { $regex: searchQuery, $options: 'i' } },
 								{ 'adminDoc.fullName': { $regex: searchQuery, $options: 'i' } },
 								{ 'adminDoc.username': { $regex: searchQuery, $options: 'i' } }
 							]

@@ -35,7 +35,7 @@ const CustomMenuButton = forwardRef((props, ref) => {
 		<Box ref={ref} {...props}>
 			<AppBadge content={unreadNotificationsCount} bgColor="#FA3E3E" hideZero contentColor="#fff">
 				<Flex flexDirection={'column'} alignItems="center" cursor={'pointer'}>
-					<Avatar src={user!.profileImg} size={'md'} />
+					<Avatar src={user!.profileImg} size={'sm'} />
 					<Flex alignItems="center">
 						<Text fontSize={'sm'}>Me</Text>
 						<Icon ml={1} as={AiFillCaretDown} />
