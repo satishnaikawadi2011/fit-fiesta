@@ -371,3 +371,23 @@ export const getConnectionsFromGroup = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const getGroupDetails = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const groupId = req.params.groupId;
+
+		const group = await Group.findById(groupId)
+			.populate({ path: 'members', select: '-password' })
+			.populate({ path: 'admin', select: '-password' });
+
+		if (!group) {
+			return res.status(404).json({ message: 'Group not found' });
+		}
+
+		return res.status(200).json({ group });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};

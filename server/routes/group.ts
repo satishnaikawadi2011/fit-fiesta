@@ -3,6 +3,7 @@ import {
 	acceptJoinRequest,
 	createGroup,
 	getConnectionsFromGroup,
+	getGroupDetails,
 	makeJoinRequest,
 	rejectJoinRequest,
 	searchGroup,
@@ -34,5 +35,7 @@ router.delete('/withdraw/:groupId', isAuthenticated, withdrawSentJoinGroupReques
 router.get('/search/:query', isAuthenticated, searchGroup);
 
 router.get('/mutualConnections/:groupId', isAuthenticated, getConnectionsFromGroup);
+
+router.get('/:groupId', isAuthenticated, getGroupDetails);
 
 export default router;
