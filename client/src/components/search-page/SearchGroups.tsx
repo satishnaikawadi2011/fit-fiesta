@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import apiClient from '../../api/client';
 import { useAppSelector } from '../../app/hooks';
 import { IGroup } from '../../types/Group';
-import GroupCard from '../GroupCard';
+import GroupCard from '../group/GroupCard';
 
 const SearchGroups = () => {
 	const [

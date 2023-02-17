@@ -1,14 +1,14 @@
 import { Avatar, Box, Button, Flex, Grid, Heading, Text } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import useApiUpdated from '../hooks/useApiUpdated';
-import { IGroup } from '../types/Group';
-import { numberToString } from '../utils/numberToString';
-import groupApi from '../api/group';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import useApiUpdated from '../../hooks/useApiUpdated';
+import { IGroup } from '../../types/Group';
+import { numberToString } from '../../utils/numberToString';
+import groupApi from '../../api/group';
 import { useNavigate } from 'react-router-dom';
-import { updateUser } from '../app/features/auth';
-import { setActiveMyNetworkOption } from '../app/features/common';
-import { userLog } from '../utils/swal/userLog';
+import { updateUser } from '../../app/features/auth';
+import { setActiveMyNetworkOption } from '../../app/features/common';
+import { userLog } from '../../utils/swal/userLog';
 
 interface Props {
 	group: IGroup;

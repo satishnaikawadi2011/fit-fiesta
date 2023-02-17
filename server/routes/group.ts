@@ -2,6 +2,7 @@ import { setupCloudinary } from './../utils/setupCloudinary';
 import {
 	acceptJoinRequest,
 	createGroup,
+	getConnectionsFromGroup,
 	makeJoinRequest,
 	rejectJoinRequest,
 	searchGroup,
@@ -31,5 +32,7 @@ router.post('/reject/:groupId/:senderId', isAuthenticated, rejectJoinRequest);
 router.delete('/withdraw/:groupId', isAuthenticated, withdrawSentJoinGroupRequest);
 
 router.get('/search/:query', isAuthenticated, searchGroup);
+
+router.get('/mutualConnections/:groupId', isAuthenticated, getConnectionsFromGroup);
 
 export default router;

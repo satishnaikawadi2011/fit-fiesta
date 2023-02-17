@@ -338,3 +338,36 @@ export const searchGroup = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const getConnectionsFromGroup = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const groupId = req.params.groupId;
+
+		const user = await User.findById(userId);
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		const group = await Group.findById(groupId);
+		if (!group) {
+			return res.status(404).json({ message: 'Group not found' });
+		}
+
+		const connections = await User.find({
+			_id: { $in: user.connections },
+			groups:
+				{
+					$in:
+						[
+							group._id
+						]
+				}
+		});
+
+		return res.status(200).json(connections);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};

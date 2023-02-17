@@ -26,7 +26,8 @@ import { increaseUnreadNotificationsCount, setNotifications, setUnreadNotificati
 import { IUser } from './types/User';
 import { updateUser } from './app/features/auth';
 import socket from './socket';
-import GroupCard from './components/GroupCard';
+import GroupCard from './components/group/GroupCard';
+import GroupDetails from './components/group/GroupDetails';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -141,28 +142,65 @@ function App() {
 		);
 	}
 
+	const group = {
+		_id: '63ee1bdf1f21091dd599bfdd',
+		name: 'Second Group With Image',
+		description:
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ',
+		members:
+			[
+				'63dd5c27a9c7110986043aa0',
+				'63dcda35cdee5a239718395e'
+			],
+		admin:
+			{
+				_id: '63dd5c27a9c7110986043aa0',
+				fullName: 'Sam Doe',
+				username: 'sammy',
+				email: 'sam@doe.com',
+				password: '$2a$10$KdXE9RPrskeLyxZNvE3fweHIAzYc9GJgxb/HL8wBFPhtGxNoYq7V6',
+				profileImg:
+					'https://res.cloudinary.com/dyfm31f1n/image/upload/v1675059905/fit-fiesta/placeholders/blank-profile-picture-gdb207bae8_1280_zymz7e.png',
+				coverImg:
+					'https://res.cloudinary.com/dyfm31f1n/image/upload/v1675059731/fit-fiesta/placeholders/bg_qr4vtm.jpg',
+				location: 'Jacobs Well ,Queensland ,Australia',
+				weight: 67,
+				height: 167,
+				targetWeight: 56,
+				groups:
+					[
+						'63ee1b881f21091dd599bfd9',
+						'63ee1bdf1f21091dd599bfdd'
+					],
+				events: [],
+				posts: [],
+				connections:
+					[
+						'63dcda35cdee5a239718395e'
+					],
+				pendingConnections: [],
+				sentConnections: [],
+				createdAt: '2023-02-03T19:10:31.787Z',
+				updatedAt: '2023-02-16T21:27:43.302Z',
+				__v: 95,
+				groupPendingRequests: [],
+				groupSentRequests: [],
+				receivedGroupJoinRequests: [],
+				sentGroupJoinRequests: []
+			},
+		profileImg: 'https://res.cloudinary.com/dyfm31f1n/image/upload/v1676549086/fit-fiesta/nqqrlykycmrjtnh6fijb.png',
+		coverImg: 'https://res.cloudinary.com/dyfm31f1n/image/upload/v1675059731/fit-fiesta/placeholders/bg_qr4vtm.jpg',
+		events: [],
+		posts: [],
+		createdAt: '2023-02-16T12:04:47.016Z',
+		updatedAt: '2023-02-16T21:27:43.178Z',
+		__v: 1
+	};
+
 	if (!isTokenExpired && user) {
 		apiClient.setHeader('Authorization', `Bearer ${token}`);
-		return <AuthenticatedRoutes />;
-		// return (
-		// 	<GroupCard
-		// 		group={
-		// 			{
-		// 				name: 'Java EE Professionals',
-		// 				profileImg:
-		// 					'https://media.licdn.com/dms/image/C4D07AQEsq3raakiWNA/group-logo_image-shrink_48x48/0/1631371734374?e=1677088800&v=beta&t=HJt4-jFNAE3uH4nmT0G_2RFSeSqFR-LjcXqcNT8cAjQ',
-		// 				description:
-		// 					'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae sit accusantium magnam inventore ea placeat velit vero officiis. Alias dolorum aperiam suscipit distinctio fuga, ratione error odit mollitia in adipisci reiciendis sapiente neque ea hic molestiae doloribus quaerat, sed nam? Facere eius facilis maxime, soluta, tenetur consequatur alias mollitia dicta voluptatum suscipit tempora veniam velit nobis dolores deleniti, quasi quaerat totam officia esse enim. Non explicabo, dignissimos exercitationem dicta labore fuga tempora ea velit vero, optio eos, quo placeat accusamus officiis vitae ducimus debitis sint? Totam reiciendis aspernatur nemo, sed ipsam culpa eveniet nesciunt nostrum dolorem beatae, optio ratione tempora?',
-		// 				members:
-		// 					[
-		// 						's',
-		// 						'b'
-		// 					],
-		// 				_id: ''
-		// 			} as any
-		// 		}
-		// 	/>
-		// );
+		// return <AuthenticatedRoutes />;
+		return <GroupDetails group={group as any} />;
 		// return <InvitationListItem />;
 		// return (
 		// 	<AppBadge content={2} bgColor="red">
