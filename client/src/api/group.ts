@@ -19,9 +19,14 @@ const withdrawSentGroupRequest = (groupId: string) => {
 	return client.delete(`${endpoint}/withdraw/${groupId}`);
 };
 
+const getMutualConnsFromGroup = (groupId: string) => {
+	return client.get(`${endpoint}/mutualConnections/${groupId}`);
+};
+
 export default {
 	makeRequestToJoinGroup,
 	acceptReceivedGroupRequest,
 	rejectReceivedGroupRequest,
-	withdrawSentGroupRequest
+	withdrawSentGroupRequest,
+	getMutualConnsFromGroup
 };

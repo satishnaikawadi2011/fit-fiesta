@@ -199,8 +199,8 @@ function App() {
 
 	if (!isTokenExpired && user) {
 		apiClient.setHeader('Authorization', `Bearer ${token}`);
-		// return <AuthenticatedRoutes />;
-		return <GroupDetails group={group as any} />;
+		return <AuthenticatedRoutes />;
+		// return <GroupDetails group={group as any} />;
 		// return <InvitationListItem />;
 		// return (
 		// 	<AppBadge content={2} bgColor="red">

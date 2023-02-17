@@ -1,5 +1,16 @@
-import { Avatar, AvatarGroup, Box, Button, Heading, Image, Text } from '@chakra-ui/react';
-import React, { useEffect } from 'react';
+import {
+	Avatar,
+	AvatarGroup,
+	Box,
+	Button,
+	Divider,
+	Heading,
+	Image,
+	Skeleton,
+	SkeletonCircle,
+	Text
+} from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { IGroup } from '../../types/Group';
@@ -8,6 +19,8 @@ import useApiUpdated from '../../hooks/useApiUpdated';
 import { userLog } from '../../utils/swal/userLog';
 import { updateUser } from '../../app/features/auth';
 import { setActiveMyNetworkOption } from '../../app/features/common';
+import { IUser } from '../../types/User';
+import MutualConnsModel from '../my-network/MutualConnsModel';
 
 interface Props {
 	group: IGroup;
@@ -22,6 +35,22 @@ const GroupDetails: React.FC<Props> = ({ group }) => {
 	const dispatch = useAppDispatch();
 
 	const { data, error, loading: joinLoad, request: joinReq } = useApiUpdated(groupApi.makeRequestToJoinGroup);
+	const {
+		data: mutualConnsData,
+		error: mutualConnsErr,
+		loading: mutualConnsLoad,
+		request: getMutualConnsReq
+	} = useApiUpdated<IUser[]>(groupApi.getMutualConnsFromGroup);
+
+	const [
+		mutualConns,
+		setMutualConns
+	] = useState<IUser[]>([]);
+
+	const [
+		showConnsModal,
+		setShowConnsModal
+	] = useState(false);
 
 	const isMember = authUser!.groups!.includes(group._id);
 	const isPending =
@@ -33,6 +62,23 @@ const GroupDetails: React.FC<Props> = ({ group }) => {
 	const joinHandler = async () => {
 		await joinReq(_id);
 	};
+
+	useEffect(() => {
+		getMutualConnsReq(_id);
+	}, []);
+
+	useEffect(
+		() => {
+			if (mutualConnsData && !mutualConnsErr) {
+				console.log(mutualConnsData);
+				setMutualConns(mutualConnsData);
+			}
+		},
+		[
+			mutualConnsData,
+			mutualConnsErr
+		]
+	);
 
 	useEffect(
 		() => {
@@ -56,6 +102,13 @@ const GroupDetails: React.FC<Props> = ({ group }) => {
 
 	return (
 		<React.Fragment>
+			<MutualConnsModel
+				isOpen={showConnsModal}
+				onClose={() => setShowConnsModal(false)}
+				name={name}
+				mutualConns={mutualConns}
+				withGroup
+			/>
 			<Box boxShadow="md" bg={'gray.100'} width={'100%'} mb={5} position={'relative'}>
 				<Image width={'100%'} height={200} src={coverImg} />
 				<Avatar
@@ -68,28 +121,7 @@ const GroupDetails: React.FC<Props> = ({ group }) => {
 					src={profileImg}
 					border={'4px'}
 					color={'primary.200'}
-					// onClick={() => setProfileImgModalOpen(true)}
 				/>
-
-				{/* <IconButton
-					aria-label="Edit profile"
-					position={'absolute'}
-					m={3}
-					right={0}
-					icon={<Icon as={FaUserEdit} />}
-					onClick={() => setEditProfileModalOpen(true)}
-				/> */}
-
-				{/* <IconButton
-					aria-label="Edit cover image"
-					position={'absolute'}
-					m={3}
-					right={0}
-					top={0}
-					icon={<Icon as={FaCamera} />}
-					rounded={'full'}
-					onClick={() => setCoverImgModalOpen(true)}
-				/> */}
 
 				<Box p={5} mt={5}>
 					<Heading fontSize={'2xl'}>{name}</Heading>
@@ -116,18 +148,63 @@ const GroupDetails: React.FC<Props> = ({ group }) => {
 					)}
 				</Box>
 			</Box>
+			{
+				mutualConnsLoad ? <MutualConnsSkeletonComponent /> :
+				<Box p={5} boxShadow="md" bg={'gray.100'} width={'100%'} mb={5} position={'relative'}>
+					<Heading fontSize={'2xl'}>{mutualConns.length} connections in this group</Heading>
+					<AvatarGroup mt={3} size="md" max={4}>
+						{mutualConns.map((c) => {
+							return <Avatar name={c.fullName} src={c.profileImg} />;
+						})}
+					</AvatarGroup>
+					<Text mt={2} fontSize={'sm'}>
+						{getMutualConnsString(mutualConns)}
+					</Text>
+					<Divider mt={2} />
+					<Button my={2} width={'100%'} bgColor={'transparent'} onClick={() => setShowConnsModal(true)}>
+						Show All
+					</Button>
+				</Box>}
 			<Box p={5} boxShadow="md" bg={'gray.100'} width={'100%'} mb={5} position={'relative'}>
-				<Heading fontSize={'2xl'}>5 connections in this group</Heading>
-				<AvatarGroup mt={3} size="md" max={4}>
-					<Avatar name="Ryan Florence" src="https://bit.ly/ryan-florence" />
-					<Avatar name="Segun Adebayo" src="https://bit.ly/sage-adebayo" />
-					<Avatar name="Kent Dodds" src="https://bit.ly/kent-c-dodds" />
-					<Avatar name="Prosper Otemuyiwa" src="https://bit.ly/prosper-baba" />
-					<Avatar name="Christian Nwamba" src="https://bit.ly/code-beast" />
-				</AvatarGroup>
+				<Heading fontSize={'2xl'} mb={2}>
+					Description
+				</Heading>
+				<Text fontWeight="light">{description}</Text>
 			</Box>
 		</React.Fragment>
 	);
+};
+
+const MutualConnsSkeletonComponent = () => {
+	return (
+		<React.Fragment>
+			<Box p={5} boxShadow="md" bg={'gray.100'} width={'100%'}>
+				<Skeleton height={5} my={2} width="100%" maxWidth={'400px'} />
+				<Box>
+					<AvatarGroup mt={3} size="md">
+						<SkeletonCircle width={50} height={50} />
+						<SkeletonCircle width={50} height={50} />
+						<SkeletonCircle width={50} height={50} />
+						<SkeletonCircle width={50} height={50} />
+					</AvatarGroup>
+				</Box>
+				<Skeleton height={3} my={2} width="100%" maxWidth={'600px'} />
+			</Box>
+		</React.Fragment>
+	);
+};
+
+const getMutualConnsString = (conns: IUser[]) => {
+	if (conns.length == 0) return '';
+	if (conns.length == 1) {
+		return `${conns[0].fullName} is in this group`;
+	}
+	else if (conns.length == 2) {
+		return `${conns[0].fullName} and ${conns[1].fullName} are in this group`;
+	}
+	else {
+		return `${conns[0].fullName} and ${conns.length - 1} other connections are in this group`;
+	}
 };
 
 export default GroupDetails;

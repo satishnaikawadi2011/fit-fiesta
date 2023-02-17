@@ -8,16 +8,20 @@ interface Props {
 	onClose: () => void;
 	name: string;
 	mutualConns: IUser[];
+	withGroup?: boolean;
 }
 
-const MutualConnsModel: React.FC<Props> = ({ isOpen, onClose, mutualConns, name }) => {
+const MutualConnsModel: React.FC<Props> = ({ isOpen, onClose, mutualConns, name, withGroup = false }) => {
 	const initialRef = React.useRef<any>(null);
 	return (
 		<React.Fragment>
 			<Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent>
-					<ModalHeader>{`${mutualConns.length} mutual connections with ${name}`}</ModalHeader>
+					{
+						withGroup ? <ModalHeader
+						>{`${mutualConns.length} connections are in the group ${name}`}</ModalHeader> :
+						<ModalHeader>{`${mutualConns.length} mutual connections with ${name}`}</ModalHeader>}
 					<ModalCloseButton />
 					<ModalBody pb={6}>
 						{mutualConns.map((conn) => {
