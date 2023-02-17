@@ -23,6 +23,10 @@ import SearchBar from '../Searchbar';
 import { useNavigate } from 'react-router-dom';
 import HeaderMenu from './HeaderMenu';
 import { useAppSelector } from '../../../app/hooks';
+import HomeIcon from '../../../icons/HomeIcon';
+import ResourceIcon from '../../../icons/ResourceIcon';
+import EventIcon from '../../../icons/EventIcon';
+import ConnectionIcon from '../../../icons/ConnectionIcon';
 
 const Header: React.FC = () => {
 	const { colorMode, toggleColorMode } = useColorMode();
@@ -54,10 +58,10 @@ const Header: React.FC = () => {
 				<SearchBar />
 			</Flex>
 			<HStack width={{ md: 'auto' }} spacing={{ sm: '10', md: '10' }} alignItems="center" ml="auto">
-				<LinkItem path="/" Icon={AiFillHome} title="Home" />
-				<LinkItem path="/resources" Icon={GrResources} title="Resources" />
-				<LinkItem path="/events" Icon={MdEventNote} title="Events" />
-				<LinkItem path="/my-network/:section" Icon={BiNetworkChart} title="My Network" />
+				<LinkItem path="/" Icon={HomeIcon} title="Home" />
+				<LinkItem path="/resources" Icon={ResourceIcon} title="Resources" />
+				<LinkItem path="/events" Icon={EventIcon} title="Events" />
+				<LinkItem path="/my-network/:section" Icon={ConnectionIcon} title="My Network" />
 				<HeaderMenu user={user!} />
 			</HStack>
 		</Flex>

@@ -1,9 +1,10 @@
-import { Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Text, VStack } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import { IconType } from 'react-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { setActiveLink } from '../../../app/features/ui';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { PRIMARY } from '../../../constants/colors';
 import { RoutePathType } from '../../../routes/authenticated-routes';
 
 const matchUrl = (url: string): string | null => {
@@ -17,7 +18,7 @@ const matchUrl = (url: string): string | null => {
 	}
 };
 interface Props {
-	Icon: IconType;
+	Icon: any;
 	title: string;
 	path: RoutePathType;
 }
@@ -53,24 +54,28 @@ const LinkItem: React.FC<Props> = ({ Icon, title, path }) => {
 	};
 
 	return (
-		<VStack cursor={'pointer'} onClick={handleLinkClick}>
-			<Icon size={25} />
+		<Flex
+			cursor={'pointer'}
+			onClick={handleLinkClick}
+			flexDirection={'column'}
+			display={'inline-flex'}
+			alignItems="center"
+		>
+			<Box>{<Icon width={30} height={30} fill={isActive && PRIMARY} />}</Box>
 			<Text
 				color={
 
-						isActive ? 'primary.300' :
-						'black'
+						isActive ? PRIMARY :
+						'auto'
 				}
-				fontWeight={
-
-						isActive ? 'medium' :
-						'normal'
-				}
-				display={{ sm: 'none', md: 'inline-block' }}
+				display={{ base: 'none', md: 'inline-block' }}
+				fontSize={'sm'}
+				fontWeight="light"
 			>
 				{title}
 			</Text>
-		</VStack>
+			{isActive && <Box display={{ base: 'none', md: 'block' }} width={'150%'} height={0.5} bgColor={PRIMARY} />}
+		</Flex>
 	);
 };
 
