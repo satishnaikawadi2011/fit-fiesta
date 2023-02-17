@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, Grid, Heading, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, Flex, Grid, Heading, Link, Text } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import useApiUpdated from '../../hooks/useApiUpdated';
@@ -61,9 +61,9 @@ const GroupCard: React.FC<Props> = ({ group, refe }) => {
 				<Avatar src={profileImg} name={name} />
 			</Flex>
 			<Box ml={3}>
-				<Heading fontSize={'md'} fontWeight="medium">
+				<Link fontSize={'md'} fontWeight="medium" onClick={() => navigate(`/group/${group._id}`)}>
 					{name}
-				</Heading>
+				</Link>
 				<Text fontSize={'sm'}>{`${numberToString(members.length)} members`}</Text>
 				<Text
 					cursor={'pointer'}
@@ -72,6 +72,7 @@ const GroupCard: React.FC<Props> = ({ group, refe }) => {
 					fontSize="xs"
 					textOverflow={'ellipsis'}
 					fontWeight="light"
+					onClick={() => navigate(`/group/${group._id}`)}
 				>
 					{description}
 				</Text>
