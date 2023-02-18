@@ -23,7 +23,8 @@ import {
 	markAllNotifictionsAsRead,
 	getMyGroups,
 	getPendingRequestsToJoinMyGroups,
-	getSentRequestsToJoinGroups
+	getSentRequestsToJoinGroups,
+	getUserProfile
 } from './../controllers/user';
 import express from 'express';
 import { setupCloudinary } from '../utils/setupCloudinary';
@@ -95,5 +96,7 @@ router.get('/groups', isAuthenticated, getMyGroups);
 router.get('/groupPendingRequests', isAuthenticated, getPendingRequestsToJoinMyGroups);
 
 router.get('/groupSentRequests', isAuthenticated, getSentRequestsToJoinGroups);
+
+router.get('/:username', isAuthenticated, getUserProfile);
 
 export default router;

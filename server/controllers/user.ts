@@ -629,3 +629,19 @@ export const getSentRequestsToJoinGroups = async (req: any, res: Response) => {
 		return res.status(500).json({ message: 'Something went wrong!' });
 	}
 };
+
+export const getUserProfile = async (req: any, res: Response) => {
+	try {
+		const username = req.params.username;
+		const user = await User.findOne({ username }).select('-password');
+
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		return res.json({ user });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
