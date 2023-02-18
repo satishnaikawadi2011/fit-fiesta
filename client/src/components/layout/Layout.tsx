@@ -28,19 +28,19 @@ const Layout: React.FC<Props> = ({ title, children, className, style, header = t
 			{header && <Header />}
 			<div className={`${classes.content} ${className}`} style={{ ...style }}>
 				{withProfile && (
-					<Grid templateColumns="1fr 2fr" gap={4}>
+					<Grid templateColumns={{ base: '1fr', md: '1fr 2fr' }} gap={4}>
 						<GridItem
-							marginTop={'6rem'}
-							padding={4}
-							height={'calc(100vh - 6rem)'}
-							position={'fixed'}
-							width={'33vw'}
+							marginTop={'80px'}
+							px={{ base: '20px' }}
+							// height={'calc(100vh - 6rem)'}
+							position={{ base: 'relative', md: 'fixed' }}
+							width={{ base: 'full', md: '33vw' }}
 							left={0}
 						>
 							<UserProfileCard user={user!} />
 						</GridItem>
 						<GridItem />
-						<GridItem marginTop={'6rem'} padding={10}>
+						<GridItem px={{ base: '20px' }} marginTop={{ base: '0px', md: '80px' }}>
 							{children}
 						</GridItem>
 					</Grid>

@@ -1,6 +1,9 @@
-import { Heading, Avatar, Box, Center, Image, Flex, Text, Stack, Button} from '@chakra-ui/react';
+import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
+import { Heading, Avatar, Box, Center, Image, Flex, Text, Stack, Button, Collapse, useBreakpointValue} from '@chakra-ui/react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IUser } from '../../types/User';
+import React from 'react'
 
 interface Props {
 	user: IUser;
@@ -9,10 +12,15 @@ interface Props {
 const UserProfileCard: React.FC<Props> = ({ user }) => {
 
 	const navigate = useNavigate()
+	const [
+		isOpen,
+		setIsOpen
+	] = useState<boolean>(false);
+	const isMd = useBreakpointValue({ base: false, md: true });
 	const { connections, fullName, height, targetWeight, username, weight,profileImg,coverImg } = user!;
 	return (
 		<Center>
-			<Box maxW={'300px'} w={'full'} bg={'gray.100'} boxShadow={'2xl'} rounded={'md'} overflow={'hidden'}>
+			<Box  w={'full'} bg={'gray.100'} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
 				<Image h={'120px'} w={'full'} src={coverImg} objectFit={'cover'} />
 				<Flex justify={'center'} mt={-12}>
 					<Avatar
@@ -33,8 +41,24 @@ const UserProfileCard: React.FC<Props> = ({ user }) => {
 						<Text color={'gray.500'}>@{username}</Text>
 					</Stack>
 
-				
-					<Flex justify={'space-between'}>
+					{isMd ? <CollapsibleSection user={user as any}/> :<Collapse in={isOpen} >
+					<CollapsibleSection user={user as any}/>
+					</Collapse>}
+					{!isMd && <Button onClick={() => setIsOpen(!isOpen)} bgColor={'transparent'} rightIcon={!isOpen ? <ChevronDownIcon /> : <ChevronUpIcon/>} width={'full'}>{isOpen ? 'Show Less':'Show More'}</Button>}
+				</Box>
+			</Box>
+		</Center>
+	);
+};
+
+export default UserProfileCard;
+
+
+const CollapsibleSection: React.FC<{ user: IUser }> = ({ user }) => {
+	const navigate = useNavigate()
+	const { connections, height, targetWeight, weight } = user;
+	return <React.Fragment>
+		<Flex justify={'space-between'}>
 						<Item label="Weight" value={`${weight} kg`} />
 						<Item label="Target Weight" value={`${targetWeight} kg`} />
 						<Item label="Connections" value={`${connections?.length}`} />
@@ -42,7 +66,8 @@ const UserProfileCard: React.FC<Props> = ({ user }) => {
 					</Flex>
 					<Button
 						w={'full'}
-						mt={8}
+							mt={8}
+							mb={5}
 						color={'white'}
 						rounded={'md'}
 						bgColor={'primary.300'}
@@ -55,13 +80,8 @@ const UserProfileCard: React.FC<Props> = ({ user }) => {
 					>
 						View Profile
 					</Button>
-				</Box>
-			</Box>
-		</Center>
-	);
-};
-
-export default UserProfileCard;
+	</React.Fragment>
+}
 
 interface ItemProps {
 	label: string;

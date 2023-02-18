@@ -70,7 +70,11 @@ const LinkItem: React.FC<Props> = ({ Icon, title, path }) => {
 				}
 				display={{ base: 'none', md: 'inline-block' }}
 				fontSize={'sm'}
-				fontWeight="light"
+				fontWeight={
+
+						isActive ? 'bold' :
+						'light'
+				}
 			>
 				{title}
 			</Text>
