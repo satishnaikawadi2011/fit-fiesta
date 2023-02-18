@@ -7,7 +7,7 @@ const ProfilePage = () => {
 	const { user } = useAppSelector((state) => state.auth);
 	return (
 		<Layout title="Profile">
-			<Box mx={'28'}>
+			<Box mx={{ base: '0px', md: '30px' }} width={{}}>
 				<UserProfile user={user!} />
 			</Box>
 		</Layout>

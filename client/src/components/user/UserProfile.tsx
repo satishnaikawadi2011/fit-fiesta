@@ -1,4 +1,18 @@
-import { Avatar, Box, Flex, Heading, Image, Link, Text, Icon, FlexProps, Stack, IconButton } from '@chakra-ui/react';
+import {
+	Avatar,
+	Box,
+	Flex,
+	Heading,
+	Image,
+	Link,
+	Text,
+	Icon,
+	FlexProps,
+	Stack,
+	IconButton,
+	useBreakpointValue,
+	useMediaQuery
+} from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { IUser } from '../../types/User';
 import { GiBodyHeight } from 'react-icons/gi';
@@ -49,6 +63,9 @@ const UserProfile: React.FC<Props> = ({ user }) => {
 		coverImg,
 		profileImg
 	} = user;
+	const [
+		isSmallScreen
+	] = useMediaQuery('(max-width: 390px)');
 	return (
 		<React.Fragment>
 			<EditCoverImageModal isOpen={coverImgModalOpen} onClose={() => setCoverImgModalOpen(false)} />
@@ -98,16 +115,26 @@ const UserProfile: React.FC<Props> = ({ user }) => {
 					<Link color={'primary.400'} fontSize={'sm'}>
 						{`${wrapConn(connections!.length)} connections`}
 					</Link>
-					<Flex alignItems={'center'} mt={5}>
-						<Stack spacing={0} mr={10}>
-							<Item Icon={<Icon as={GiBodyHeight} mr={3} />} Desc={`${height} cm`} mr={10} />
+					{
+						isSmallScreen ? <Stack mt={5}>
+							<Item Icon={<Icon as={GiBodyHeight} mr={3} />} Desc={`${height} cm`} />
 							<Item Icon={<Icon as={MdMail} mr={3} />} Desc={email} />
-						</Stack>
-						<Stack>
-							<Item Icon={<Icon as={FaWeight} mr={3} />} Desc={`${weight} kg (weight)`} mr={10} />
+							<Item Icon={<Icon as={FaWeight} mr={3} />} Desc={`${weight} kg (weight)`} />
 							<Item Icon={<Icon as={GrTarget} mr={3} />} Desc={`${targetWeight} kg (target weight)`} />
-						</Stack>
-					</Flex>
+						</Stack> :
+						<Flex alignItems={'center'} mt={5}>
+							<Stack spacing={0} mr={10}>
+								<Item Icon={<Icon as={GiBodyHeight} mr={3} />} Desc={`${height} cm`} mr={10} />
+								<Item Icon={<Icon as={MdMail} mr={3} />} Desc={email} />
+							</Stack>
+							<Stack>
+								<Item Icon={<Icon as={FaWeight} mr={3} />} Desc={`${weight} kg (weight)`} mr={10} />
+								<Item
+									Icon={<Icon as={GrTarget} mr={3} />}
+									Desc={`${targetWeight} kg (target weight)`}
+								/>
+							</Stack>
+						</Flex>}
 				</Box>
 			</Box>
 		</React.Fragment>
