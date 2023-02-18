@@ -56,18 +56,17 @@ const GroupDetailsPageLayout: React.FC<Props> = ({ children }) => {
 				groupDetails ? groupDetails!.name :
 				'Page Not Found'}`}
 		>
-			<Grid templateColumns="2fr 1fr" gap={4}>
-				<GridItem width={'66vw'} mx={3}>
-					{children}
-				</GridItem>
+			<Grid templateColumns={{ base: '1fr', md: '2fr 1fr' }} gap={4}>
+				<GridItem mx={3}>{children}</GridItem>
 				<GridItem />
 				<GridItem
-					ml={5}
-					height={'calc(100vh - 6rem)'}
-					position={'fixed'}
-					width={'33vw'}
-					right={-10}
+					height={{ base: 'auto', md: 'calc(100vh - 80px)' }}
+					right={0}
 					overflow="auto"
+					px={{ base: '20px' }}
+					position={{ base: 'relative', md: 'fixed' }}
+					width={{ base: 'full', md: '33vw' }}
+					pb={5}
 				>
 					<MembersSection members={groupDetails!.members as any} admin={groupDetails!.admin as any} />
 				</GridItem>

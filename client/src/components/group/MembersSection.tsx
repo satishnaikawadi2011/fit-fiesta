@@ -11,7 +11,7 @@ interface Props {
 const MembersSection: React.FC<Props> = ({ admin, members }) => {
 	const filteredMembers = members.filter((m) => m._id !== admin._id);
 	return (
-		<Box pb={5} maxW={'300px'} w={'full'} bg={'gray.100'} boxShadow={'2xl'} rounded={'md'} overflow={'auto'}>
+		<Box pb={5} w={'full'} bg={'gray.100'} boxShadow={'lg'} rounded={'md'} overflow={'auto'}>
 			<Heading p={4} fontSize={'xl'}>
 				Admin
 			</Heading>
