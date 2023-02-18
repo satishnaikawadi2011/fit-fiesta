@@ -65,7 +65,7 @@ const ConnectUserCard: React.FC<Props> = ({ user }) => {
 	return (
 		<React.Fragment>
 			<MutualConnsModel isOpen={showConnsModal} onClose={() => setShowConnsModal(false)} name={fullName} mutualConns={mutualConns} />
-			<Box height={'full'} maxW={'230px'} w={'full'} bg={'gray.100'} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
+			<Box height={'full'}  w={'full'} bg={'gray.100'} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
 				<Image h={'100px'} w={'full'} src={coverImg} objectFit={'cover'} />
 				<Flex justify={'center'} mt={-12}>
 					<Avatar

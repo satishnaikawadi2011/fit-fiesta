@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
 const NavigationCard = () => {
 	return (
-		<Box m={10} maxW={'300px'} w={'full'} bg={'gray.100'} boxShadow={'2xl'} rounded={'md'} overflow={'hidden'}>
+		<Box w={'full'} bg={'gray.100'} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
 			<Text m={3} ml={5} fontWeight={'light'} fontSize={'xs'}>
 				Manage my network
 			</Text>

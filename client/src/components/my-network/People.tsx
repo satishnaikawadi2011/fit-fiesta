@@ -33,7 +33,7 @@ const People = () => {
 
 	return (
 		// <React.Fragment>
-		<Grid templateColumns="repeat(auto-fit, minmax(230px, 1fr))" gap={6}>
+		<Grid templateColumns={{ base: '1fr', md: 'repeat(auto-fit, minmax(230px, 1fr))' }} gap={6}>
 			{suggestedUsers.map((u) => {
 				return (
 					<Box key={u._id}>

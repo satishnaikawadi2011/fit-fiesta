@@ -45,7 +45,7 @@ const Layout: React.FC<Props> = ({ title, children, className, style, header = t
 						</GridItem>
 					</Grid>
 				)}
-				{!withProfile && <Box marginTop={'7rem'}>{children}</Box>}
+				{!withProfile && <Box marginTop={'80px'}>{children}</Box>}
 			</div>
 		</React.Fragment>
 	);

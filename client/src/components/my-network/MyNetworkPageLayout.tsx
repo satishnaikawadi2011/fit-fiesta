@@ -13,14 +13,17 @@ const MyNetworkPageLayout: React.FC<Props> = ({ children }) => {
 	const { activeMyNetworkOption } = useAppSelector((state) => state.common);
 	return (
 		<Layout title={`${activeMyNetworkOption} | My Network`}>
-			<Grid templateColumns="1fr 2fr" gap={4}>
-				<GridItem height={'calc(100vh - 6rem)'} position={'fixed'} width={'33vw'} left={0}>
+			<Grid templateColumns={{ base: '1fr', md: '1fr 2fr' }} gap={4}>
+				<GridItem
+					px={{ base: '20px' }}
+					position={{ base: 'relative', md: 'fixed' }}
+					width={{ base: 'full', md: '33vw' }}
+					left={0}
+				>
 					<NavigationCard />
 				</GridItem>
 				<GridItem />
-				<GridItem mt={10} mx={3}>
-					{children}
-				</GridItem>
+				<GridItem px={{ base: '20px' }}>{children}</GridItem>
 			</Grid>
 		</Layout>
 	);
