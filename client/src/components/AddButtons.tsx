@@ -22,7 +22,7 @@ interface ItemProps {
 
 const Item: React.FC<ItemProps> = ({ Icon, title, onClick }) => {
 	return (
-		<Flex onClick={onClick} cursor={'pointer'} alignItems={'center'}>
+		<Flex mt={2} mr={2} onClick={onClick} cursor={'pointer'} alignItems={'center'}>
 			<Icon size={20} />
 			<Text ml={2} fontWeight={'medium'} fontSize={'md'}>
 				{title}
@@ -49,7 +49,15 @@ const AddButtons = () => {
 				isOpen={isCreateGroupModalOpen}
 				onClose={() => dispatch(setIsCreateGroupModalOpen(false))}
 			/>
-			<Flex height={50} bg={'gray.100'} justifyContent={'space-around'} boxShadow="md" rounded={'md'} mb={5}>
+			<Flex
+				p={3}
+				flexWrap={'wrap'}
+				bg={'gray.100'}
+				justifyContent={'space-around'}
+				boxShadow="md"
+				rounded={'md'}
+				mb={5}
+			>
 				<Item Icon={FcAddImage} title="Post" onClick={() => dispatch(setIsAddPostModalOpen(true))} />
 				<Item Icon={FcCalendar} title="Event" onClick={() => dispatch(setIsAddEventModalOpen(true))} />
 				<Item Icon={FcSurvey} title="Resources" onClick={() => dispatch(setIsAddResourceModalOpen(true))} />
