@@ -71,6 +71,10 @@ const getReceivedRequestsToJoinGroups = () => {
 	return client.get(`${endpoint}/groupPendingRequests`);
 };
 
+const getUserProfile = (username: string) => {
+	return client.get(`${endpoint}/${username}`);
+};
+
 export default {
 	editUserProfile,
 	getMutualConnections,
@@ -88,5 +92,6 @@ export default {
 	getUnreadNotificationsCount,
 	markAllNotificationsAsRead,
 	getSentRequestsToJoinGroups,
-	getReceivedRequestsToJoinGroups
+	getReceivedRequestsToJoinGroups,
+	getUserProfile
 };

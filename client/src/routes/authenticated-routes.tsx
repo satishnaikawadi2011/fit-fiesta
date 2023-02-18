@@ -5,7 +5,8 @@ import GroupDetailsPage from '../pages/group/group-details';
 import MyNetworkPage from '../pages/my-network';
 import NotFoundPage from '../pages/not-found';
 import NotificationsPage from '../pages/notifications';
-import ProfilePage from '../pages/profile';
+import MyProfilePage from '../pages/profile/my-profile';
+import ProfilePage from '../pages/profile/profile';
 import ResourcesPage from '../pages/resources';
 import SearchPage from '../pages/search';
 
@@ -17,7 +18,8 @@ export type RoutePathType =
 	| '/search'
 	| '/my-network/:section'
 	| '/notifications'
-	| '/group/:groupId';
+	| '/group/:groupId'
+	| '/profile/:username';
 
 export interface RouteType {
 	path: RoutePathType;
@@ -28,11 +30,12 @@ const ClientRoutes: RouteType[] = [
 	{ path: '/', element: <HomePage /> },
 	{ path: '/events', element: <EventsPage /> },
 	{ path: '/resources', element: <ResourcesPage /> },
-	{ path: '/profile', element: <ProfilePage /> },
+	{ path: '/profile', element: <MyProfilePage /> },
 	{ path: '/search', element: <SearchPage /> },
 	{ path: '/my-network/:section', element: <MyNetworkPage /> },
 	{ path: '/notifications', element: <NotificationsPage /> },
-	{ path: '/group/:groupId', element: <GroupDetailsPage /> }
+	{ path: '/group/:groupId', element: <GroupDetailsPage /> },
+	{ path: '/profile/:username', element: <ProfilePage /> }
 ];
 
 const AuthenticatedRoutes = () => {

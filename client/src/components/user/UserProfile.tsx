@@ -22,6 +22,7 @@ import { GrTarget } from 'react-icons/gr';
 import EditCoverImageModal from './EditCoverImageModal';
 import EditProfileImageModal from './EditProfileImageModal';
 import EditProfileModal from './EditProfileModal';
+import { useAppSelector } from '../../app/hooks';
 
 interface Props {
 	user: IUser;
@@ -37,6 +38,7 @@ const wrapConn = (conn: number) => {
 };
 
 const UserProfile: React.FC<Props> = ({ user }) => {
+	const { user: authUser } = useAppSelector((state) => state.auth);
 	const [
 		profileImgModalOpen,
 		setProfileImgModalOpen
@@ -49,6 +51,8 @@ const UserProfile: React.FC<Props> = ({ user }) => {
 		editProfileModalOpen,
 		setEditProfileModalOpen
 	] = useState(false);
+
+	const isMyProfile = user._id === authUser!._id;
 
 	const {
 		_id,
@@ -74,7 +78,11 @@ const UserProfile: React.FC<Props> = ({ user }) => {
 			<Box boxShadow="md" bg={'gray.100'} width={'100%'} mb={5} position={'relative'}>
 				<Image width={'100%'} height={200} src={coverImg} />
 				<Avatar
-					cursor={'pointer'}
+					cursor={
+
+							isMyProfile ? 'pointer' :
+							'auto'
+					}
 					left={'10%'}
 					top={100}
 					position={'absolute'}
@@ -83,28 +91,36 @@ const UserProfile: React.FC<Props> = ({ user }) => {
 					src={profileImg}
 					border={'4px'}
 					color={'primary.200'}
-					onClick={() => setProfileImgModalOpen(true)}
+					onClick={
+
+							isMyProfile ? () => setProfileImgModalOpen(true) :
+							() => {}
+					}
 				/>
 
-				<IconButton
-					aria-label="Edit profile"
-					position={'absolute'}
-					m={3}
-					right={0}
-					icon={<Icon as={FaUserEdit} />}
-					onClick={() => setEditProfileModalOpen(true)}
-				/>
+				{isMyProfile && (
+					<IconButton
+						aria-label="Edit profile"
+						position={'absolute'}
+						m={3}
+						right={0}
+						icon={<Icon as={FaUserEdit} />}
+						onClick={() => setEditProfileModalOpen(true)}
+					/>
+				)}
 
-				<IconButton
-					aria-label="Edit cover image"
-					position={'absolute'}
-					m={3}
-					right={0}
-					top={0}
-					icon={<Icon as={FaCamera} />}
-					rounded={'full'}
-					onClick={() => setCoverImgModalOpen(true)}
-				/>
+				{isMyProfile && (
+					<IconButton
+						aria-label="Edit cover image"
+						position={'absolute'}
+						m={3}
+						right={0}
+						top={0}
+						icon={<Icon as={FaCamera} />}
+						rounded={'full'}
+						onClick={() => setCoverImgModalOpen(true)}
+					/>
+				)}
 
 				<Box p={5} mt={5}>
 					<Heading fontSize={'2xl'}>{fullName}</Heading>
