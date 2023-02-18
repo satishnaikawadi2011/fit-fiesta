@@ -12,12 +12,17 @@ const SearchPageLayout: React.FC<Props> = ({ children }) => {
 	const { searchTerm } = useAppSelector((state) => state.common);
 	return (
 		<Layout title={`${searchTerm} | Search`}>
-			<Grid templateColumns="1fr 2fr" gap={4}>
-				<GridItem height={'calc(100vh - 6rem)'} position={'fixed'} width={'33vw'} left={0}>
+			<Grid templateColumns={{ base: '1fr', md: '1fr 2fr' }} gap={4}>
+				<GridItem
+					px={{ base: '20px' }}
+					position={{ base: 'relative', md: 'fixed' }}
+					width={{ base: 'full', md: '33vw' }}
+					left={0}
+				>
 					<SearchPageCard />
 				</GridItem>
 				<GridItem />
-				<GridItem padding={10}>{children}</GridItem>
+				<GridItem px={{ base: '20px' }}>{children}</GridItem>
 			</Grid>
 		</Layout>
 	);
