@@ -83,7 +83,7 @@ const ConnectUserCard: React.FC<Props> = ({ user }) => {
 						<Heading fontSize={'xl'} fontWeight={500} fontFamily={'body'}>
 							{fullName}
 						</Heading>
-						<Text color={'gray.500'}>@{username}</Text>
+						<Link color={'gray.500'} onClick={() => navigate(`/profile/${username}`)}>@{username}</Link>
 						{mutualConns.length !== 0 && <Link my={2} color={'gray.400'} fontWeight={'light'} fontSize={'sm'}>
 							{getMutualConnStr(mutualConns)}
 						</Link>}
