@@ -11,6 +11,7 @@ import groupRouter from './routes/group';
 import resourceRouter from './routes/resource';
 import fileRouter from './routes/file';
 import eventRouter from './routes/event';
+import messageRouter from './routes/message';
 
 export const app = express();
 
@@ -25,6 +26,7 @@ app.use('/api/group', groupRouter);
 app.use('/api/resource', resourceRouter);
 app.use('/api/file', fileRouter);
 app.use('/api/event', eventRouter);
+app.use('/api/message', messageRouter);
 
 app.get('/', (req, res) => {
 	res.send('Hello, World!');
