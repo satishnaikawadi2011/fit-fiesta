@@ -6,19 +6,7 @@ import { isExpired } from './utils/isExpired';
 import AuthenticatedRoutes from './routes/authenticated-routes';
 import { getAllDataFromStorage } from './utils/getAllDataFromStorage';
 import apiClient from './api/client';
-import { Box, Flex, Image, Icon, Text, Heading, Divider, Center, Spinner } from '@chakra-ui/react';
-import { ImLocation2 } from 'react-icons/im';
-import { CalendarIcon } from '@chakra-ui/icons';
-import { GrAddCircle } from 'react-icons/gr';
-import Event from './components/Event';
-import Resource from './components/Resource';
-import UserProfile from './components/user/UserProfile';
-import EditProfileImageModal from './components/user/EditProfileImageModal';
-import EditCoverImageModal from './components/user/EditCoverImageModal';
-import EditProfileModal from './components/user/EditProfileModal';
-import SearchPageCard from './components/search-page/SearchPageCard';
-import InvitationListItem from './components/my-network/InvitationListItem';
-import AppBadge from './components/app/badge/AppBadge';
+import { Box, Center, Spinner } from '@chakra-ui/react';
 import useApiUpdated from './hooks/useApiUpdated';
 import { INotification } from './types/Notification';
 import userApi from './api/user';
@@ -26,8 +14,7 @@ import { increaseUnreadNotificationsCount, setNotifications, setUnreadNotificati
 import { IUser } from './types/User';
 import { updateUser } from './app/features/auth';
 import socket from './socket';
-import GroupCard from './components/group/GroupCard';
-import GroupDetails from './components/group/GroupDetails';
+import MessageContactListItem from './components/messaging/MessageContactListItem';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -142,75 +129,90 @@ function App() {
 		);
 	}
 
-	const group = {
-		_id: '63ee1bdf1f21091dd599bfdd',
-		name: 'Second Group With Image',
-		description:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ',
-		members:
-			[
-				'63dd5c27a9c7110986043aa0',
-				'63dcda35cdee5a239718395e'
-			],
-		admin:
-			{
-				_id: '63dd5c27a9c7110986043aa0',
-				fullName: 'Sam Doe',
-				username: 'sammy',
-				email: 'sam@doe.com',
-				password: '$2a$10$KdXE9RPrskeLyxZNvE3fweHIAzYc9GJgxb/HL8wBFPhtGxNoYq7V6',
-				profileImg:
-					'https://res.cloudinary.com/dyfm31f1n/image/upload/v1675059905/fit-fiesta/placeholders/blank-profile-picture-gdb207bae8_1280_zymz7e.png',
-				coverImg:
-					'https://res.cloudinary.com/dyfm31f1n/image/upload/v1675059731/fit-fiesta/placeholders/bg_qr4vtm.jpg',
-				location: 'Jacobs Well ,Queensland ,Australia',
-				weight: 67,
-				height: 167,
-				targetWeight: 56,
-				groups:
-					[
-						'63ee1b881f21091dd599bfd9',
-						'63ee1bdf1f21091dd599bfdd'
-					],
-				events: [],
-				posts: [],
-				connections:
-					[
-						'63dcda35cdee5a239718395e'
-					],
-				pendingConnections: [],
-				sentConnections: [],
-				createdAt: '2023-02-03T19:10:31.787Z',
-				updatedAt: '2023-02-16T21:27:43.302Z',
-				__v: 95,
-				groupPendingRequests: [],
-				groupSentRequests: [],
-				receivedGroupJoinRequests: [],
-				sentGroupJoinRequests: []
-			},
-		profileImg: 'https://res.cloudinary.com/dyfm31f1n/image/upload/v1676549086/fit-fiesta/nqqrlykycmrjtnh6fijb.png',
-		coverImg: 'https://res.cloudinary.com/dyfm31f1n/image/upload/v1675059731/fit-fiesta/placeholders/bg_qr4vtm.jpg',
-		events: [],
-		posts: [],
-		createdAt: '2023-02-16T12:04:47.016Z',
-		updatedAt: '2023-02-16T21:27:43.178Z',
-		__v: 1
-	};
-
 	if (!isTokenExpired && user) {
 		apiClient.setHeader('Authorization', `Bearer ${token}`);
-		return <AuthenticatedRoutes />;
-		// return <GroupDetails group={group as any} />;
-		// return <InvitationListItem />;
-		// return (
-		// 	<AppBadge content={2} bgColor="red">
-		// 		<GrAddCircle size={100} />
-		// 	</AppBadge>
-		// );
+		// return <AuthenticatedRoutes />;
+		return (
+			<Box>
+				<MessageContactListItem
+					name={contactList[0].name}
+					profileImg={contactList[0].profileImg}
+					latestMessage={contactList[0].latestMessage as any}
+				/>
+				<MessageContactListItem
+					name={contactList[1].name}
+					profileImg={contactList[1].profileImg}
+					latestMessage={contactList[1].latestMessage as any}
+				/>
+				<MessageContactListItem
+					name={contactList[2].name}
+					profileImg={contactList[2].profileImg}
+					latestMessage={contactList[2].latestMessage as any}
+				/>
+			</Box>
+		);
 	}
 	return <UnauthenticatedRoutes />;
-
-	// return <UserProfile user={user as any} />;
 }
+
+const contactList = [
+	{
+		latestMessage:
+			{
+				_id: '1',
+				sender:
+					{
+						_id: '1',
+						fullName: 'John Doe',
+						username: 'johndoe'
+					},
+				receiver: '2',
+				content: 'Hello, how are you?',
+				read: true,
+				createdAt: '2022-02-18T10:45:00Z',
+				updatedAt: '2022-02-18T10:45:00Z'
+			},
+		name: 'Jane Smith',
+		profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png'
+	},
+	{
+		latestMessage:
+			{
+				_id: '2',
+				sender:
+					{
+						_id: '63dcda35cdee5a239718395e',
+						fullName: 'Jane Smith',
+						username: 'janesmith'
+					},
+				receiver: '1',
+				content: "I'm good, thanks for asking. How about you?",
+				read: true,
+				createdAt: '2022-02-19T08:30:00Z',
+				updatedAt: '2022-02-19T08:30:00Z'
+			},
+		name: 'John Doe',
+		profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png'
+	},
+	{
+		latestMessage:
+			{
+				_id: '3',
+				sender:
+					{
+						_id: '3',
+						fullName: 'Alice Smith',
+						username: 'alicesmith'
+					},
+				group: '1',
+				content: "Hey everyone, how's it going?Hey everyone, how's it going?Hey everyone, how's it going?",
+				read: false,
+				createdAt: '2022-02-18T18:15:00Z',
+				updatedAt: '2022-02-18T18:15:00Z'
+			},
+		name: 'Group Chat',
+		profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png'
+	}
+];
 
 export default App;
