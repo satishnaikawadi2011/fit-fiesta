@@ -16,6 +16,7 @@ import { updateUser } from './app/features/auth';
 import socket from './socket';
 import MessageContactListItem from './components/messaging/MessageContactListItem';
 import Message from './components/messaging/Message';
+import MessageContactList from './components/messaging/MessageContactList';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -134,11 +135,12 @@ function App() {
 		apiClient.setHeader('Authorization', `Bearer ${token}`);
 		// return <AuthenticatedRoutes />;
 		return (
-			<Box>
-				<Message message={contactList[0].latestMessage as any} />
-				<Message message={contactList[1].latestMessage as any} />
-				<Message message={contactList[2].latestMessage as any} />
-			</Box>
+			// <Box>
+			// 	<Message message={contactList[0].latestMessage as any} />
+			// 	<Message message={contactList[1].latestMessage as any} />
+			// 	<Message message={contactList[2].latestMessage as any} />
+			// </Box>
+			<MessageContactList contacts={contactList as any} />
 		);
 	}
 	return <UnauthenticatedRoutes />;
@@ -163,7 +165,8 @@ const contactList = [
 				updatedAt: '2022-02-18T10:45:00Z'
 			},
 		name: 'Jane Smith',
-		profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png'
+		profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png',
+		_id: 1
 	},
 	{
 		latestMessage:
@@ -183,7 +186,8 @@ const contactList = [
 				updatedAt: '2022-02-19T08:30:00Z'
 			},
 		name: 'John Doe',
-		profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png'
+		profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png',
+		_id: 2
 	},
 	{
 		latestMessage:
@@ -204,7 +208,8 @@ const contactList = [
 				updatedAt: '2022-02-18T18:15:00Z'
 			},
 		name: 'Group Chat',
-		profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png'
+		profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png',
+		_id: 3
 	}
 ];
 
