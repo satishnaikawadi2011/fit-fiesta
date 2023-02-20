@@ -1,4 +1,4 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Avatar, Box, Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 import { useAppSelector } from '../../app/hooks';
 import { PRIMARY } from '../../constants/colors';
@@ -21,7 +21,8 @@ const Message: React.FC<Props> = ({ message }) => {
 	}
 	return (
 		<React.Fragment>
-			<Box
+			<Flex
+				alignItems={'center'}
 				width={'max-content'}
 				maxWidth={'60%'}
 				m={'10px'}
@@ -32,35 +33,53 @@ const Message: React.FC<Props> = ({ message }) => {
 				}
 				position={'relative'}
 			>
-				<Text ml={1} fontSize={'sm'} fontWeight={'semibold'} color={PRIMARY}>
-					{senderName}
-				</Text>
-				<Box
-					p={'10px'}
-					bgColor={
+				{!sendByMe && (
+					<Avatar
+						mr={1}
+						size={'xs'}
+						src={(message.sender as any).profileImg}
+						name={(message.sender as any).fullName}
+					/>
+				)}
+				<Box>
+					<Text ml={1} fontSize={'sm'} fontWeight={'semibold'} color={PRIMARY}>
+						{senderName}
+					</Text>
+					<Box
+						p={'10px'}
+						bgColor={
 
-							sendByMe ? PRIMARY :
-							'gray.100'
-					}
-					borderTopRightRadius={'12px'}
-					borderBottomLeftRadius={'12px'}
-					borderBottomRightRadius={
+								sendByMe ? PRIMARY :
+								'gray.100'
+						}
+						borderTopRightRadius={'12px'}
+						borderBottomLeftRadius={'12px'}
+						borderBottomRightRadius={
 
-							sendByMe ? 0 :
-							'12px'
-					}
-					borderTopLeftRadius={
+								sendByMe ? 0 :
+								'12px'
+						}
+						borderTopLeftRadius={
 
-							sendByMe ? '12px' :
-							0
-					}
-				>
-					<Text textAlign={'justify'}>{message.content}</Text>
+								sendByMe ? '12px' :
+								0
+						}
+					>
+						<Text textAlign={'justify'}>{message.content}</Text>
+					</Box>
+					<Text ml={1} fontSize={'xs'} fontWeight={'light'}>
+						{dayjs(message.createdAt).format('h:mm A')}
+					</Text>
 				</Box>
-				<Text ml={1} fontSize={'xs'} fontWeight={'light'}>
-					{dayjs(message.createdAt).format('h:mm A')}
-				</Text>
-			</Box>
+				{sendByMe && (
+					<Avatar
+						ml={1}
+						size={'xs'}
+						src={(message.sender as any).profileImg}
+						name={(message.sender as any).fullName}
+					/>
+				)}
+			</Flex>
 		</React.Fragment>
 	);
 };
