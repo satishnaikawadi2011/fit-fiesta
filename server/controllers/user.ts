@@ -6,6 +6,7 @@ import { validateLogin } from '../validation/validateLogin';
 import mongoose from 'mongoose';
 import { validateEditUser } from '../validation/validateEditUser';
 import Notification, { getNotificationMessage, NotificationType } from '../models/Notification';
+import Group from '../models/Group';
 
 export const register = async (req: Request, res: Response) => {
 	try {
@@ -640,6 +641,33 @@ export const getUserProfile = async (req: any, res: Response) => {
 		}
 
 		return res.json({ user });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
+export const getContacts = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const user = await User.findById(userId);
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		const groups = await Group.find({ _id: { $in: user.groups } }).populate('latestMessage');
+
+		const connections = await User.find({ _id: { $in: user.connections } })
+			.populate({
+				path: 'latestMessages.message',
+				model: 'Message'
+			})
+			.populate({
+				path: 'latestMessages.connection',
+				model: 'User'
+			});
+
+		return res.json({ groups, connections });
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ message: 'Something went wrong!' });

@@ -24,7 +24,8 @@ import {
 	getMyGroups,
 	getPendingRequestsToJoinMyGroups,
 	getSentRequestsToJoinGroups,
-	getUserProfile
+	getUserProfile,
+	getContacts
 } from './../controllers/user';
 import express from 'express';
 import { setupCloudinary } from '../utils/setupCloudinary';
@@ -96,6 +97,8 @@ router.get('/groups', isAuthenticated, getMyGroups);
 router.get('/groupPendingRequests', isAuthenticated, getPendingRequestsToJoinMyGroups);
 
 router.get('/groupSentRequests', isAuthenticated, getSentRequestsToJoinGroups);
+
+router.get('/contacts', isAuthenticated, getContacts);
 
 router.get('/:username', isAuthenticated, getUserProfile);
 
