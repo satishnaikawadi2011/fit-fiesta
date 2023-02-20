@@ -10,6 +10,7 @@ export interface IGroup {
 	profileImg: string;
 	admin: string;
 	coverImg: string;
+	latestMessage?: string;
 }
 
 const GroupSchema = new Schema(
@@ -60,7 +61,12 @@ const GroupSchema = new Schema(
 					type: Schema.Types.ObjectId,
 					ref: 'Post'
 				}
-			]
+			],
+		latestMessage:
+			{
+				type: Schema.Types.ObjectId,
+				ref: 'Message'
+			}
 	},
 	{ timestamps: true }
 );

@@ -4,6 +4,7 @@ import { Response } from 'express';
 import Message, { IMessage } from '../models/Message';
 import { validateMessageData } from '../validation/validateMessageData';
 import Group from '../models/Group';
+import User from '../models/User';
 
 export const sendMessage = async (req: any, res: Response) => {
 	try {
@@ -20,6 +21,47 @@ export const sendMessage = async (req: any, res: Response) => {
 		await message.save();
 
 		io.emit('message', message);
+
+		if (receiver) {
+			const senderUser = await User.findById(sender);
+			const latMsgIdx1 = senderUser!.latestMessages.findIndex((lm) => lm.connection.toString() === receiver);
+			if (latMsgIdx1 !== -1) {
+				senderUser!.latestMessages[latMsgIdx1] = {
+					connection: receiver,
+					message: message._id
+				};
+			}
+			else {
+				senderUser!.latestMessages.push({
+					connection: receiver,
+					message: message._id
+				});
+			}
+
+			const receiverUser = await User.findById(receiver);
+			const latMsgIdx2 = receiverUser!.latestMessages.findIndex((lm) => lm.connection.toString() === sender);
+			if (latMsgIdx2 !== -1) {
+				receiverUser!.latestMessages[latMsgIdx2] = {
+					connection: sender,
+					message: message._id
+				};
+			}
+			else {
+				receiverUser!.latestMessages.push({
+					connection: sender,
+					message: message._id
+				});
+			}
+
+			await senderUser!.save();
+			await receiverUser!.save();
+		}
+
+		if (group) {
+			const grp = await Group.findById(group);
+			grp!.latestMessage = message._id;
+			await grp!.save();
+		}
 
 		return res.status(201).json({ message });
 	} catch (err) {

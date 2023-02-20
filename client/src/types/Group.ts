@@ -10,4 +10,5 @@ export interface IGroup {
 	createdAt?: string;
 	updatedAt?: string;
 	_id: string;
+	latestMessage?: string;
 }

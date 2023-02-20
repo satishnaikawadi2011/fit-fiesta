@@ -26,6 +26,10 @@ export interface IUser {
 		group: string;
 	}[];
 	sentGroupJoinRequests: string[];
+	latestMessages: {
+		connection: string;
+		message: string;
+	}[];
 }
 
 const UserSchema = new Schema(
@@ -145,6 +149,24 @@ const UserSchema = new Schema(
 				{
 					type: Schema.Types.ObjectId,
 					ref: 'Group'
+				}
+			],
+		latestMessages:
+			[
+				{
+					_id: false,
+					connection:
+						{
+							type: Schema.Types.ObjectId,
+							ref: 'User',
+							required: true
+						},
+					message:
+						{
+							type: Schema.Types.ObjectId,
+							ref: 'Message',
+							required: true
+						}
 				}
 			]
 	},

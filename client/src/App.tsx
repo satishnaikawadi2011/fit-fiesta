@@ -137,22 +137,22 @@ function App() {
 
 	if (!isTokenExpired && user) {
 		apiClient.setHeader('Authorization', `Bearer ${token}`);
-		// return <AuthenticatedRoutes />;
+		return <AuthenticatedRoutes />;
 		// return ;
-		return (
-			<React.Fragment>
-				{
-					isLargerScreen ? <Flex overflowY={'auto'}>
-						<Box width={'30vw'} overflow={'auto'}>
-							<MessageContactList contacts={contactList as any} />
-						</Box>
-						<Box width={'70vw'} overflow={'auto'} style={{ height: 'calc(100vh)', overflowY: 'scroll' }}>
-							<MessageList messages={messages} />
-						</Box>
-					</Flex> :
-					<MessageContactList contacts={contactList as any} />}
-			</React.Fragment>
-		);
+		// return (
+		// 	<React.Fragment>
+		// 		{
+		// 			isLargerScreen ? <Flex overflowY={'auto'}>
+		// 				<Box width={'30vw'} overflow={'auto'}>
+		// 					<MessageContactList contacts={contactList as any} />
+		// 				</Box>
+		// 				<Box width={'70vw'} overflow={'auto'} style={{ height: 'calc(100vh)', overflowY: 'scroll' }}>
+		// 					<MessageList messages={messages} />
+		// 				</Box>
+		// 			</Flex> :
+		// 			<MessageContactList contacts={contactList as any} />}
+		// 	</React.Fragment>
+		// );
 	}
 	return <UnauthenticatedRoutes />;
 }

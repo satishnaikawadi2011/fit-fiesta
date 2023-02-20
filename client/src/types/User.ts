@@ -3,6 +3,11 @@ export interface IReceivedGroupJoinRequest {
 	group: string;
 }
 
+export interface IUserLatestMessage {
+	connection: string;
+	message: string;
+}
+
 export interface IUser {
 	_id: string;
 	fullName: string;
@@ -22,6 +27,7 @@ export interface IUser {
 	pendingConnections?: Array<string>;
 	sentConnections?: Array<string>;
 	receivedGroupJoinRequests?: IReceivedGroupJoinRequest[];
+	latestMessages: IUserLatestMessage[];
 	sentGroupJoinRequests?: string[];
 	createdAt: string;
 	updatedAt: string;
