@@ -7,6 +7,7 @@ import resourceReducer from './features/resource';
 import commonReducer from './features/common';
 import userReducer from './features/user';
 import groupReducer from './features/group';
+import chatReducer from './features/chat';
 
 export const store = configureStore({
 	reducer:
@@ -18,7 +19,8 @@ export const store = configureStore({
 			resource: resourceReducer,
 			common: commonReducer,
 			user: userReducer,
-			group: groupReducer
+			group: groupReducer,
+			chat: chatReducer
 		}
 });
 
