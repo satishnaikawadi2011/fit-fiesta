@@ -6,7 +6,7 @@ import { isExpired } from './utils/isExpired';
 import AuthenticatedRoutes from './routes/authenticated-routes';
 import { getAllDataFromStorage } from './utils/getAllDataFromStorage';
 import apiClient from './api/client';
-import { Box, Center, Spinner } from '@chakra-ui/react';
+import { Box, Center, Flex, Spinner, useMediaQuery } from '@chakra-ui/react';
 import useApiUpdated from './hooks/useApiUpdated';
 import { INotification } from './types/Notification';
 import userApi from './api/user';
@@ -22,6 +22,9 @@ import MessageList from './components/messaging/MessageList';
 function App() {
 	const dispatch = useAppDispatch();
 	const { notifications } = useAppSelector((state) => state.user);
+	const [
+		isLargerScreen
+	] = useMediaQuery('(min-width: 768px)');
 	const [
 		runFetchCalls,
 		setRunFetchCalls
@@ -135,7 +138,21 @@ function App() {
 	if (!isTokenExpired && user) {
 		apiClient.setHeader('Authorization', `Bearer ${token}`);
 		// return <AuthenticatedRoutes />;
-		return <MessageList messages={messages} />;
+		// return ;
+		return (
+			<React.Fragment>
+				{
+					isLargerScreen ? <Flex overflowY={'auto'}>
+						<Box width={'30vw'} overflow={'auto'}>
+							<MessageContactList contacts={contactList as any} />
+						</Box>
+						<Box width={'70vw'} overflow={'auto'} style={{ height: 'calc(100vh)', overflowY: 'scroll' }}>
+							<MessageList messages={messages} />
+						</Box>
+					</Flex> :
+					<MessageContactList contacts={contactList as any} />}
+			</React.Fragment>
+		);
 	}
 	return <UnauthenticatedRoutes />;
 }

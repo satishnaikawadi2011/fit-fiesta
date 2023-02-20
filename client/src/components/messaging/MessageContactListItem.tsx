@@ -45,7 +45,7 @@ const MessageContactListItem: React.FC<Props> = ({ name, profileImg, latestMessa
 	}
 
 	return (
-		<Flex width={'full'} height={'92px'} maxWidth={'624px'} alignItems={'center'} pl={3} pr={2}>
+		<Flex width={'full'} height={'92px'} alignItems={'center'} pl={3} pr={2}>
 			<Avatar mr={2} src={profileImg} name={name} />
 			<Box width={'full'}>
 				<Flex flexWrap="wrap" overflow="hidden" alignItems={'baseline'} justifyContent="space-between">
