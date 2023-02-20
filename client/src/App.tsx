@@ -17,6 +17,7 @@ import socket from './socket';
 import MessageContactListItem from './components/messaging/MessageContactListItem';
 import Message from './components/messaging/Message';
 import MessageContactList from './components/messaging/MessageContactList';
+import MessageList from './components/messaging/MessageList';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -134,17 +135,34 @@ function App() {
 	if (!isTokenExpired && user) {
 		apiClient.setHeader('Authorization', `Bearer ${token}`);
 		// return <AuthenticatedRoutes />;
-		return (
-			// <Box>
-			// 	<Message message={contactList[0].latestMessage as any} />
-			// 	<Message message={contactList[1].latestMessage as any} />
-			// 	<Message message={contactList[2].latestMessage as any} />
-			// </Box>
-			<MessageContactList contacts={contactList as any} />
-		);
+		return <MessageList messages={messages} />;
 	}
 	return <UnauthenticatedRoutes />;
 }
+
+const messages: any[] = [];
+
+for (let i = 0; i < 10; i++) {
+	const message = {
+		_id: `message_${i}`,
+		sender:
+			{
+				_id: `user_${i}`,
+				fullName: `User ${i}`,
+				username: `user${i}`,
+				profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png'
+			},
+		receiver: `receiver_${i}`,
+		content: `This is message number ${i}`,
+		read: false,
+		createdAt: new Date().toISOString(),
+		updatedAt: new Date().toISOString()
+	};
+
+	messages.push(message);
+}
+
+console.log(messages);
 
 const contactList = [
 	{
