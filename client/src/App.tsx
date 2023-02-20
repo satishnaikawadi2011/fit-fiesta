@@ -15,6 +15,7 @@ import { IUser } from './types/User';
 import { updateUser } from './app/features/auth';
 import socket from './socket';
 import MessageContactListItem from './components/messaging/MessageContactListItem';
+import Message from './components/messaging/Message';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -134,21 +135,9 @@ function App() {
 		// return <AuthenticatedRoutes />;
 		return (
 			<Box>
-				<MessageContactListItem
-					name={contactList[0].name}
-					profileImg={contactList[0].profileImg}
-					latestMessage={contactList[0].latestMessage as any}
-				/>
-				<MessageContactListItem
-					name={contactList[1].name}
-					profileImg={contactList[1].profileImg}
-					latestMessage={contactList[1].latestMessage as any}
-				/>
-				<MessageContactListItem
-					name={contactList[2].name}
-					profileImg={contactList[2].profileImg}
-					latestMessage={contactList[2].latestMessage as any}
-				/>
+				<Message message={contactList[0].latestMessage as any} />
+				<Message message={contactList[1].latestMessage as any} />
+				<Message message={contactList[2].latestMessage as any} />
 			</Box>
 		);
 	}
@@ -164,7 +153,8 @@ const contactList = [
 					{
 						_id: '1',
 						fullName: 'John Doe',
-						username: 'johndoe'
+						username: 'johndoe',
+						profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png'
 					},
 				receiver: '2',
 				content: 'Hello, how are you?',
@@ -183,7 +173,8 @@ const contactList = [
 					{
 						_id: '63dcda35cdee5a239718395e',
 						fullName: 'Jane Smith',
-						username: 'janesmith'
+						username: 'janesmith',
+						profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png'
 					},
 				receiver: '1',
 				content: "I'm good, thanks for asking. How about you?",
@@ -202,10 +193,12 @@ const contactList = [
 					{
 						_id: '3',
 						fullName: 'Alice Smith',
-						username: 'alicesmith'
+						username: 'alicesmith',
+						profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png'
 					},
 				group: '1',
-				content: "Hey everyone, how's it going?Hey everyone, how's it going?Hey everyone, how's it going?",
+				content:
+					"Hey everyone, how's it going?Hey everyone, how's it going?Hey everyone, how's it going? Hey everyone, how's it goingHey everyone, how's it goingHey everyone, how's it going",
 				read: false,
 				createdAt: '2022-02-18T18:15:00Z',
 				updatedAt: '2022-02-18T18:15:00Z'
