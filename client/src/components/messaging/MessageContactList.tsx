@@ -37,7 +37,7 @@ const MessageContactList: React.FC<Props> = ({ contacts }) => {
 	const onBlur = () => setFocused(false);
 	return (
 		<Box width={'full'}>
-			<InputGroup width={'95%'} mx={'auto'} mt={2}>
+			<InputGroup width={'95%'} mx={'auto'} my={2}>
 				<InputLeftElement
 					pointerEvents="none"
 					children={

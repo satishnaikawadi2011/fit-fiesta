@@ -6,7 +6,7 @@ import { isExpired } from './utils/isExpired';
 import AuthenticatedRoutes from './routes/authenticated-routes';
 import { getAllDataFromStorage } from './utils/getAllDataFromStorage';
 import apiClient from './api/client';
-import { Box, Center, Flex, Spinner, useMediaQuery } from '@chakra-ui/react';
+import { Box, Center, Flex, Image, Spinner, Text, useMediaQuery } from '@chakra-ui/react';
 import useApiUpdated from './hooks/useApiUpdated';
 import { INotification } from './types/Notification';
 import userApi from './api/user';
@@ -18,6 +18,7 @@ import MessageContactListItem from './components/messaging/MessageContactListIte
 import Message from './components/messaging/Message';
 import MessageContactList from './components/messaging/MessageContactList';
 import MessageList from './components/messaging/MessageList';
+import beginChatImg from './assets/begin-chat.png';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -137,22 +138,28 @@ function App() {
 
 	if (!isTokenExpired && user) {
 		apiClient.setHeader('Authorization', `Bearer ${token}`);
-		// return <AuthenticatedRoutes />;
+		return <AuthenticatedRoutes />;
 		// return ;
-		return (
-			<React.Fragment>
-				{
-					isLargerScreen ? <Flex overflowY={'auto'}>
-						<Box width={'30vw'} overflow={'auto'}>
-							<MessageContactList contacts={contactList as any} />
-						</Box>
-						<Box width={'70vw'} overflow={'auto'} style={{ height: 'calc(100vh)', overflowY: 'scroll' }}>
-							<MessageList messages={messages} />
-						</Box>
-					</Flex> :
-					<MessageContactList contacts={contactList as any} />}
-			</React.Fragment>
-		);
+		// return (
+		// 	<React.Fragment>
+		// 		{
+		// 			isLargerScreen ? <Flex overflowY={'auto'}>
+		// 				<Box width={'30vw'} overflow={'auto'}>
+		// 					<MessageContactList contacts={contactList as any} />
+		// 				</Box>
+		// 				<Box width={'70vw'} overflow={'auto'} style={{ height: 'calc(100vh)', overflowY: 'scroll' }}>
+		// 					{/* <MessageList messages={messages} /> */}
+		// 					<Center height={'100%'}>
+		// 						<div style={{ height: '100%' }}>
+		// 							<Image src={beginChatImg} height={'80%'} />
+		// 							<Text textAlign={'center'}>Please select a contact or group to chat with them</Text>
+		// 						</div>
+		// 					</Center>
+		// 				</Box>
+		// 			</Flex> :
+		// 			<MessageContactList contacts={contactList as any} />}
+		// 	</React.Fragment>
+		// );
 	}
 	return <UnauthenticatedRoutes />;
 }

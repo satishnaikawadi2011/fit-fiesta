@@ -1,4 +1,4 @@
-import { Box, Flex, useMediaQuery } from '@chakra-ui/react';
+import { Box, Center, Flex, Image, Text, useMediaQuery } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import MessageContactList, { IContactListItem } from '../components/messaging/MessageContactList';
 import MessageList from '../components/messaging/MessageList';
@@ -8,6 +8,7 @@ import { IGroup } from '../types/Group';
 import { IUser } from '../types/User';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { setContacts } from '../app/features/chat';
+import beginChatImg from '../assets/begin-chat.png';
 
 export interface IContacts {
 	groups: IGroup[];
@@ -23,7 +24,7 @@ const MessangerPage = () => {
 		groups: IGroup[];
 		connections: IUser[];
 	}>(userApi.getContacts);
-	const { contacts } = useAppSelector((state) => state.chat);
+	const { contacts, selectedContact } = useAppSelector((state) => state.chat);
 
 	useEffect(() => {
 		getContacts();
@@ -50,6 +51,14 @@ const MessangerPage = () => {
 					</Box>
 					<Box width={'70vw'} overflow={'auto'} style={{ height: 'calc(100vh)', overflowY: 'scroll' }}>
 						{/* <MessageList messages={messages} /> */}
+						{!selectedContact && (
+							<Center height={'100%'}>
+								<div style={{ height: '100%' }}>
+									<Image src={beginChatImg} height={'80%'} />
+									<Text textAlign={'center'}>Please select a contact or group to chat with them</Text>
+								</div>
+							</Center>
+						)}
 					</Box>
 				</Flex> :
 				<MessageContactList contacts={contacts} />}

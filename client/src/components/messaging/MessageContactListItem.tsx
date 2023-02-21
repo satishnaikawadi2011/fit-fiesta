@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { IMessage } from '../../types/Message';
 import dayjs from 'dayjs';
 import { getDiff } from '../../utils/date-diff';
-import { updateLatestMessage } from '../../app/features/chat';
+import { setSelectedContact, updateLatestMessage } from '../../app/features/chat';
 
 interface Props {
 	_id: string;
@@ -49,16 +49,7 @@ const MessageContactListItem: React.FC<Props> = ({ _id, name, profileImg, latest
 	}
 
 	const clickHandler = () => {
-		// dispatch(
-		// 	updateLatestMessage({
-		// 		contactId: _id,
-		// 		message:
-		// 			{
-		// 				...latestMessage as any,
-		// 				createdAt: new Date().toISOString()
-		// 			}
-		// 	})
-		// );
+		dispatch(setSelectedContact({ _id, name, profileImg, latestMessage }));
 	};
 
 	return (
