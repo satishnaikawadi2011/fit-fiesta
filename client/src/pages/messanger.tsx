@@ -4,11 +4,13 @@ import MessageContactList, { IContactListItem } from '../components/messaging/Me
 import MessageList from '../components/messaging/MessageList';
 import useApiUpdated from '../hooks/useApiUpdated';
 import userApi from '../api/user';
+import messageApi from '../api/message';
 import { IGroup } from '../types/Group';
 import { IUser } from '../types/User';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { setContacts } from '../app/features/chat';
 import beginChatImg from '../assets/begin-chat.png';
+import { IMessage } from '../types/Message';
 
 export interface IContacts {
 	groups: IGroup[];
@@ -24,11 +26,24 @@ const MessangerPage = () => {
 		groups: IGroup[];
 		connections: IUser[];
 	}>(userApi.getContacts);
+	const { data: messagesData, error: messagesErr, loading: messagesLoad, request: getMessages } = useApiUpdated<
+		IMessage[]
+	>(messageApi.getMessages);
 	const { contacts, selectedContact } = useAppSelector((state) => state.chat);
 
 	useEffect(() => {
 		getContacts();
 	}, []);
+
+	useEffect(
+		() => {
+			if (selectedContact) {
+			}
+		},
+		[
+			selectedContact
+		]
+	);
 
 	useEffect(
 		() => {
