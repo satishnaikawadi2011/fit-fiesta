@@ -20,6 +20,19 @@ const MessageContactList: React.FC<Props> = ({ contacts }) => {
 		focused,
 		setFocused
 	] = React.useState(false);
+	const [
+		query,
+		setQuery
+	] = React.useState('');
+
+	const filteredContacts = React.useMemo(
+		() => contacts.filter((c) => c.name.toLowerCase().includes(query.toLowerCase())),
+		[
+			contacts,
+			query
+		]
+	);
+
 	const onFocus = () => setFocused(true);
 	const onBlur = () => setFocused(false);
 	return (
@@ -40,10 +53,13 @@ const MessageContactList: React.FC<Props> = ({ contacts }) => {
 					_focus={{ outline: 'none', border: 'none' }}
 					onFocus={onFocus}
 					onBlur={onBlur}
+					type="text"
+					value={query}
+					onChange={(event) => setQuery(event.target.value)}
 				/>
 			</InputGroup>
 
-			{contacts.map((c) => {
+			{filteredContacts.map((c) => {
 				return (
 					<MessageContactListItem
 						key={c._id}
