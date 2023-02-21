@@ -657,17 +657,20 @@ export const getContacts = async (req: any, res: Response) => {
 
 		const groups = await Group.find({ _id: { $in: user.groups } }).populate('latestMessage');
 
-		const connections = await User.find({ _id: { $in: user.connections } })
-			.populate({
-				path: 'latestMessages.message',
-				model: 'Message'
-			})
-			.populate({
-				path: 'latestMessages.connection',
-				model: 'User'
-			});
+		const connections = await User.find({ _id: { $in: user.connections } }).populate({
+			path: 'latestMessages.message',
+			model: 'Message'
+		});
 
-		return res.json({ groups, connections });
+		const transformedConnections = connections.map((c) => {
+			const latMsgs = [
+				c.latestMessages.find((lm) => lm.connection.toString() === userId)
+			];
+			Object.assign(c, { latestMessages: latMsgs });
+			return c;
+		});
+
+		return res.json({ groups, connections: transformedConnections });
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ message: 'Something went wrong!' });

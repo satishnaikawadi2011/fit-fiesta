@@ -19,7 +19,8 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import apiSauce from 'apisauce';
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { updateUser } from '../../app/features/auth';
 
 interface Props {
 	isOpen: boolean;
@@ -30,7 +31,8 @@ const CreateGroupModal: React.FC<Props> = ({ isOpen, onClose }) => {
 	const initialRef = React.useRef<any>(null);
 	const hiddenFileInput = React.useRef<any>(null);
 
-	const { token } = useAppSelector((state) => state.auth);
+	const { token, user: authUser } = useAppSelector((state) => state.auth);
+	const dispatch = useAppDispatch();
 
 	const api = apiSauce.create({
 		baseURL: 'http://localhost:5000/api/group',
@@ -98,6 +100,12 @@ const CreateGroupModal: React.FC<Props> = ({ isOpen, onClose }) => {
 			setLoading(true);
 			const d: any = await api.post('/', formData);
 			const data = d.data;
+			const groups = authUser!.groups!;
+			const updatedGroups = [
+				...groups,
+				data.group._id
+			];
+			dispatch(updateUser({ groups: updatedGroups }));
 
 			setName('');
 			setDescription('');
