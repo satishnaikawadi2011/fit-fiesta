@@ -1,18 +1,21 @@
 import { Avatar, Box, Flex, Text } from '@chakra-ui/react';
 import React from 'react';
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { IMessage } from '../../types/Message';
 import dayjs from 'dayjs';
 import { getDiff } from '../../utils/date-diff';
+import { updateLatestMessage } from '../../app/features/chat';
 
 interface Props {
+	_id: string;
 	latestMessage?: IMessage;
 	name: string;
 	profileImg: string;
 }
 
-const MessageContactListItem: React.FC<Props> = ({ name, profileImg, latestMessage }) => {
+const MessageContactListItem: React.FC<Props> = ({ _id, name, profileImg, latestMessage }) => {
 	const { user } = useAppSelector((state) => state.auth);
+	const dispatch = useAppDispatch();
 	let senderName;
 	let content;
 	let formatedDate;
@@ -45,8 +48,31 @@ const MessageContactListItem: React.FC<Props> = ({ name, profileImg, latestMessa
 		content = 'Send your first message to this connection!';
 	}
 
+	const clickHandler = () => {
+		// dispatch(
+		// 	updateLatestMessage({
+		// 		contactId: _id,
+		// 		message:
+		// 			{
+		// 				...latestMessage as any,
+		// 				createdAt: new Date().toISOString()
+		// 			}
+		// 	})
+		// );
+	};
+
 	return (
-		<Flex width={'full'} height={'92px'} alignItems={'center'} pl={3} pr={2}>
+		<Flex
+			width={'full'}
+			height={'92px'}
+			alignItems={'center'}
+			pl={3}
+			pr={2}
+			_hover={{ bgColor: 'gray.100' }}
+			cursor="pointer"
+			transition={'all 0.5s'}
+			onClick={clickHandler}
+		>
 			<Avatar mr={2} src={profileImg} name={name} />
 			<Box width={'full'}>
 				<Flex flexWrap="wrap" overflow="hidden" alignItems={'baseline'} justifyContent="space-between">
