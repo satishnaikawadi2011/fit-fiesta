@@ -42,8 +42,8 @@ const MessageContactList: React.FC<Props> = ({ contacts }) => {
 					pointerEvents="none"
 					children={
 
-							!focused ? <Search2Icon color="gray.500" /> :
-							<ArrowBackIcon color="gray.500" />
+							!focused && query === '' ? <Search2Icon color="gray.500" /> :
+							<ArrowBackIcon cursor={'pointer'} onClick={() => setQuery('')} color="gray.500" />
 					}
 				/>
 				<Input

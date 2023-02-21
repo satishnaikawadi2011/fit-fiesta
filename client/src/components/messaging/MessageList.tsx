@@ -11,10 +11,10 @@ interface Props {
 }
 
 const MessageList: React.FC<Props> = ({ messages }) => {
-	const { messageContent } = useAppSelector((state) => state.chat);
+	const { messageContent, selectedContact } = useAppSelector((state) => state.chat);
 	const dispatch = useAppDispatch();
-	const fullName = 'Jane Doe';
-	const profileImg = 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png';
+	const fullName = selectedContact!.name;
+	const profileImg = selectedContact!.profileImg;
 	const bottomRef: any = useRef();
 	useEffect(
 		() => {
@@ -36,15 +36,14 @@ const MessageList: React.FC<Props> = ({ messages }) => {
 				top={0}
 				zIndex={2}
 				alignItems={'center'}
-				bgColor={'red.100'}
+				bgColor={'gray.100'}
 			>
 				<Avatar size={'md'} src={profileImg} name={fullName} mx={3} />
 				<Text fontWeight={'bold'} fontSize={'lg'}>
 					{fullName}
 				</Text>
 			</Flex>
-			<Flex flexDirection={'column-reverse'}>
-				<div id="bottom-reference" ref={bottomRef} />
+			<Flex flexDirection={'column'}>
 				{messages.map((message, index) => {
 					if (index === 0 && messages.length !== 1) {
 						return (
@@ -62,13 +61,14 @@ const MessageList: React.FC<Props> = ({ messages }) => {
 					}
 					return <Message key={message._id} message={message} />;
 				})}
+				<div id="bottom-reference" ref={bottomRef} />
 			</Flex>
 			<Flex
-				width={'full'}
+				width={'70vw'}
 				alignItems={'center'}
 				bgColor={'gray.100'}
 				height={'55px'}
-				position="sticky"
+				position="fixed"
 				bottom={0}
 				p={1}
 				zIndex={2}

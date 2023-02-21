@@ -106,7 +106,8 @@ export const getMessages = async (req: any, res: Response) => {
 				.sort({ createdAt: 1 })
 				.populate('sender', [
 					'username',
-					'fullName'
+					'fullName',
+					'profileImg'
 				]);
 		}
 		else if (user.connections.includes(contactId)) {
@@ -122,7 +123,8 @@ export const getMessages = async (req: any, res: Response) => {
 				.sort({ createdAt: 1 })
 				.populate('sender', [
 					'username',
-					'fullName'
+					'fullName',
+					'profileImg'
 				]);
 		}
 

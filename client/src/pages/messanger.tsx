@@ -8,7 +8,7 @@ import messageApi from '../api/message';
 import { IGroup } from '../types/Group';
 import { IUser } from '../types/User';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { setContacts } from '../app/features/chat';
+import { setContacts, setMessages } from '../app/features/chat';
 import beginChatImg from '../assets/begin-chat.png';
 import { IMessage } from '../types/Message';
 
@@ -29,7 +29,7 @@ const MessangerPage = () => {
 	const { data: messagesData, error: messagesErr, loading: messagesLoad, request: getMessages } = useApiUpdated<
 		IMessage[]
 	>(messageApi.getMessages);
-	const { contacts, selectedContact } = useAppSelector((state) => state.chat);
+	const { contacts, selectedContact, messages } = useAppSelector((state) => state.chat);
 
 	useEffect(() => {
 		getContacts();
@@ -38,10 +38,23 @@ const MessangerPage = () => {
 	useEffect(
 		() => {
 			if (selectedContact) {
+				getMessages(selectedContact._id);
 			}
 		},
 		[
 			selectedContact
+		]
+	);
+
+	useEffect(
+		() => {
+			if (messagesData && !messagesErr) {
+				dispatch(setMessages(messagesData));
+			}
+		},
+		[
+			messagesData,
+			messagesErr
 		]
 	);
 
@@ -56,6 +69,7 @@ const MessangerPage = () => {
 			contactsErr
 		]
 	);
+	// console.log(selectedContact);
 
 	return (
 		<React.Fragment>
@@ -64,9 +78,9 @@ const MessangerPage = () => {
 					<Box width={'30vw'} overflow={'auto'}>
 						<MessageContactList contacts={contacts} />
 					</Box>
-					<Box width={'70vw'} overflow={'auto'} style={{ height: 'calc(100vh)', overflowY: 'scroll' }}>
-						{/* <MessageList messages={messages} /> */}
-						{!selectedContact && (
+					<Box width={'70vw'} overflow={'auto'} style={{ height: '100vh', overflowY: 'scroll' }}>
+						{selectedContact && <MessageList messages={messages} />}
+						{selectedContact === null && (
 							<Center height={'100%'}>
 								<div style={{ height: '100%' }}>
 									<Image src={beginChatImg} height={'80%'} />
