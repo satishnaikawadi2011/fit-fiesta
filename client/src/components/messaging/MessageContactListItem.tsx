@@ -33,6 +33,7 @@ const MessageContactListItem: React.FC<Props> = ({ name, profileImg, latestMessa
 
 	if (latestMessage) {
 		content = latestMessage.content;
+		console.log(latestMessage);
 		if (user!._id === (latestMessage.sender as any)._id) {
 			senderName = 'You';
 		}

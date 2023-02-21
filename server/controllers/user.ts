@@ -655,17 +655,45 @@ export const getContacts = async (req: any, res: Response) => {
 			return res.status(404).json({ message: 'User not found' });
 		}
 
-		const groups = await Group.find({ _id: { $in: user.groups } }).populate('latestMessage');
+		const groups = await Group.find({ _id: { $in: user.groups } }).populate({
+			path: 'latestMessage',
+			populate:
+				{
+					path: 'sender',
+					model: 'User',
+					select:
+						[
+							'_id',
+							'fullName',
+							'username'
+						]
+				},
+			model: 'Message'
+		});
 
 		const connections = await User.find({ _id: { $in: user.connections } }).populate({
 			path: 'latestMessages.message',
+			populate:
+				{
+					path: 'sender',
+					model: 'User',
+					select:
+						[
+							'_id',
+							'fullName',
+							'username'
+						]
+				},
 			model: 'Message'
 		});
 
 		const transformedConnections = connections.map((c) => {
-			const latMsgs = [
-				c.latestMessages.find((lm) => lm.connection.toString() === userId)
-			];
+			const latMsg = c.latestMessages.find((lm) => lm.connection.toString() === userId);
+			const latMsgs =
+				latMsg ? [
+					latMsg
+				] :
+				[];
 			Object.assign(c, { latestMessages: latMsgs });
 			return c;
 		});

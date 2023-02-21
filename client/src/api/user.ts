@@ -75,6 +75,10 @@ const getUserProfile = (username: string) => {
 	return client.get(`${endpoint}/${username}`);
 };
 
+const getContacts = () => {
+	return client.get(`${endpoint}/contacts`);
+};
+
 export default {
 	editUserProfile,
 	getMutualConnections,
@@ -93,5 +97,6 @@ export default {
 	markAllNotificationsAsRead,
 	getSentRequestsToJoinGroups,
 	getReceivedRequestsToJoinGroups,
-	getUserProfile
+	getUserProfile,
+	getContacts
 };

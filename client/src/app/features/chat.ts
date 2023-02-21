@@ -2,19 +2,18 @@ import { removeDuplicates } from '../../utils/removeDuplicates';
 import { createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { IMessage } from '../../types/Message';
-
-interface ILatestMessages {
-	[key: string]: IMessage;
-}
+import { IGroup } from '../../types/Group';
+import { IUser } from '../../types/User';
+import { IContactListItem } from '../../components/messaging/MessageContactList';
 
 interface chatState {
 	messages: IMessage[];
-	latestMessages: ILatestMessages;
+	contacts: IContactListItem[];
 }
 
 const initialState: chatState = {
 	messages: [],
-	latestMessages: {}
+	contacts: []
 };
 
 export const chatSlice = createSlice({
@@ -33,17 +32,13 @@ export const chatSlice = createSlice({
 						...state.messages
 					]);
 				},
-			setLatestMessages:
-				(state, action: PayloadAction<ILatestMessages>) => {
-					state.latestMessages = action.payload;
-				},
-			updateLatestMessage:
-				(state, action: PayloadAction<{ key: string; msg: IMessage }>) => {
-					state.latestMessages[action.payload.key] = action.payload.msg;
+			setContacts:
+				(state, action: PayloadAction<IContactListItem[]>) => {
+					state.contacts = action.payload;
 				}
 		}
 });
 
-export const { addMessage, setMessages, setLatestMessages } = chatSlice.actions;
+export const { addMessage, setMessages, setContacts } = chatSlice.actions;
 
 export default chatSlice.reducer;
