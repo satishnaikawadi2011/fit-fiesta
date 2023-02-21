@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post('/send', isAuthenticated, sendMessage);
 
-router.get('/', isAuthenticated, getMessages);
+router.get('/:contactId', isAuthenticated, getMessages);
 
 export default router;

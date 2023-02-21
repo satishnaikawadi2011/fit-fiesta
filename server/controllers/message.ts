@@ -72,20 +72,26 @@ export const sendMessage = async (req: any, res: Response) => {
 
 export const getMessages = async (req: any, res: Response) => {
 	try {
-		const { receiver, group } = req.query;
+		const contactId = req.params.contactId;
+		const userId = req.id;
 		const page = req.query.page || 1;
 		const limit = req.query.limit || 10;
 		const skip = (page - 1) * limit;
-		const sender = req.id;
-		let messages: IMessage[] = [];
-		if (group) {
-			if (!isValidObjectId(group)) {
-				return res.status(400).json({ message: 'Please provide valid objectId of group' });
-			}
 
-			const grp = await Group.findById(group);
+		const user = await User.findById(userId);
+		if (!user) {
+			return res.status(400).json({ message: 'User not found' });
+		}
+
+		if (!isValidObjectId(contactId)) {
+			return res.status(400).json({ message: 'Please provide valid contactId' });
+		}
+
+		let messages: IMessage[] = [];
+		if (user.groups.includes(contactId)) {
+			const grp = await Group.findById(contactId);
 			if (!grp) {
-				return res.status(400).json({ message: 'No group found for provided group ID' });
+				return res.status(400).json({ message: 'No group found for provided ID' });
 			}
 
 			if (!grp.members.includes(req.id)) {
@@ -93,7 +99,7 @@ export const getMessages = async (req: any, res: Response) => {
 			}
 
 			messages = await Message.find({
-				group
+				group: contactId
 			})
 				.skip(skip)
 				.limit(limit)
@@ -101,24 +107,14 @@ export const getMessages = async (req: any, res: Response) => {
 				.populate('sender', [
 					'username',
 					'fullName'
-				])
-				.populate('receiver', [
-					'username',
-					'fullName'
-				])
-				.populate('group', [
-					'name'
 				]);
 		}
-		else if (receiver) {
-			if (!isValidObjectId(receiver)) {
-				return res.status(400).json({ message: 'Please provide valid objectId of other user' });
-			}
+		else if (user.connections.includes(contactId)) {
 			messages = await Message.find({
 				$or:
 					[
-						{ sender, receiver },
-						{ sender: receiver, receiver: sender }
+						{ sender: userId, receiver: contactId },
+						{ sender: contactId, receiver: userId }
 					]
 			})
 				.skip(skip)
@@ -127,13 +123,6 @@ export const getMessages = async (req: any, res: Response) => {
 				.populate('sender', [
 					'username',
 					'fullName'
-				])
-				.populate('receiver', [
-					'username',
-					'fullName'
-				])
-				.populate('group', [
-					'name'
 				]);
 		}
 
