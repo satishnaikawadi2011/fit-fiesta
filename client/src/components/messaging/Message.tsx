@@ -7,9 +7,10 @@ import dayjs from 'dayjs';
 
 interface Props {
 	message: IMessage;
+	refe?: any;
 }
 
-const Message: React.FC<Props> = ({ message }) => {
+const Message: React.FC<Props> = ({ message, refe }) => {
 	const { user } = useAppSelector((state) => state.auth);
 	const sendByMe = user!._id === (message.sender as any)._id;
 	let senderName;
@@ -22,6 +23,7 @@ const Message: React.FC<Props> = ({ message }) => {
 	return (
 		<React.Fragment>
 			<Flex
+				ref={refe}
 				alignItems={'center'}
 				width={'max-content'}
 				maxWidth={'60%'}

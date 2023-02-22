@@ -87,9 +87,9 @@ export const getMessages = async (req: any, res: Response) => {
 	try {
 		const contactId = req.params.contactId;
 		const userId = req.id;
-		const page = req.query.page || 1;
-		const limit = req.query.limit || 10;
-		const skip = (page - 1) * limit;
+		// const page = req.query.page || 1;
+		// const limit = req.query.limit || 10;
+		// const skip = (page - 1) * limit;
 
 		const user = await User.findById(userId);
 		if (!user) {
@@ -114,8 +114,8 @@ export const getMessages = async (req: any, res: Response) => {
 			messages = await Message.find({
 				group: contactId
 			})
-				.skip(skip)
-				.limit(limit)
+				// .skip(skip)
+				// .limit(limit)
 				.sort({ createdAt: -1 })
 				.populate('sender', [
 					'username',
@@ -131,8 +131,8 @@ export const getMessages = async (req: any, res: Response) => {
 						{ sender: contactId, receiver: userId }
 					]
 			})
-				.skip(skip)
-				.limit(limit)
+				// .skip(skip)
+				// .limit(limit)
 				.sort({ createdAt: -1 })
 				.populate('sender', [
 					'username',

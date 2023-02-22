@@ -69,7 +69,6 @@ const MessangerPage = () => {
 			contactsErr
 		]
 	);
-	// console.log(selectedContact);
 
 	return (
 		<React.Fragment>

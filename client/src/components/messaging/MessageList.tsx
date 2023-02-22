@@ -53,16 +53,6 @@ const MessageList: React.FC<Props> = ({ messages }) => {
 	);
 	const sendHandler = async () => {
 		if (messageContent === '' || messageContent.trim() === '' || selectedContact === null) return;
-		// let group, receiver;
-		// if (selectedContact.type === 'group') group = selectedContact._id;
-		// else receiver = selectedContact._id;
-		// const sender:any = {
-		// 	fullName: authUser!.fullName,
-		// 	username: authUser!.username,
-		// 	_id: authUser!._id,
-		// 	profileImg:authUser!.profileImg
-		// }
-		// dispatch(addMessage({content:messageContent,read:false,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),group,receiver,sender,_id:'dd'}));
 		await sendMessage(messageContent, selectedContact._id, selectedContact.type === 'group');
 		dispatch(setMessageContent(''));
 	};
@@ -103,9 +93,11 @@ const MessageList: React.FC<Props> = ({ messages }) => {
 					}
 					else if (index === messages.length - 1) {
 						return (
-							<div key={message._id}>
-								<Message message={message} />
-							</div>
+							<React.Fragment>
+								<div key={message._id}>
+									<Message message={message} />
+								</div>
+							</React.Fragment>
 						);
 					}
 					return <Message key={message._id} message={message} />;
