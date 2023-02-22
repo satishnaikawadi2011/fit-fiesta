@@ -1,5 +1,5 @@
 import { ArrowBackIcon, Search2Icon } from '@chakra-ui/icons';
-import { Box, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
+import { Box, Input, InputGroup, InputLeftElement, useMediaQuery } from '@chakra-ui/react';
 import React from 'react';
 import { IMessage } from '../../types/Message';
 import MessageContactListItem from './MessageContactListItem';
@@ -17,6 +17,9 @@ interface Props {
 }
 
 const MessageContactList: React.FC<Props> = ({ contacts }) => {
+	const [
+		isLargerScreen
+	] = useMediaQuery('(min-width: 768px)');
 	const [
 		focused,
 		setFocused
@@ -38,40 +41,56 @@ const MessageContactList: React.FC<Props> = ({ contacts }) => {
 	const onBlur = () => setFocused(false);
 	return (
 		<Box width={'full'}>
-			<InputGroup width={'95%'} mx={'auto'} my={2}>
-				<InputLeftElement
-					pointerEvents="none"
-					children={
+			<Box
+				width={
 
-							!focused && query === '' ? <Search2Icon color="gray.500" /> :
-							<ArrowBackIcon cursor={'pointer'} onClick={() => setQuery('')} color="gray.500" />
-					}
-				/>
-				<Input
-					placeholder="Search or start  new chat"
-					bgColor={'gray.100'}
-					border="none"
-					_focus={{ outline: 'none', border: 'none' }}
-					onFocus={onFocus}
-					onBlur={onBlur}
-					type="text"
-					value={query}
-					onChange={(event) => setQuery(event.target.value)}
-				/>
-			</InputGroup>
+						isLargerScreen ? '30vw' :
+						'100vw'
+				}
+				position={'fixed'}
+				zIndex={2}
+				top={0}
+				height={'60px'}
+			>
+				<InputGroup width={'95%'} mt={2} mx={'auto'}>
+					<InputLeftElement
+						pointerEvents="none"
+						children={
 
-			{filteredContacts.map((c) => {
-				return (
-					<MessageContactListItem
-						type={c.type}
-						key={c._id}
-						_id={c._id}
-						name={c.name}
-						profileImg={c.profileImg}
-						latestMessage={c.latestMessage}
+								!focused && query === '' ? <Search2Icon color="gray.500" /> :
+								<ArrowBackIcon cursor={'pointer'} onClick={() => setQuery('')} color="gray.500" />
+						}
 					/>
-				);
-			})}
+					<Input
+						placeholder="Search or start  new chat"
+						bgColor={'gray.100'}
+						border="none"
+						_focus={{ outline: 'none', border: 'none' }}
+						onFocus={onFocus}
+						onBlur={onBlur}
+						type="text"
+						value={query}
+						onChange={(event) => setQuery(event.target.value)}
+					/>
+				</InputGroup>
+			</Box>
+
+			<Box mt={'60px'} height={'calc(100vh - 60px)'}>
+				{filteredContacts.map((c) => {
+					return (
+						<React.Fragment>
+							<MessageContactListItem
+								type={c.type}
+								key={c._id}
+								_id={c._id}
+								name={c.name}
+								profileImg={c.profileImg}
+								latestMessage={c.latestMessage}
+							/>
+						</React.Fragment>
+					);
+				})}
+			</Box>
 		</Box>
 	);
 };

@@ -74,13 +74,13 @@ const MessangerPage = () => {
 		<React.Fragment>
 			{
 				isLargerScreen ? <Flex overflowY={'auto'}>
-					<Box width={'30vw'} overflow={'auto'}>
+					<Box width={'30vw'} overflow={'auto'} style={{ height: '100vh' }}>
 						<MessageContactList contacts={contacts} />
 					</Box>
-					<Box width={'70vw'} overflow={'auto'} style={{ height: '100vh', overflowY: 'scroll' }}>
+					<Box width={'70vw'} overflow={'auto'} height={'100vh'}>
 						{selectedContact && <MessageList messages={messages} />}
 						{selectedContact === null && (
-							<Center height={'100%'}>
+							<Center height={'100vh'}>
 								<div style={{ height: '100%' }}>
 									<Image src={beginChatImg} height={'80%'} />
 									<Text textAlign={'center'}>Please select a contact or group to chat with them</Text>

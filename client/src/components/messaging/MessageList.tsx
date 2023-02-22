@@ -59,10 +59,14 @@ const MessageList: React.FC<Props> = ({ messages }) => {
 	return (
 		<Box width={'full'}>
 			<Flex
-				width={'full'}
 				height={'70px'}
 				p={2}
-				position="sticky"
+				position="fixed"
+				width={
+
+						isLargerScreen ? '70vw' :
+						'full'
+				}
 				top={0}
 				zIndex={2}
 				alignItems={'center'}
@@ -94,7 +98,7 @@ const MessageList: React.FC<Props> = ({ messages }) => {
 					else if (index === messages.length - 1) {
 						return (
 							<React.Fragment>
-								<div key={message._id}>
+								<div key={message._id} style={{ marginTop: '60px' }}>
 									<Message message={message} />
 								</div>
 							</React.Fragment>
