@@ -280,3 +280,14 @@ export const searchPost = async (req: any, res: Response) => {
 // ========================================================================================================================
 // ========================================================================================================================
 // ========================================================================================================================
+
+export const getCommentsCount = async (req: any, res: Response) => {
+	try {
+		const postId = req.params.postId;
+		const commentCount = await Comment.countDocuments({ post: postId });
+		res.status(200).json({ commentCount });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};

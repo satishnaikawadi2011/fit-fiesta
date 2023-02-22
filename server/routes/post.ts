@@ -1,5 +1,5 @@
 import { setupCloudinary } from './../utils/setupCloudinary';
-import { likePost, createComment, getPosts, fetchComments, searchPost } from './../controllers/post';
+import { likePost, createComment, getPosts, fetchComments, searchPost, getCommentsCount } from './../controllers/post';
 import express from 'express';
 import { createPost } from '../controllers/post';
 import { isAuthenticated } from '../middlewares/isAuthenticated';
@@ -24,6 +24,8 @@ router.patch('/like/:postId', isAuthenticated, likePost);
 router.post('/comment/:postId', isAuthenticated, createComment);
 
 router.get('/', isAuthenticated, getPosts);
+
+router.get('/:postId/comment-count', isAuthenticated, getCommentsCount);
 
 router.get('/comments/:postId', isAuthenticated, fetchComments);
 
