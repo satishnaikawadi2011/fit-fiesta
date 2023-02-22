@@ -23,10 +23,15 @@ const addPost = (postData: any) => {
 	return client.post(`${endpoint}`, postData);
 };
 
+const getCommentCount = (postId: any) => {
+	return client.get(`${endpoint}/${postId}/comment-count`);
+};
+
 export default {
 	fetchPosts,
 	likePost,
 	getComments,
 	addComment,
-	addPost
+	addPost,
+	getCommentCount
 };

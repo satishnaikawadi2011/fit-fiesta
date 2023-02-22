@@ -14,6 +14,8 @@ import apiClient from '../../api/client';
 import Comment from './Comment';
 import { IComment } from '../../types/Comment';
 import ReactDOM from 'react-dom';
+import useApiUpdated from '../../hooks/useApiUpdated';
+import PostSkeleton from './skeletons/PostSkeleton';
 
 interface PostProps {
 	_id: string;
@@ -32,6 +34,9 @@ const Post: React.FC<PostProps> = ({ _id, name, username, date, postText, postIm
 	const dispatch = useAppDispatch();
 	const { request: likePostReq } = useApi(postApi.likePost);
 	const { request: addCommReq, data: newComm, loading: newCommLoad }: any = useApi(postApi.addComment);
+	const { data: commentCountData, loading: commCntLoad, request: getCommCount } = useApiUpdated<{ commentCount: number }>(
+		postApi.getCommentCount
+	);
 	const { user } = useAppSelector((state) => state.auth);
 
 	const [
@@ -59,7 +64,6 @@ const Post: React.FC<PostProps> = ({ _id, name, username, date, postText, postIm
 		setHasMore
 	] = useState(true);
 	const isEmpty = comment === '' || comment.trim() === '';
-	const commentCounts = 20;
 
 	const addCommentHandler = async () => {
 		await addCommReq(_id, comment);
@@ -83,6 +87,10 @@ const Post: React.FC<PostProps> = ({ _id, name, username, date, postText, postIm
 			showComm
 		]
 	);
+
+	useEffect(() => {
+		getCommCount(_id);
+	}, []);
 
 	const fetchComments = async () => {
 		setLoading(true);
@@ -116,6 +124,10 @@ const Post: React.FC<PostProps> = ({ _id, name, username, date, postText, postIm
 			newComm
 		]
 	);
+
+	if (commCntLoad) {
+		return <PostSkeleton />;
+	}
 
 	return (
 		<Box mb={4} boxShadow="md" bg={'gray.100'}>
@@ -152,7 +164,7 @@ const Post: React.FC<PostProps> = ({ _id, name, username, date, postText, postIm
 			<Flex justifyContent={'space-between'} m={2}>
 				<Text fontSize={'sm'}>{likeCounts} likes</Text>
 				<Text onClick={() => setShowComm(true)} cursor={'pointer'} fontSize={'sm'}>
-					{commentCounts} comments
+					{commentCountData?.commentCount} comments
 				</Text>
 			</Flex>
 			<Divider />
@@ -195,6 +207,7 @@ const Post: React.FC<PostProps> = ({ _id, name, username, date, postText, postIm
 						mt={2}
 						width="96%"
 						marginX={'2%'}
+						mb={3}
 					/>
 					{!isEmpty && (
 						<Button
