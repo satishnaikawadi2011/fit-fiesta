@@ -18,11 +18,14 @@ import {
 	Textarea,
 	useDisclosure
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import apiSauce from 'apisauce';
+import useApiUpdated from '../../hooks/useApiUpdated';
+import { IGroup } from '../../types/Group';
+import userApi from '../../api/user';
 
 interface Props {
 	isOpen: boolean;
@@ -34,6 +37,9 @@ const AddEventModal: React.FC<Props> = ({ isOpen, onClose }) => {
 	const hiddenFileInput = React.useRef<any>(null);
 
 	const { token, user } = useAppSelector((state) => state.auth);
+	const { data: groupsData, loading: groupsLoad, request: getGroups } = useApiUpdated<{ groups: IGroup[] }>(
+		userApi.getMyGroups
+	);
 	const dispatch = useAppDispatch();
 
 	const api = apiSauce.create({
@@ -84,6 +90,10 @@ const AddEventModal: React.FC<Props> = ({ isOpen, onClose }) => {
 		loading,
 		setLoading
 	] = useState(false);
+
+	useEffect(() => {
+		getGroups();
+	}, []);
 
 	const handleUploadImageClick = () => {
 		hiddenFileInput.current.click();
@@ -137,6 +147,8 @@ const AddEventModal: React.FC<Props> = ({ isOpen, onClose }) => {
 		}
 	};
 
+	const load = loading || groupsLoad;
+
 	return (
 		<React.Fragment>
 			<Modal
@@ -144,7 +156,7 @@ const AddEventModal: React.FC<Props> = ({ isOpen, onClose }) => {
 				isOpen={isOpen}
 				onClose={
 
-						!loading ? onClose :
+						!load ? onClose :
 						() => {}
 				}
 			>
@@ -154,7 +166,7 @@ const AddEventModal: React.FC<Props> = ({ isOpen, onClose }) => {
 					<ModalCloseButton />
 					<ModalBody pb={6}>
 						{
-							loading ? <Center>
+							load ? <Center>
 								<Spinner
 									thickness="4px"
 									speed="0.65s"
@@ -202,9 +214,9 @@ const AddEventModal: React.FC<Props> = ({ isOpen, onClose }) => {
 										onChange={(e) => setGroup(e.target.value)}
 										placeholder="Select group "
 									>
-										<option value="option1">Option 1</option>
-										<option value="option2">Option 2</option>
-										<option value="option3">Option 3</option>
+											{groupsData?.groups.map(g => {
+												return <option key={g._id} value={g._id} >{g.name}</option>
+										})}
 									</Select>
 								</FormControl>
 								<FormControl mt={4} isRequired isInvalid={errors.date}>
@@ -221,10 +233,10 @@ const AddEventModal: React.FC<Props> = ({ isOpen, onClose }) => {
 					</ModalBody>
 
 					<ModalFooter>
-						<Button isDisabled={loading} colorScheme="primary" onClick={addEventHandler} mr={3}>
+						<Button isDisabled={load} colorScheme="primary" onClick={addEventHandler} mr={3}>
 							Add
 						</Button>
-						<Button isDisabled={loading} onClick={onClose}>
+						<Button isDisabled={load} onClick={onClose}>
 							Cancel
 						</Button>
 					</ModalFooter>

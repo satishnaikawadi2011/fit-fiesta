@@ -17,10 +17,13 @@ import {
 	Textarea,
 	Center
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import apiSauce from 'apisauce';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { addPost } from '../../app/features/post';
+import userApi from '../../api/user';
+import useApiUpdated from '../../hooks/useApiUpdated';
+import { IGroup } from '../../types/Group';
 
 interface Props {
 	isOpen: boolean;
@@ -33,6 +36,10 @@ const AddPostModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
 	const { token, user } = useAppSelector((state) => state.auth);
 	const dispatch = useAppDispatch();
+
+	const { data: groupsData, loading: groupsLoad, request: getGroups } = useApiUpdated<{ groups: IGroup[] }>(
+		userApi.getMyGroups
+	);
 
 	const api = apiSauce.create({
 		baseURL: 'http://localhost:5000/api/post',
@@ -73,6 +80,12 @@ const AddPostModal: React.FC<Props> = ({ isOpen, onClose }) => {
 		loading,
 		setLoading
 	] = useState(false);
+
+		useEffect(() => {
+		getGroups();
+		}, []);
+	
+	
 
 	const handleUploadImageClick = () => {
 		hiddenFileInput.current.click();
@@ -126,6 +139,8 @@ const AddPostModal: React.FC<Props> = ({ isOpen, onClose }) => {
 		}
 	};
 
+		const load = loading || groupsLoad;
+
 	return (
 		<React.Fragment>
 			<Modal
@@ -133,7 +148,7 @@ const AddPostModal: React.FC<Props> = ({ isOpen, onClose }) => {
 				isOpen={isOpen}
 				onClose={
 
-						!loading ? onClose :
+						!load ? onClose :
 						() => {}
 				}
 			>
@@ -143,7 +158,7 @@ const AddPostModal: React.FC<Props> = ({ isOpen, onClose }) => {
 					<ModalCloseButton />
 					<ModalBody pb={6}>
 						{
-							loading ? <Center>
+							load ? <Center>
 								<Spinner
 									thickness="4px"
 									speed="0.65s"
@@ -190,19 +205,19 @@ const AddPostModal: React.FC<Props> = ({ isOpen, onClose }) => {
 										onChange={(e) => setGroup(e.target.value)}
 										placeholder="Select group "
 									>
-										<option value="option1">Option 1</option>
-										<option value="option2">Option 2</option>
-										<option value="option3">Option 3</option>
+										{groupsData?.groups.map(g => {
+												return <option key={g._id} value={g._id} >{g.name}</option>
+										})}
 									</Select>
 								</FormControl>
 							</React.Fragment>}
 					</ModalBody>
 
 					<ModalFooter>
-						<Button isDisabled={loading} colorScheme="primary" onClick={addPostHandler} mr={3}>
+						<Button isDisabled={load} colorScheme="primary" onClick={addPostHandler} mr={3}>
 							Add
 						</Button>
-						<Button isDisabled={loading} onClick={onClose}>
+						<Button isDisabled={load} onClick={onClose}>
 							Cancel
 						</Button>
 					</ModalFooter>
