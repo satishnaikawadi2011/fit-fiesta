@@ -20,10 +20,23 @@ export const sendMessage = async (req: any, res: Response) => {
 		const message = new Message({ content, receiver, sender, group });
 		await message.save();
 
-		io.emit('message', message);
+		const senderUser = await User.findById(sender);
+
+		let responseMessage = {};
+		Object.assign(responseMessage, (message as any)._doc);
+		Object.assign(responseMessage, {
+			sender:
+				{
+					_id: senderUser!._id,
+					username: senderUser!.username,
+					fullName: senderUser!.fullName,
+					profileImg: senderUser!.profileImg
+				}
+		});
+
+		io.emit('message', responseMessage);
 
 		if (receiver) {
-			const senderUser = await User.findById(sender);
 			const latMsgIdx1 = senderUser!.latestMessages.findIndex((lm) => lm.connection.toString() === receiver);
 			if (latMsgIdx1 !== -1) {
 				senderUser!.latestMessages[latMsgIdx1] = {
@@ -63,7 +76,7 @@ export const sendMessage = async (req: any, res: Response) => {
 			await grp!.save();
 		}
 
-		return res.status(201).json({ message });
+		return res.status(201).json({ message: responseMessage });
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ message: 'Something went wrong!' });
@@ -103,7 +116,7 @@ export const getMessages = async (req: any, res: Response) => {
 			})
 				.skip(skip)
 				.limit(limit)
-				.sort({ createdAt: 1 })
+				.sort({ createdAt: -1 })
 				.populate('sender', [
 					'username',
 					'fullName',
@@ -120,7 +133,7 @@ export const getMessages = async (req: any, res: Response) => {
 			})
 				.skip(skip)
 				.limit(limit)
-				.sort({ createdAt: 1 })
+				.sort({ createdAt: -1 })
 				.populate('sender', [
 					'username',
 					'fullName',

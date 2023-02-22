@@ -47,6 +47,8 @@ export const chatSlice = createSlice({
 					Object.assign(contact, { latestMessage: action.payload.message });
 					state.contacts[contactIdx] = contact;
 					state.contacts = sortContacts(state.contacts);
+					console.log(contact);
+					console.log(state.contacts);
 				},
 			setSelectedContact:
 				(state, action: PayloadAction<IContactListItem>) => {

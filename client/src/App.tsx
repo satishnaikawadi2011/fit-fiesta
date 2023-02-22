@@ -19,10 +19,12 @@ import Message from './components/messaging/Message';
 import MessageContactList from './components/messaging/MessageContactList';
 import MessageList from './components/messaging/MessageList';
 import beginChatImg from './assets/begin-chat.png';
+import { IMessage } from './types/Message';
+import { addMessage, updateLatestMessage } from './app/features/chat';
 
 function App() {
 	const dispatch = useAppDispatch();
-	const { notifications } = useAppSelector((state) => state.user);
+	const { selectedContact } = useAppSelector((state) => state.chat);
 	const [
 		isLargerScreen
 	] = useMediaQuery('(min-width: 768px)');
@@ -109,9 +111,7 @@ function App() {
 
 	useEffect(
 		() => {
-			console.log('Sockets');
 			const eventListener = (data: INotification) => {
-				console.log('Sockets Here');
 				if (user && data.recipients.includes(user!._id)) {
 					dispatch(increaseUnreadNotificationsCount(1));
 				}
@@ -120,6 +120,39 @@ function App() {
 
 			return () => {
 				socket.off('notification', eventListener);
+			};
+		},
+		[
+			socket,
+			user
+		]
+	);
+
+	useEffect(
+		() => {
+			const eventListener = (data: any) => {
+				if (user) {
+					if (data.receiver && data.receiver === user._id) {
+						// console.log(selectedContact, '==================', data.sender);
+						if (selectedContact && selectedContact._id === data.sender._id) {
+							dispatch(addMessage(data));
+						}
+						dispatch(updateLatestMessage({ contactId: data.sender._id, message: data }));
+					}
+
+					if (data.group && user.groups!.includes(data.group)) {
+						// console.log(selectedContact, '==================', data.group);
+						if (selectedContact && selectedContact._id === data.group) {
+							dispatch(addMessage(data));
+						}
+						dispatch(updateLatestMessage({ contactId: data.group, message: data }));
+					}
+				}
+			};
+			socket.on('message', eventListener);
+
+			return () => {
+				socket.off('message', eventListener);
 			};
 		},
 		[

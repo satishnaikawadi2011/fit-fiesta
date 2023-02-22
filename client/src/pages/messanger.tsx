@@ -100,14 +100,20 @@ export default MessangerPage;
 const transformContacts = (contactsData: IContacts) => {
 	const contacts: IContactListItem[] = [];
 	contactsData.groups.forEach((g) => {
-		contacts.push({ _id: g._id, name: g.name, profileImg: g.profileImg, latestMessage: g.latestMessage as any });
+		contacts.push({
+			_id: g._id,
+			name: g.name,
+			profileImg: g.profileImg,
+			latestMessage: g.latestMessage as any,
+			type: 'group'
+		});
 	});
 	contactsData.connections.forEach((c) => {
 		const latMsg: any =
 
 				c.latestMessages.length !== 0 ? c.latestMessages[0].message :
 				undefined;
-		contacts.push({ _id: c._id, name: c.fullName, profileImg: c.profileImg!, latestMessage: latMsg });
+		contacts.push({ _id: c._id, name: c.fullName, profileImg: c.profileImg!, latestMessage: latMsg, type: 'user' });
 	});
 
 	return contacts;

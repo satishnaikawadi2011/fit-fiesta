@@ -9,6 +9,7 @@ export interface IContactListItem {
 	name: string;
 	profileImg: string;
 	_id: string;
+	type: 'group' | 'user';
 }
 
 interface Props {
@@ -62,6 +63,7 @@ const MessageContactList: React.FC<Props> = ({ contacts }) => {
 			{filteredContacts.map((c) => {
 				return (
 					<MessageContactListItem
+						type={c.type}
 						key={c._id}
 						_id={c._id}
 						name={c.name}

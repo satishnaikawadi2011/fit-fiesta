@@ -11,9 +11,10 @@ interface Props {
 	latestMessage?: IMessage;
 	name: string;
 	profileImg: string;
+	type: 'group' | 'user';
 }
 
-const MessageContactListItem: React.FC<Props> = ({ _id, name, profileImg, latestMessage }) => {
+const MessageContactListItem: React.FC<Props> = ({ _id, name, profileImg, latestMessage, type }) => {
 	const { user } = useAppSelector((state) => state.auth);
 	const dispatch = useAppDispatch();
 	let senderName;
@@ -36,7 +37,6 @@ const MessageContactListItem: React.FC<Props> = ({ _id, name, profileImg, latest
 
 	if (latestMessage) {
 		content = latestMessage.content;
-		console.log(latestMessage);
 		if (user!._id === (latestMessage.sender as any)._id) {
 			senderName = 'You';
 		}
@@ -49,7 +49,7 @@ const MessageContactListItem: React.FC<Props> = ({ _id, name, profileImg, latest
 	}
 
 	const clickHandler = () => {
-		dispatch(setSelectedContact({ _id, name, profileImg, latestMessage }));
+		dispatch(setSelectedContact({ _id, name, profileImg, latestMessage, type }));
 	};
 
 	return (
