@@ -90,7 +90,8 @@ const MessangerPage = () => {
 						)}
 					</Box>
 				</Flex> :
-				<MessageContactList contacts={contacts} />}
+				!selectedContact ? <MessageContactList contacts={contacts} /> :
+				<MessageList messages={messages} />}
 		</React.Fragment>
 	);
 };

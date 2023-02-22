@@ -133,7 +133,6 @@ function App() {
 			const eventListener = (data: any) => {
 				if (user) {
 					if (data.receiver && data.receiver === user._id) {
-						// console.log(selectedContact, '==================', data.sender);
 						if (selectedContact && selectedContact._id === data.sender._id) {
 							dispatch(addMessage(data));
 						}
@@ -141,7 +140,6 @@ function App() {
 					}
 
 					if (data.group && user.groups!.includes(data.group)) {
-						// console.log(selectedContact, '==================', data.group);
 						if (selectedContact && selectedContact._id === data.group) {
 							dispatch(addMessage(data));
 						}
@@ -157,7 +155,8 @@ function App() {
 		},
 		[
 			socket,
-			user
+			user,
+			selectedContact
 		]
 	);
 

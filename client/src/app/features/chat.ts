@@ -51,7 +51,7 @@ export const chatSlice = createSlice({
 					console.log(state.contacts);
 				},
 			setSelectedContact:
-				(state, action: PayloadAction<IContactListItem>) => {
+				(state, action: PayloadAction<IContactListItem | null>) => {
 					state.selectedContact = action.payload;
 				},
 			setMessageContent:

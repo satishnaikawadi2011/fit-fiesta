@@ -1,12 +1,13 @@
-import { Avatar, Box, Flex, IconButton, Input, Text } from '@chakra-ui/react';
+import { Avatar, Box, Flex, IconButton, Input, Text, useMediaQuery } from '@chakra-ui/react';
 import React, { useEffect, useRef } from 'react';
 import { MdSend } from 'react-icons/md';
-import { addMessage, setMessageContent, updateLatestMessage } from '../../app/features/chat';
+import { addMessage, setMessageContent, setSelectedContact, updateLatestMessage } from '../../app/features/chat';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import useApiUpdated from '../../hooks/useApiUpdated';
 import { IMessage } from '../../types/Message';
 import Message from './Message';
 import messageApi from '../../api/message';
+import { ArrowBackIcon } from '@chakra-ui/icons';
 
 interface Props {
 	messages: IMessage[];
@@ -19,6 +20,9 @@ const MessageList: React.FC<Props> = ({ messages }) => {
 	const fullName = selectedContact!.name;
 	const profileImg = selectedContact!.profileImg;
 	const bottomRef: any = useRef();
+	const [
+		isLargerScreen
+	] = useMediaQuery('(min-width: 768px)');
 
 	const { data: sendMessageData, error, loading: sendMsgLoad, request: sendMessage } = useApiUpdated<{
 		message: IMessage;
@@ -74,6 +78,14 @@ const MessageList: React.FC<Props> = ({ messages }) => {
 				alignItems={'center'}
 				bgColor={'gray.100'}
 			>
+				{!isLargerScreen && (
+					<ArrowBackIcon
+						fontSize={'xl'}
+						cursor={'pointer'}
+						onClick={() => dispatch(setSelectedContact(null))}
+						color="blackAlpha.500"
+					/>
+				)}
 				<Avatar size={'md'} src={profileImg} name={fullName} mx={3} />
 				<Text fontWeight={'bold'} fontSize={'lg'}>
 					{fullName}
@@ -100,7 +112,11 @@ const MessageList: React.FC<Props> = ({ messages }) => {
 				})}
 			</Flex>
 			<Flex
-				width={'70vw'}
+				width={
+
+						isLargerScreen ? '70vw' :
+						'full'
+				}
 				alignItems={'center'}
 				bgColor={'gray.100'}
 				height={'55px'}
