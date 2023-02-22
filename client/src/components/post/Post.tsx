@@ -31,7 +31,7 @@ dayjs.extend(relativeTime);
 const Post: React.FC<PostProps> = ({ _id, name, username, date, postText, postImage, likeCounts, likesUsers }) => {
 	const dispatch = useAppDispatch();
 	const { request: likePostReq } = useApi(postApi.likePost);
-	const { request: addPostReq, data: newComm, loading: newCommLoad }: any = useApi(postApi.addComment);
+	const { request: addCommReq, data: newComm, loading: newCommLoad }: any = useApi(postApi.addComment);
 	const { user } = useAppSelector((state) => state.auth);
 
 	const [
@@ -61,8 +61,8 @@ const Post: React.FC<PostProps> = ({ _id, name, username, date, postText, postIm
 	const isEmpty = comment === '' || comment.trim() === '';
 	const commentCounts = 20;
 
-	const addPostHandler = async () => {
-		await addPostReq(_id, comment);
+	const addCommentHandler = async () => {
+		await addCommReq(_id, comment);
 		setComment('');
 	};
 
@@ -205,7 +205,7 @@ const Post: React.FC<PostProps> = ({ _id, name, username, date, postText, postIm
 							color="white"
 							bgColor={'primary.300'}
 							_hover={{ bgColor: 'primary.400' }}
-							onClick={addPostHandler}
+							onClick={addCommentHandler}
 							isLoading={newCommLoad}
 						>
 							Post
