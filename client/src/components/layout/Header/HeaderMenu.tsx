@@ -78,6 +78,32 @@ const HeaderMenu: React.FC<Props> = ({ user }) => {
 					View Profile
 				</Button>
 				<Divider mt={3} />
+				<Flex justifyContent={'space-between'}>
+					<Link
+						onClick={() => {
+							navigate('/notifications');
+						}}
+						fontSize={'sm'}
+						fontWeight={'light'}
+					>
+						Notifications
+					</Link>
+					<AppBadge content={unreadNotificationsCount} bgColor="#FA3E3E" hideZero contentColor="#fff" />
+				</Flex>
+				<Divider mt={2} />
+				<Flex justifyContent={'space-between'}>
+					<Link
+						onClick={() => {
+							navigate('/messanger');
+						}}
+						fontSize={'sm'}
+						fontWeight={'light'}
+					>
+						Messanger
+					</Link>
+					{/* <AppBadge content={unreadNotificationsCount} bgColor="#FA3E3E" hideZero contentColor="#fff" /> */}
+				</Flex>
+				<Divider mt={2} />
 				<Link
 					onClick={() => {
 						dispatch(logout());
@@ -88,19 +114,6 @@ const HeaderMenu: React.FC<Props> = ({ user }) => {
 				>
 					Sign Out
 				</Link>
-				<Divider mt={2} />
-				<Flex justifyContent={'space-between'}>
-					<Link
-						onClick={() => {
-							navigate('/notifications');
-						}}
-						fontSize={'sm'}
-						fontWeight={'light'}
-					>
-						Notificaations
-					</Link>
-					<AppBadge content={unreadNotificationsCount} bgColor="#FA3E3E" hideZero contentColor="#fff" />
-				</Flex>
 			</MenuList>
 		</Menu>
 	);

@@ -11,6 +11,9 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { setContacts, setMessages } from '../app/features/chat';
 import beginChatImg from '../assets/begin-chat.png';
 import { IMessage } from '../types/Message';
+import AppFAB from '../components/app/AppFAB';
+import { AiFillHome } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 
 export interface IContacts {
 	groups: IGroup[];
@@ -22,6 +25,7 @@ const MessangerPage = () => {
 		isLargerScreen
 	] = useMediaQuery('(min-width: 768px)');
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	const { data: contactsData, loading: contactsLoad, request: getContacts, error: contactsErr } = useApiUpdated<{
 		groups: IGroup[];
 		connections: IUser[];
@@ -72,9 +76,19 @@ const MessangerPage = () => {
 
 	return (
 		<React.Fragment>
+			<AppFAB aria-label="Home" icon={<AiFillHome size={23} />} onClick={() => navigate('/')} />
 			{
 				isLargerScreen ? <Flex overflowY={'auto'}>
-					<Box width={'30vw'} overflow={'auto'} style={{ height: '100vh' }}>
+					<Box
+						borderColor={'primary.300'}
+						borderStyle={'solid'}
+						borderWidth={1}
+						borderTopWidth={0}
+						borderBottomWidth={0}
+						width={'30vw'}
+						overflow={'auto'}
+						style={{ height: '100vh' }}
+					>
 						<MessageContactList contacts={contacts} />
 					</Box>
 					<Box width={'70vw'} overflow={'auto'} height={'100vh'}>
