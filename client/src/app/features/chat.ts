@@ -63,6 +63,16 @@ export const chatSlice = createSlice({
 			setUnreadContacts:
 				(state, action: PayloadAction<string[]>) => {
 					state.unreadContacts = action.payload;
+				},
+			addToUnreadContacts:
+				(state, action: PayloadAction<string>) => {
+					if (!state.unreadContacts.includes(action.payload)) {
+						state.unreadContacts.push(action.payload);
+					}
+				},
+			removeFromUnreadContacts:
+				(state, action: PayloadAction<string>) => {
+					state.unreadContacts = state.unreadContacts.filter((uc) => uc !== action.payload);
 				}
 		}
 });
@@ -74,7 +84,9 @@ export const {
 	updateLatestMessage,
 	setSelectedContact,
 	setMessageContent,
-	setUnreadContacts
+	setUnreadContacts,
+	addToUnreadContacts,
+	removeFromUnreadContacts
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

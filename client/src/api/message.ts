@@ -17,7 +17,12 @@ const sendMessage = (content: string, contactId: string, isGroup: boolean) => {
 	return client.post(`${endpoint}/send`, data);
 };
 
+const markAllMsgsOfContactAsRead = (contactId: string) => {
+	return client.post(`${endpoint}/read/${contactId}`);
+};
+
 export default {
 	getMessages,
-	sendMessage
+	sendMessage,
+	markAllMsgsOfContactAsRead
 };

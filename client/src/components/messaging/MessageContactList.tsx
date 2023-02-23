@@ -81,10 +81,9 @@ const MessageContactList: React.FC<Props> = ({ contacts, loading = false }) => {
 				{
 					!loading ? filteredContacts.map((c) => {
 						return (
-							<React.Fragment>
+							<React.Fragment key={c._id}>
 								<MessageContactListItem
 									type={c.type}
-									key={c._id}
 									_id={c._id}
 									name={c.name}
 									profileImg={c.profileImg}
@@ -100,8 +99,8 @@ const MessageContactList: React.FC<Props> = ({ contacts, loading = false }) => {
 						4
 					].map((c) => {
 						return (
-							<React.Fragment>
-								<MessageContactListItemSkeleton key={c} />
+							<React.Fragment key={c}>
+								<MessageContactListItemSkeleton />
 							</React.Fragment>
 						);
 					})}

@@ -97,8 +97,8 @@ const MessageList: React.FC<Props> = ({ messages }) => {
 					}
 					else if (index === messages.length - 1) {
 						return (
-							<React.Fragment>
-								<div key={message._id} style={{ marginTop: '60px' }}>
+							<React.Fragment key={message._id}>
+								<div style={{ marginTop: '60px' }}>
 									<Message message={message} />
 								</div>
 							</React.Fragment>

@@ -20,7 +20,7 @@ import MessageContactList from './components/messaging/MessageContactList';
 import MessageList from './components/messaging/MessageList';
 import beginChatImg from './assets/begin-chat.png';
 import { IMessage } from './types/Message';
-import { addMessage, setUnreadContacts, updateLatestMessage } from './app/features/chat';
+import { addMessage, addToUnreadContacts, setUnreadContacts, updateLatestMessage } from './app/features/chat';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -152,12 +152,18 @@ function App() {
 						if (selectedContact && selectedContact._id === data.sender._id) {
 							dispatch(addMessage(data));
 						}
+						else {
+							dispatch(addToUnreadContacts(data.sender._id));
+						}
 						dispatch(updateLatestMessage({ contactId: data.sender._id, message: data }));
 					}
 
 					if (data.group && user.groups!.includes(data.group)) {
 						if (selectedContact && selectedContact._id === data.group) {
 							dispatch(addMessage(data));
+						}
+						else {
+							dispatch(addToUnreadContacts(data.group));
 						}
 						dispatch(updateLatestMessage({ contactId: data.group, message: data }));
 					}

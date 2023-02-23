@@ -8,7 +8,7 @@ import messageApi from '../api/message';
 import { IGroup } from '../types/Group';
 import { IUser } from '../types/User';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { setContacts, setMessages, setSelectedContact } from '../app/features/chat';
+import { removeFromUnreadContacts, setContacts, setMessages, setSelectedContact } from '../app/features/chat';
 import beginChatImg from '../assets/begin-chat.png';
 import { IMessage } from '../types/Message';
 import AppFAB from '../components/app/AppFAB';
@@ -34,6 +34,10 @@ const MessangerPage = () => {
 		IMessage[]
 	>(messageApi.getMessages);
 
+	const { data: markReadData, error: markReadErr, request: markMsgsAsRead } = useApiUpdated(
+		messageApi.markAllMsgsOfContactAsRead
+	);
+
 	const { contacts, selectedContact, messages } = useAppSelector((state) => state.chat);
 
 	useEffect(() => {
@@ -57,8 +61,18 @@ const MessangerPage = () => {
 
 	useEffect(
 		() => {
+			if (selectedContact) markMsgsAsRead(selectedContact._id);
+		},
+		[
+			messages
+		]
+	);
+
+	useEffect(
+		() => {
 			if (messagesData && !messagesErr) {
 				dispatch(setMessages(messagesData));
+				if (selectedContact) markMsgsAsRead(selectedContact._id);
 			}
 		},
 		[
@@ -76,6 +90,18 @@ const MessangerPage = () => {
 		[
 			contactsData,
 			contactsErr
+		]
+	);
+
+	useEffect(
+		() => {
+			if (markReadData && !markReadErr) {
+				if (selectedContact) dispatch(removeFromUnreadContacts(selectedContact._id));
+			}
+		},
+		[
+			markReadData,
+			markReadErr
 		]
 	);
 

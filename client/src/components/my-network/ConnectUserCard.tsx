@@ -38,7 +38,7 @@ const ConnectUserCard: React.FC<Props> = ({ user }) => {
 	
 	const { loading: connectLoad, request: connectReq } = useApiUpdated(userApi.connect);
     
-    const mutualConns: IUser[] = (mutualConnsData as any)?.data?.mutualConnections || []
+    const mutualConns: IUser[] = (mutualConnsData as any)?.mutualConnections || []
     
 	const [showConnsModal, setShowConnsModal] = useState(false)
 	
@@ -58,7 +58,6 @@ const ConnectUserCard: React.FC<Props> = ({ user }) => {
 		navigate('/my-network/sent requests')
 	}
 
-	console.log(fullName,isConnection,isPendingConn,isSentReqConn)
     
     if (loading) return <SkeletonComponent/>
 
@@ -84,7 +83,7 @@ const ConnectUserCard: React.FC<Props> = ({ user }) => {
 							{fullName}
 						</Heading>
 						<Link color={'gray.500'} onClick={() => navigate(`/profile/${username}`)}>@{username}</Link>
-						{mutualConns.length !== 0 && <Link my={2} color={'gray.400'} fontWeight={'light'} fontSize={'sm'}>
+						{mutualConns.length !== 0 && <Link onClick={() => setShowConnsModal(true)} my={2} color={'gray.400'} fontWeight={'light'} fontSize={'sm'}>
 							{getMutualConnStr(mutualConns)}
 						</Link>}
 						{!isConnection && !isPendingConn && !isSentReqConn && <Button onClick={connectHandler} isLoading={connectLoad} my={4} variant={'outline'} colorScheme="primary">
