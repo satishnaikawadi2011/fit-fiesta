@@ -20,7 +20,7 @@ import MessageContactList from './components/messaging/MessageContactList';
 import MessageList from './components/messaging/MessageList';
 import beginChatImg from './assets/begin-chat.png';
 import { IMessage } from './types/Message';
-import { addMessage, updateLatestMessage } from './app/features/chat';
+import { addMessage, setUnreadContacts, updateLatestMessage } from './app/features/chat';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -44,6 +44,10 @@ function App() {
 		unreadCount: number;
 	}>(userApi.getUnreadNotificationsCount);
 
+	const { data: unreadContactsData, request: getUnreadContacts, loading: unreadContsLoad } = useApiUpdated<string[]>(
+		userApi.getContactsWithUnreadMsgs
+	);
+
 	useEffect(() => {
 		getAllDataFromStorage();
 	}, []);
@@ -54,10 +58,22 @@ function App() {
 				getNotificationsReq();
 				getUserDetailsReq();
 				getUnreadCntReq();
+				getUnreadContacts();
 			}
 		},
 		[
 			runFetchCalls
+		]
+	);
+
+	useEffect(
+		() => {
+			if (unreadContactsData) {
+				dispatch(setUnreadContacts(unreadContactsData));
+			}
+		},
+		[
+			unreadContactsData
 		]
 	);
 

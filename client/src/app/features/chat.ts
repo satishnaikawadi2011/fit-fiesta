@@ -10,13 +10,15 @@ interface chatState {
 	contacts: IContactListItem[];
 	selectedContact: IContactListItem | null;
 	messageContent: string;
+	unreadContacts: string[];
 }
 
 const initialState: chatState = {
 	messages: [],
 	contacts: [],
 	selectedContact: null,
-	messageContent: ''
+	messageContent: '',
+	unreadContacts: []
 };
 
 export const chatSlice = createSlice({
@@ -57,6 +59,10 @@ export const chatSlice = createSlice({
 			setMessageContent:
 				(state, action: PayloadAction<string>) => {
 					state.messageContent = action.payload;
+				},
+			setUnreadContacts:
+				(state, action: PayloadAction<string[]>) => {
+					state.unreadContacts = action.payload;
 				}
 		}
 });
@@ -67,7 +73,8 @@ export const {
 	setContacts,
 	updateLatestMessage,
 	setSelectedContact,
-	setMessageContent
+	setMessageContent,
+	setUnreadContacts
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

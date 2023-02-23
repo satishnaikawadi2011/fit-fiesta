@@ -83,6 +83,10 @@ const getMyGroups = () => {
 	return client.get(`${endpoint}/groups`);
 };
 
+const getContactsWithUnreadMsgs = () => {
+	return client.get(`${endpoint}/contacts/unread`);
+};
+
 export default {
 	editUserProfile,
 	getMutualConnections,
@@ -103,5 +107,6 @@ export default {
 	getReceivedRequestsToJoinGroups,
 	getUserProfile,
 	getContacts,
-	getMyGroups
+	getMyGroups,
+	getContactsWithUnreadMsgs
 };

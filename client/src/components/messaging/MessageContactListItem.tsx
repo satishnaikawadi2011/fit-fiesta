@@ -16,6 +16,7 @@ interface Props {
 
 const MessageContactListItem: React.FC<Props> = ({ _id, name, profileImg, latestMessage, type }) => {
 	const { user } = useAppSelector((state) => state.auth);
+	const { unreadContacts } = useAppSelector((state) => state.chat);
 	const dispatch = useAppDispatch();
 	let senderName;
 	let content;
@@ -52,6 +53,8 @@ const MessageContactListItem: React.FC<Props> = ({ _id, name, profileImg, latest
 		dispatch(setSelectedContact({ _id, name, profileImg, latestMessage, type }));
 	};
 
+	const isUnreadContact = unreadContacts.includes(_id);
+
 	return (
 		<Flex
 			width={'full'}
@@ -63,6 +66,11 @@ const MessageContactListItem: React.FC<Props> = ({ _id, name, profileImg, latest
 			cursor="pointer"
 			transition={'all 0.5s'}
 			onClick={clickHandler}
+			bgColor={
+
+					isUnreadContact ? 'green.50' :
+					''
+			}
 		>
 			<Avatar mr={2} src={profileImg} name={name} />
 			<Box width={'full'}>
@@ -76,7 +84,15 @@ const MessageContactListItem: React.FC<Props> = ({ _id, name, profileImg, latest
 					>
 						{name}
 					</Text>
-					<Text flexShrink={1} fontSize={'sm'}>
+					<Text
+						flexShrink={1}
+						color={
+
+								isUnreadContact ? 'green' :
+								''
+						}
+						fontSize={'sm'}
+					>
 						{formatedDate}
 					</Text>
 				</Flex>

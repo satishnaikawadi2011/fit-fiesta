@@ -31,9 +31,15 @@ interface Props {
 const CustomMenuButton = forwardRef((props, ref) => {
 	const { user } = useAppSelector((state) => state.auth);
 	const { unreadNotificationsCount } = useAppSelector((state) => state.user);
+	const { unreadContacts } = useAppSelector((state) => state.chat);
 	return (
 		<Box ref={ref} {...props}>
-			<AppBadge content={unreadNotificationsCount} bgColor="#FA3E3E" hideZero contentColor="#fff">
+			<AppBadge
+				content={unreadNotificationsCount + unreadContacts.length}
+				bgColor="#FA3E3E"
+				hideZero
+				contentColor="#fff"
+			>
 				<Flex flexDirection={'column'} alignItems="center" cursor={'pointer'}>
 					<Avatar src={user!.profileImg} size={'sm'} />
 					<Flex alignItems="center">
@@ -50,6 +56,7 @@ const HeaderMenu: React.FC<Props> = ({ user }) => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const { unreadNotificationsCount } = useAppSelector((state) => state.user);
+	const { unreadContacts } = useAppSelector((state) => state.chat);
 
 	return (
 		<Menu>
@@ -101,7 +108,7 @@ const HeaderMenu: React.FC<Props> = ({ user }) => {
 					>
 						Messanger
 					</Link>
-					{/* <AppBadge content={unreadNotificationsCount} bgColor="#FA3E3E" hideZero contentColor="#fff" /> */}
+					<AppBadge content={unreadContacts.length} bgColor="#FA3E3E" hideZero contentColor="#fff" />
 				</Flex>
 				<Divider mt={2} />
 				<Link

@@ -8,7 +8,7 @@ import messageApi from '../api/message';
 import { IGroup } from '../types/Group';
 import { IUser } from '../types/User';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { setContacts, setMessages } from '../app/features/chat';
+import { setContacts, setMessages, setSelectedContact } from '../app/features/chat';
 import beginChatImg from '../assets/begin-chat.png';
 import { IMessage } from '../types/Message';
 import AppFAB from '../components/app/AppFAB';
@@ -33,10 +33,15 @@ const MessangerPage = () => {
 	const { data: messagesData, error: messagesErr, loading: messagesLoad, request: getMessages } = useApiUpdated<
 		IMessage[]
 	>(messageApi.getMessages);
+
 	const { contacts, selectedContact, messages } = useAppSelector((state) => state.chat);
 
 	useEffect(() => {
 		getContacts();
+
+		return () => {
+			dispatch(setSelectedContact(null));
+		};
 	}, []);
 
 	useEffect(
