@@ -94,7 +94,7 @@ const MessangerPage = () => {
 						overflow={'auto'}
 						style={{ height: '100vh' }}
 					>
-						<MessageContactList contacts={contacts} />
+						<MessageContactList loading={contactsLoad} contacts={contacts} />
 					</Box>
 					<Box width={'70vw'} overflow={'auto'} height={'100vh'}>
 						{selectedContact && <MessageList messages={messages} />}
@@ -108,7 +108,7 @@ const MessangerPage = () => {
 						)}
 					</Box>
 				</Flex> :
-				!selectedContact ? <MessageContactList contacts={contacts} /> :
+				!selectedContact ? <MessageContactList loading={contactsLoad} contacts={contacts} /> :
 				<MessageList messages={messages} />}
 		</React.Fragment>
 	);

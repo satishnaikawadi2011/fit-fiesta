@@ -728,7 +728,8 @@ export const getContactsWithUnreadMsgs = async (req: any, res: Response) => {
 								userId
 							]
 					},
-				sender: c
+				sender: c,
+				receiver: userId
 			});
 			if (m) {
 				contacts.push(c);
