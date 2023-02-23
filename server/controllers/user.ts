@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import { validateEditUser } from '../validation/validateEditUser';
 import Notification, { getNotificationMessage, NotificationType } from '../models/Notification';
 import Group from '../models/Group';
+import Message from '../models/Message';
 
 export const register = async (req: Request, res: Response) => {
 	try {
@@ -699,6 +700,38 @@ export const getContacts = async (req: any, res: Response) => {
 		});
 
 		return res.json({ groups, connections: transformedConnections });
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
+export const getContactsWithUnreadMsgs = async (req: any, res: Response) => {
+	try {
+		const userId = req.id;
+		const user = await User.findById(userId);
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		const userConns = user.connections.map((c) => c.toString());
+		const userGroups = user.groups.map((g) => g.toString());
+
+		let contacts: string[] = [];
+
+		for (const c of userConns) {
+			const m = await Message.findOne({ read: false, sender: c });
+			if (m) {
+				contacts.push(c);
+			}
+		}
+
+		for (const g of userGroups) {
+			const m = await Message.findOne({ read: false, group: g });
+			if (m) contacts.push(g);
+		}
+
+		return res.json(contacts);
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ message: 'Something went wrong!' });
