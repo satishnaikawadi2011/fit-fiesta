@@ -17,7 +17,16 @@ export const sendMessage = async (req: any, res: Response) => {
 
 		const sender = req.id;
 
-		const message = new Message({ content, receiver, sender, group });
+		const message = new Message({
+			content,
+			receiver,
+			sender,
+			group,
+			readBy:
+				[
+					sender
+				]
+		});
 		await message.save();
 
 		const senderUser = await User.findById(sender);
@@ -139,6 +148,60 @@ export const getMessages = async (req: any, res: Response) => {
 					'fullName',
 					'profileImg'
 				]);
+		}
+
+		res.json(messages);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: 'Something went wrong!' });
+	}
+};
+
+export const markAllMsgsOfContactAsRead = async (req: any, res: Response) => {
+	try {
+		const contactId = req.params.contactId;
+		const userId = req.id;
+
+		const user = await User.findById(userId);
+		if (!user) {
+			return res.status(400).json({ message: 'User not found' });
+		}
+
+		if (!isValidObjectId(contactId)) {
+			return res.status(400).json({ message: 'Please provide valid contactId' });
+		}
+
+		let messages: IMessage[] = [];
+		if (user.groups.includes(contactId)) {
+			await Message.updateMany(
+				{
+					group: contactId,
+					readBy:
+						{
+							$nin:
+								[
+									userId
+								]
+						}
+				},
+				{ $push: { readBy: userId } }
+			);
+		}
+		else if (user.connections.includes(contactId)) {
+			await Message.updateMany(
+				{
+					sender: contactId,
+					receiver: userId,
+					readBy:
+						{
+							$nin:
+								[
+									userId
+								]
+						}
+				},
+				{ $push: { readBy: userId } }
+			);
 		}
 
 		res.json(messages);

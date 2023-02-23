@@ -6,9 +6,9 @@ export interface IMessage {
 	receiver?: string;
 	group?: string;
 	content: string;
-	read: boolean;
 	createdAt: string;
 	updatedAt: string;
+	readBy: string[];
 }
 
 const MessageSchema = new Schema(
@@ -34,7 +34,13 @@ const MessageSchema = new Schema(
 				type: String,
 				required: true
 			},
-		read: { type: Boolean, default: false }
+		readBy:
+			[
+				{
+					type: mongoose.Schema.Types.ObjectId,
+					ref: 'User'
+				}
+			]
 	},
 	{ timestamps: true }
 );

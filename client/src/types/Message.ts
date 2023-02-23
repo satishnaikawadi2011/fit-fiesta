@@ -4,7 +4,7 @@ export interface IMessage {
 	receiver?: string;
 	group?: string;
 	content: string;
-	read: boolean;
 	createdAt: string;
 	updatedAt: string;
+	readBy: string[];
 }

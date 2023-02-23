@@ -720,14 +720,32 @@ export const getContactsWithUnreadMsgs = async (req: any, res: Response) => {
 		let contacts: string[] = [];
 
 		for (const c of userConns) {
-			const m = await Message.findOne({ read: false, sender: c });
+			const m = await Message.findOne({
+				readBy:
+					{
+						$nin:
+							[
+								userId
+							]
+					},
+				sender: c
+			});
 			if (m) {
 				contacts.push(c);
 			}
 		}
 
 		for (const g of userGroups) {
-			const m = await Message.findOne({ read: false, group: g });
+			const m = await Message.findOne({
+				readBy:
+					{
+						$nin:
+							[
+								userId
+							]
+					},
+				group: g
+			});
 			if (m) contacts.push(g);
 		}
 
