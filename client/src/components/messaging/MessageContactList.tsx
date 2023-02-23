@@ -3,6 +3,7 @@ import { Box, Input, InputGroup, InputLeftElement, useMediaQuery } from '@chakra
 import React from 'react';
 import { IMessage } from '../../types/Message';
 import MessageContactListItem from './MessageContactListItem';
+import MessageContactListItemSkeleton from './skeletons/MessageContactListItemSkeleton';
 
 export interface IContactListItem {
 	latestMessage?: IMessage;
@@ -14,9 +15,10 @@ export interface IContactListItem {
 
 interface Props {
 	contacts: IContactListItem[];
+	loading?: boolean;
 }
 
-const MessageContactList: React.FC<Props> = ({ contacts }) => {
+const MessageContactList: React.FC<Props> = ({ contacts, loading = false }) => {
 	const [
 		isLargerScreen
 	] = useMediaQuery('(min-width: 768px)');
@@ -76,20 +78,33 @@ const MessageContactList: React.FC<Props> = ({ contacts }) => {
 			</Box>
 
 			<Box mt={'60px'} height={'calc(100vh - 60px)'}>
-				{filteredContacts.map((c) => {
-					return (
-						<React.Fragment>
-							<MessageContactListItem
-								type={c.type}
-								key={c._id}
-								_id={c._id}
-								name={c.name}
-								profileImg={c.profileImg}
-								latestMessage={c.latestMessage}
-							/>
-						</React.Fragment>
-					);
-				})}
+				{
+					!loading ? filteredContacts.map((c) => {
+						return (
+							<React.Fragment>
+								<MessageContactListItem
+									type={c.type}
+									key={c._id}
+									_id={c._id}
+									name={c.name}
+									profileImg={c.profileImg}
+									latestMessage={c.latestMessage}
+								/>
+							</React.Fragment>
+						);
+					}) :
+					[
+						1,
+						2,
+						3,
+						4
+					].map((c) => {
+						return (
+							<React.Fragment>
+								<MessageContactListItemSkeleton key={c} />
+							</React.Fragment>
+						);
+					})}
 			</Box>
 		</Box>
 	);

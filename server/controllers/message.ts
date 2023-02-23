@@ -171,7 +171,6 @@ export const markAllMsgsOfContactAsRead = async (req: any, res: Response) => {
 			return res.status(400).json({ message: 'Please provide valid contactId' });
 		}
 
-		let messages: IMessage[] = [];
 		if (user.groups.includes(contactId)) {
 			await Message.updateMany(
 				{
@@ -204,7 +203,7 @@ export const markAllMsgsOfContactAsRead = async (req: any, res: Response) => {
 			);
 		}
 
-		res.json(messages);
+		res.json({ message: 'Messages marked as read' });
 	} catch (err) {
 		console.log(err);
 		return res.status(500).json({ message: 'Something went wrong!' });
