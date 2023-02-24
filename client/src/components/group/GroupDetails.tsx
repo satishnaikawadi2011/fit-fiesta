@@ -8,7 +8,8 @@ import {
 	Image,
 	Skeleton,
 	SkeletonCircle,
-	Text
+	Text,
+	useColorMode
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -54,6 +55,7 @@ const GroupDetails: React.FC<Props> = ({ group }) => {
 	] = useState(false);
 
 	const blockBg = useBlockBgColor();
+	const { colorMode } = useColorMode();
 
 	const isMember = authUser!.groups!.includes(group._id);
 	const isPending =
@@ -86,7 +88,7 @@ const GroupDetails: React.FC<Props> = ({ group }) => {
 	useEffect(
 		() => {
 			if (data && !error) {
-				userLog('success', 'Sent request to join group successfully!').then(() => {
+				userLog('success', 'Sent request to join group successfully!', colorMode).then(() => {
 					const updatedSentGrpReqs = [
 						_id,
 						...authUser!.sentGroupJoinRequests!

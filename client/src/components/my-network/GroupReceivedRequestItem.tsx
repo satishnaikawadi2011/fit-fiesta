@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, Heading, Link, Skeleton, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, Flex, Heading, Link, Skeleton, Text, useColorMode } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import userApi from '../../api/user';
 import { updateUser } from '../../app/features/auth';
@@ -32,10 +32,12 @@ const GroupReceivedRequestItem: React.FC<Props> = ({ user, group }) => {
 		groupApi.rejectReceivedGroupRequest
 	);
 
+	const { colorMode } = useColorMode();
+
 	useEffect(
 		() => {
 			if (accceptData && !acceptErr) {
-				userLog('success', 'Join request accepted successfully!').then(() => {
+				userLog('success', 'Join request accepted successfully!', colorMode).then(() => {
 					dispatch(removeReceivedGroupRequest({ group: group._id, requestingUser: user._id }));
 					const updatedReceivedGrpJoinReqs = authUser!.receivedGroupJoinRequests!.filter((req) => {
 						return req.group !== group._id || req.requestingUser !== user._id;
@@ -53,7 +55,7 @@ const GroupReceivedRequestItem: React.FC<Props> = ({ user, group }) => {
 	useEffect(
 		() => {
 			if (rejectData && !rejecttErr) {
-				userLog('success', 'Join request rejected successfully!').then(() => {
+				userLog('success', 'Join request rejected successfully!', colorMode).then(() => {
 					dispatch(removeReceivedGroupRequest({ group: group._id, requestingUser: user._id }));
 					const updatedReceivedGrpJoinReqs = authUser!.receivedGroupJoinRequests!.filter((req) => {
 						return req.group !== group._id || req.requestingUser !== user._id;

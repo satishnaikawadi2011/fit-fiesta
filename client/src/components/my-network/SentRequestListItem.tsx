@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, Heading, Link, Skeleton, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, Flex, Heading, Link, Skeleton, Text, useColorMode } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import userApi from '../../api/user';
 import { updateUser } from '../../app/features/auth';
@@ -20,11 +20,12 @@ const SentRequestsListItem: React.FC<Props> = ({ _id, name, profileImg, username
 	);
 	const dispatch = useAppDispatch();
 	const { user: authUser } = useAppSelector((state) => state.auth);
+	const { colorMode } = useColorMode();
 
 	useEffect(
 		() => {
 			if (data && !error) {
-				userLog('success', 'Sent request withdrawn successfully!').then(() => {
+				userLog('success', 'Sent request withdrawn successfully!', colorMode).then(() => {
 					dispatch(withdrawRequest(_id));
 					const updatedSentReqs = authUser!.sentConnections!.filter((c) => c !== _id);
 					dispatch(updateUser({ sentConnections: updatedSentReqs }));

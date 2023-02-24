@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, Grid, Heading, Link, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, Flex, Grid, Heading, Link, Text, useColorMode } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import useApiUpdated from '../../hooks/useApiUpdated';
@@ -23,6 +23,7 @@ const GroupCard: React.FC<Props> = ({ group, refe }) => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const blockBg = useBlockBgColor();
+	const { colorMode } = useColorMode();
 
 	const { data, error, loading: joinLoad, request: joinReq } = useApiUpdated(groupApi.makeRequestToJoinGroup);
 
@@ -40,7 +41,7 @@ const GroupCard: React.FC<Props> = ({ group, refe }) => {
 	useEffect(
 		() => {
 			if (data && !error) {
-				userLog('success', 'Sent request to join group successfully!').then(() => {
+				userLog('success', 'Sent request to join group successfully!', colorMode).then(() => {
 					const updatedSentGrpReqs = [
 						_id,
 						...authUser!.sentGroupJoinRequests!

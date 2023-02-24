@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, Heading, Link, Skeleton, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, Flex, Heading, Link, Skeleton, Text, useColorMode } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import groupApi from '../../api/group';
 import { updateUser } from '../../app/features/auth';
@@ -20,11 +20,12 @@ const SentGroupJoinRequestItem: React.FC<Props> = ({ group }) => {
 	);
 	const dispatch = useAppDispatch();
 	const { user: authUser } = useAppSelector((state) => state.auth);
+	const { colorMode } = useColorMode();
 
 	useEffect(
 		() => {
 			if (data && !error) {
-				userLog('success', 'Sent request to join group withdrawn successfully!').then(() => {
+				userLog('success', 'Sent request to join group withdrawn successfully!', colorMode).then(() => {
 					dispatch(withdrawSentGroupRequest(_id));
 					const updatedSentGrpReqs = authUser!.sentGroupJoinRequests!.filter((r) => r !== _id);
 					dispatch(updateUser({ sentGroupJoinRequests: updatedSentGrpReqs }));

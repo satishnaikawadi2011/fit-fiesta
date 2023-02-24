@@ -8,7 +8,8 @@ import {
 	Link,
 	Stack,
 	useColorModeValue,
-	Text
+	Text,
+	useColorMode
 } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import { FormikProps } from 'formik/dist/types';
@@ -132,6 +133,7 @@ const RegisterPage = () => {
 	] = useState(false);
 
 	const dispatch = useAppDispatch();
+	const {colorMode} = useColorMode()
 
 	const { data, loading, error, request: registerUser, errorMsg } = useApi(authApi.registerUser);
 
@@ -157,7 +159,7 @@ const RegisterPage = () => {
 
 	const showError = async () => {
 		if (error) {
-			const d = await userLog('error', errorMsg);
+			const d = await userLog('error', errorMsg,colorMode);
 			console.log(d);
 		}
 	};

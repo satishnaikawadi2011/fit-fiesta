@@ -1,5 +1,5 @@
 import { DeleteIcon } from '@chakra-ui/icons';
-import { Menu, MenuButton, IconButton, MenuList, MenuItem } from '@chakra-ui/react';
+import { Menu, MenuButton, IconButton, MenuList, MenuItem, useColorMode } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -20,11 +20,12 @@ const ConnectionMenu: React.FC<Props> = ({ user }) => {
 	const { data: removeConnData, error: removeConnErr, errorMsg, loading, request: removeConn } = useApiUpdated<any>(
 		userApi.removeConnection
 	);
+	const { colorMode } = useColorMode();
 
 	useEffect(
 		() => {
 			if (removeConnData && !removeConnErr) {
-				userLog('success', 'Connection removed successfully!').then(() => {
+				userLog('success', 'Connection removed successfully!', colorMode).then(() => {
 					dispatch(removeConnection(user._id));
 					const updatedConns = authUser!.connections!.filter((c) => c !== user._id);
 					dispatch(updateUser({ connections: updatedConns }));

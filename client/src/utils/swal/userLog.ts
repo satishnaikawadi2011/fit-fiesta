@@ -1,24 +1,39 @@
+import { useColorMode } from '@chakra-ui/react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { SWAL_BG } from '../../constants/colors';
+import { SWAL_DARK_BG, SWAL_LIGHT_BG } from '../../constants/colors';
 
 export type UserLogType = 'success' | 'error' | 'info' | 'toast' | 'success-html';
 
 const MySwal = withReactContent(Swal);
 
-export const userLog = async (type: UserLogType, message: string | HTMLElement | JQuery | undefined) => {
+export const userLog = async (
+	type: UserLogType,
+	message: string | HTMLElement | JQuery | undefined,
+	mode: 'dark' | 'light' = 'dark'
+) => {
+	const color =
+
+			mode === 'light' ? '#000000' :
+			'#ffffff';
+	const bgColor =
+
+			mode === 'light' ? SWAL_LIGHT_BG :
+			SWAL_DARK_BG;
 	switch (type) {
 		case 'error':
 			return MySwal.fire({
-				background: SWAL_BG,
+				background: bgColor,
 				position: 'center',
 				icon: 'error',
 				title: 'Oops...',
-				text: message as string
+				text: message as string,
+				color
 			});
 		case 'info':
 			return Swal.fire({
-				background: SWAL_BG,
+				background: bgColor,
+				color,
 				position: 'center',
 				icon: 'info',
 				title: 'Info',
@@ -34,7 +49,7 @@ export const userLog = async (type: UserLogType, message: string | HTMLElement |
 			});
 		case 'success':
 			return Swal.fire({
-				background: SWAL_BG,
+				background: bgColor,
 				position: 'center',
 				icon: 'success',
 				title: 'Success',
@@ -46,12 +61,13 @@ export const userLog = async (type: UserLogType, message: string | HTMLElement |
 				hideClass:
 					{
 						popup: 'animate__animated animate__fadeOutUp'
-					}
+					},
+				color
 			});
 
 		case 'success-html':
 			return Swal.fire({
-				background: SWAL_BG,
+				background: bgColor,
 				position: 'center',
 				icon: 'success',
 				title: 'Success',
@@ -63,15 +79,17 @@ export const userLog = async (type: UserLogType, message: string | HTMLElement |
 				hideClass:
 					{
 						popup: 'animate__animated animate__fadeOutUp'
-					}
+					},
+				color
 			});
 		case 'toast':
 			const Toast = Swal.mixin({
-				background: SWAL_BG,
+				background: bgColor,
 				toast: true,
 				position: 'top-end',
 				showConfirmButton: false,
-				timer: 3000
+				timer: 3000,
+				color
 			});
 			return Toast.fire({
 				icon: 'info',

@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Flex, Heading, Link, Skeleton, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, Flex, Heading, Link, Skeleton, Text, useColorMode } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import userApi from '../../api/user';
 import { updateUser } from '../../app/features/auth';
@@ -31,10 +31,12 @@ const InvitationListItem: React.FC<Props> = ({ _id, name, profileImg, username }
 		userApi.rejectConnectionRequest
 	);
 
+	const { colorMode } = useColorMode();
+
 	useEffect(
 		() => {
 			if (accceptData && !acceptErr) {
-				userLog('success', 'Connection request accepted successfully!').then(() => {
+				userLog('success', 'Connection request accepted successfully!', colorMode).then(() => {
 					dispatch(removeInvitation(_id));
 					const updatedConns = [
 						_id,
@@ -54,7 +56,7 @@ const InvitationListItem: React.FC<Props> = ({ _id, name, profileImg, username }
 	useEffect(
 		() => {
 			if (rejectData && !rejecttErr) {
-				userLog('success', 'Connection request rejected successfully!').then(() => {
+				userLog('success', 'Connection request rejected successfully!', colorMode).then(() => {
 					dispatch(removeInvitation(_id));
 					const updatedInvitations = authUser!.pendingConnections!.filter((c) => c !== _id);
 					dispatch(updateUser({ pendingConnections: updatedInvitations }));

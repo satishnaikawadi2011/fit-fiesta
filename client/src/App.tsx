@@ -6,7 +6,7 @@ import { isExpired } from './utils/isExpired';
 import AuthenticatedRoutes from './routes/authenticated-routes';
 import { getAllDataFromStorage } from './utils/getAllDataFromStorage';
 import apiClient from './api/client';
-import { Box, Button, Center, Flex, Image, Spinner, Text, useColorMode, useMediaQuery } from '@chakra-ui/react';
+import { Button, Center, Spinner } from '@chakra-ui/react';
 import useApiUpdated from './hooks/useApiUpdated';
 import { INotification } from './types/Notification';
 import userApi from './api/user';
@@ -14,18 +14,12 @@ import { increaseUnreadNotificationsCount, setNotifications, setUnreadNotificati
 import { IUser } from './types/User';
 import { updateUser } from './app/features/auth';
 import socket from './socket';
-import MessageContactListItem from './components/messaging/MessageContactListItem';
-import Message from './components/messaging/Message';
-import MessageContactList from './components/messaging/MessageContactList';
-import MessageList from './components/messaging/MessageList';
-import beginChatImg from './assets/begin-chat.png';
-import { IMessage } from './types/Message';
 import { addMessage, addToUnreadContacts, setUnreadContacts, updateLatestMessage } from './app/features/chat';
+import { userLog } from './utils/swal/userLog';
 
 function App() {
 	const dispatch = useAppDispatch();
 	const { selectedContact } = useAppSelector((state) => state.chat);
-	const { colorMode, toggleColorMode } = useColorMode();
 	const [
 		runFetchCalls,
 		setRunFetchCalls
@@ -193,29 +187,11 @@ function App() {
 		return (
 			<React.Fragment>
 				<AuthenticatedRoutes />
+				{/* <Button position={'absolute'} bottom={0} left={0} zIndex={1000} onClick={() => userLog('info', 'Hi')}>
+					Click
+				</Button> */}
 			</React.Fragment>
 		);
-		// return ;
-		// return (
-		// 	<React.Fragment>
-		// 		{
-		// 			isLargerScreen ? <Flex overflowY={'auto'}>
-		// 				<Box width={'30vw'} overflow={'auto'}>
-		// 					<MessageContactList contacts={contactList as any} />
-		// 				</Box>
-		// 				<Box width={'70vw'} overflow={'auto'} style={{ height: 'calc(100vh)', overflowY: 'scroll' }}>
-		// 					{/* <MessageList messages={messages} /> */}
-		// 					<Center height={'100%'}>
-		// 						<div style={{ height: '100%' }}>
-		// 							<Image src={beginChatImg} height={'80%'} />
-		// 							<Text textAlign={'center'}>Please select a contact or group to chat with them</Text>
-		// 						</div>
-		// 					</Center>
-		// 				</Box>
-		// 			</Flex> :
-		// 			<MessageContactList contacts={contactList as any} />}
-		// 	</React.Fragment>
-		// );
 	}
 	return (
 		<React.Fragment>
@@ -223,96 +199,5 @@ function App() {
 		</React.Fragment>
 	);
 }
-
-const messages: any[] = [];
-
-for (let i = 0; i < 10; i++) {
-	const message = {
-		_id: `message_${i}`,
-		sender:
-			{
-				_id: `user_${i}`,
-				fullName: `User ${i}`,
-				username: `user${i}`,
-				profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png'
-			},
-		receiver: `receiver_${i}`,
-		content: `This is message number ${i}`,
-		read: false,
-		createdAt: new Date().toISOString(),
-		updatedAt: new Date().toISOString()
-	};
-
-	messages.push(message);
-}
-
-console.log(messages);
-
-const contactList = [
-	{
-		latestMessage:
-			{
-				_id: '1',
-				sender:
-					{
-						_id: '1',
-						fullName: 'John Doe',
-						username: 'johndoe',
-						profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png'
-					},
-				receiver: '2',
-				content: 'Hello, how are you?',
-				read: true,
-				createdAt: '2022-02-18T10:45:00Z',
-				updatedAt: '2022-02-18T10:45:00Z'
-			},
-		name: 'Jane Smith',
-		profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png',
-		_id: 1
-	},
-	{
-		latestMessage:
-			{
-				_id: '2',
-				sender:
-					{
-						_id: '63dcda35cdee5a239718395e',
-						fullName: 'Jane Smith',
-						username: 'janesmith',
-						profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png'
-					},
-				receiver: '1',
-				content: "I'm good, thanks for asking. How about you?",
-				read: true,
-				createdAt: '2022-02-19T08:30:00Z',
-				updatedAt: '2022-02-19T08:30:00Z'
-			},
-		name: 'John Doe',
-		profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png',
-		_id: 2
-	},
-	{
-		latestMessage:
-			{
-				_id: '3',
-				sender:
-					{
-						_id: '3',
-						fullName: 'Alice Smith',
-						username: 'alicesmith',
-						profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png'
-					},
-				group: '1',
-				content:
-					"Hey everyone, how's it going?Hey everyone, how's it going?Hey everyone, how's it going? Hey everyone, how's it goingHey everyone, how's it goingHey everyone, how's it going",
-				read: false,
-				createdAt: '2022-02-18T18:15:00Z',
-				updatedAt: '2022-02-18T18:15:00Z'
-			},
-		name: 'Group Chat',
-		profileImg: 'https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__480.png',
-		_id: 3
-	}
-];
 
 export default App;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FormikProps, Formik } from 'formik';
-import { Button, Flex, Heading, Link, Stack, Image, InputRightElement, Text } from '@chakra-ui/react';
+import { Button, Flex, Heading, Link, Stack, Image, InputRightElement, Text, useColorMode } from '@chakra-ui/react';
 import * as Yup from 'yup';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import AppFormField from '../components/form/AppFormField';
@@ -41,6 +41,7 @@ const LoginPage = () => {
 	] = useState(false);
 
 	const dispatch = useAppDispatch();
+	const { colorMode } = useColorMode();
 
 	const { data, loading, error, request: loginUser, errorMsg } = useApi(authApi.loginUser);
 
@@ -66,7 +67,7 @@ const LoginPage = () => {
 
 	const showError = async () => {
 		if (error) {
-			const d = await userLog('error', errorMsg);
+			const d = await userLog('error', errorMsg, colorMode);
 			console.log(d);
 		}
 	};
