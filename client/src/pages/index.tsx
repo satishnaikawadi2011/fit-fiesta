@@ -12,7 +12,7 @@ const HomePage = () => {
 	const dispatch = useAppDispatch();
 	const { posts } = useAppSelector((state) => state.post);
 
-	const { hasMore, lastItemRef, loading, items } = useInfiniteScrollPagination<IPost>('/api/post', 2);
+	const { hasMore, lastItemRef, loading, items } = useInfiniteScrollPagination<IPost>('/api/post', 3);
 
 	useEffect(
 		() => {

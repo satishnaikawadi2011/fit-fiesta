@@ -14,16 +14,17 @@ interface Props {
 	username: string;
 	group?: string;
 	location?: string;
+	refe?: any;
 }
 
-const Event: React.FC<Props> = ({ date, description, name, username, group, image, location }) => {
+const Event: React.FC<Props> = ({ refe, date, description, name, username, group, image, location }) => {
 	const [
 		isOpen,
 		setIsOpen
 	] = useState<boolean>(!image);
 	return (
-		<Box mb={5} boxShadow="md" bg={'gray.100'} width={'100%'} roundedTop="2xl" overflow={'clip'}>
-			{image && <Image src={image} />}
+		<Box ref={refe} mb={5} boxShadow="md" bg={'gray.100'} width={'100%'} roundedTop="2xl" overflow={'clip'}>
+			{image && <Image src={image} width={'full'} />}
 			<Box p={5}>
 				<Heading mb={3} fontSize={'2xl'} fontWeight="medium">
 					{name}

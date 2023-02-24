@@ -10,17 +10,18 @@ import { BsChevronCompactDown } from 'react-icons/bs';
 
 interface Props {
 	resource: IResource;
+	refe?: any;
 }
 
-const Resource: React.FC<Props> = ({ resource }) => {
+const Resource: React.FC<Props> = ({ resource, refe }) => {
 	const { category, name, description, url, image, location } = resource;
 	const [
 		isOpen,
 		setIsOpen
 	] = useState<boolean>(!image);
 	return (
-		<Box mb={5} boxShadow="md" bg={'gray.100'} width={'100%'} roundedTop="2xl" overflow={'clip'}>
-			{image && <Image src={image} />}
+		<Box ref={refe} mb={5} boxShadow="md" bg={'gray.100'} width={'100%'} roundedTop="2xl" overflow={'clip'}>
+			{image && <Image src={image} width={'full'} />}
 			<Box p={5}>
 				<Heading mb={3} fontSize={'2xl'} fontWeight="medium">
 					{name}
