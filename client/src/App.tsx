@@ -192,12 +192,6 @@ function App() {
 		apiClient.setHeader('Authorization', `Bearer ${token}`);
 		return (
 			<React.Fragment>
-				<Button position={'absolute'} bottom={0} right={0} zIndex={1000} onClick={toggleColorMode}>
-					Toggle{' '}
-					{
-						colorMode === 'light' ? 'Dark' :
-						'Light'}
-				</Button>
 				<AuthenticatedRoutes />
 			</React.Fragment>
 		);
@@ -225,12 +219,6 @@ function App() {
 	}
 	return (
 		<React.Fragment>
-			<Button position={'absolute'} bottom={0} right={0} zIndex={1000} onClick={toggleColorMode}>
-				Toggle{' '}
-				{
-					colorMode === 'light' ? 'Dark' :
-					'Light'}
-			</Button>
 			<UnauthenticatedRoutes />
 		</React.Fragment>
 	);

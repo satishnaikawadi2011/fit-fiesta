@@ -13,7 +13,9 @@ import {
 	Divider,
 	Link,
 	forwardRef,
-	Icon
+	Icon,
+	Switch,
+	useColorMode
 } from '@chakra-ui/react';
 import React from 'react';
 import { AiFillCaretDown } from 'react-icons/ai';
@@ -57,6 +59,7 @@ const HeaderMenu: React.FC<Props> = ({ user }) => {
 	const dispatch = useAppDispatch();
 	const { unreadNotificationsCount } = useAppSelector((state) => state.user);
 	const { unreadContacts } = useAppSelector((state) => state.chat);
+	const { colorMode, setColorMode } = useColorMode();
 
 	return (
 		<Menu>
@@ -85,7 +88,7 @@ const HeaderMenu: React.FC<Props> = ({ user }) => {
 					View Profile
 				</Button>
 				<Divider mt={3} />
-				<Flex justifyContent={'space-between'}>
+				<Flex mt={2} justifyContent={'space-between'}>
 					<Link
 						onClick={() => {
 							navigate('/notifications');
@@ -98,7 +101,7 @@ const HeaderMenu: React.FC<Props> = ({ user }) => {
 					<AppBadge content={unreadNotificationsCount} bgColor="#FA3E3E" hideZero contentColor="#fff" />
 				</Flex>
 				<Divider mt={2} />
-				<Flex justifyContent={'space-between'}>
+				<Flex mt={2} justifyContent={'space-between'}>
 					<Link
 						onClick={() => {
 							navigate('/messanger');
@@ -111,7 +114,26 @@ const HeaderMenu: React.FC<Props> = ({ user }) => {
 					<AppBadge content={unreadContacts.length} bgColor="#FA3E3E" hideZero contentColor="#fff" />
 				</Flex>
 				<Divider mt={2} />
+				<Flex mt={2} justifyContent={'space-between'}>
+					<Text fontSize={'sm'} fontWeight={'light'}>
+						Color Mode
+					</Text>
+					<Switch
+						isChecked={colorMode === 'dark'}
+						onChange={(e) => {
+							if (e.target.checked) {
+								setColorMode('dark');
+							}
+							else {
+								setColorMode('light');
+							}
+						}}
+						colorScheme="primary"
+					/>
+				</Flex>
+				<Divider mt={2} />
 				<Link
+					mt={2}
 					onClick={() => {
 						dispatch(logout());
 						navigate('/login');
