@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, Text } from '@chakra-ui/react';
+import { Avatar, Box, Flex, Text, useColorMode } from '@chakra-ui/react';
 import React from 'react';
 import { useAppSelector } from '../../app/hooks';
 import { PRIMARY } from '../../constants/colors';
@@ -14,6 +14,7 @@ interface Props {
 const Message: React.FC<Props> = ({ message, refe }) => {
 	const { user } = useAppSelector((state) => state.auth);
 	const blockBg = useBlockBgColor();
+	const { colorMode } = useColorMode();
 	const sendByMe = user!._id === (message.sender as any)._id;
 	let senderName;
 	if (user!._id === (message.sender as any)._id) {
@@ -21,6 +22,10 @@ const Message: React.FC<Props> = ({ message, refe }) => {
 	}
 	else {
 		senderName = (message.sender as any).fullName;
+	}
+	let contentColor = '#ffffff';
+	if (colorMode === 'light' && !sendByMe) {
+		contentColor = '#000000';
 	}
 	return (
 		<React.Fragment>
@@ -69,7 +74,9 @@ const Message: React.FC<Props> = ({ message, refe }) => {
 								0
 						}
 					>
-						<Text textAlign={'justify'}>{message.content}</Text>
+						<Text textAlign={'justify'} color={contentColor}>
+							{message.content}
+						</Text>
 					</Box>
 					<Text ml={1} fontSize={'xs'} fontWeight={'light'}>
 						{dayjs(message.createdAt).format('h:mm A')}

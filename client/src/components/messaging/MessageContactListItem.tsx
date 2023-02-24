@@ -68,13 +68,22 @@ const MessageContactListItem: React.FC<Props> = ({ _id, name, profileImg, latest
 			cursor="pointer"
 			transition={'all 0.5s'}
 			onClick={clickHandler}
-			bgColor={
-
-					isUnreadContact ? 'green.50' :
-					''
-			}
 		>
-			<Avatar mr={2} src={profileImg} name={name} />
+			<Avatar
+				borderColor={
+
+						isUnreadContact ? 'green.400' :
+						''
+				}
+				borderWidth={
+
+						isUnreadContact ? 3 :
+						0
+				}
+				mr={2}
+				src={profileImg}
+				name={name}
+			/>
 			<Box width={'full'}>
 				<Flex flexWrap="wrap" overflow="hidden" alignItems={'baseline'} justifyContent="space-between">
 					<Text
@@ -83,6 +92,11 @@ const MessageContactListItem: React.FC<Props> = ({ _id, name, profileImg, latest
 						overflow={'hidden'}
 						flex="1"
 						fontWeight={'semibold'}
+						color={
+
+								isUnreadContact ? 'green.400' :
+								''
+						}
 					>
 						{name}
 					</Text>
@@ -90,7 +104,7 @@ const MessageContactListItem: React.FC<Props> = ({ _id, name, profileImg, latest
 						flexShrink={1}
 						color={
 
-								isUnreadContact ? 'green' :
+								isUnreadContact ? 'green.400' :
 								''
 						}
 						fontSize={'sm'}
@@ -107,6 +121,11 @@ const MessageContactListItem: React.FC<Props> = ({ _id, name, profileImg, latest
 								fontWeight={'light'}
 								overflow={'hidden'}
 								textOverflow={'ellipsis'}
+								color={
+
+										isUnreadContact ? 'green.500' :
+										''
+								}
 								noOfLines={2}
 							>{`${senderName}: ${content}`}</Text> :
 							<Text
