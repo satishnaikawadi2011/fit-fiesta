@@ -26,11 +26,12 @@ interface PostProps {
 	postImage?: string;
 	likeCounts: number;
 	likesUsers?: string[];
+	refe?: any;
 }
 
 dayjs.extend(relativeTime);
 
-const Post: React.FC<PostProps> = ({ _id, name, username, date, postText, postImage, likeCounts, likesUsers }) => {
+const Post: React.FC<PostProps> = ({ _id,refe, name, username, date, postText, postImage, likeCounts, likesUsers }) => {
 	const dispatch = useAppDispatch();
 	const { request: likePostReq } = useApi(postApi.likePost);
 	const { request: addCommReq, data: newComm, loading: newCommLoad }: any = useApi(postApi.addComment);
@@ -130,7 +131,7 @@ const Post: React.FC<PostProps> = ({ _id, name, username, date, postText, postIm
 	}
 
 	return (
-		<Box mb={4} boxShadow="md" bg={'gray.100'}>
+		<Box mb={4} boxShadow="md" bg={'gray.100'} ref={refe}>
 			<Stack padding={'4'}>
 				<Flex align="center">
 					<Image
