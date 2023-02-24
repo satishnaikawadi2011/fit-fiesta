@@ -27,6 +27,7 @@ import { saveToLocalStorage, setExpiryDate, setToken, setUser } from '../app/fea
 import { userLog } from '../utils/swal/userLog';
 import AppFormSelectField, { InputOptionsType } from '../components/form/AppFormSelectField';
 import { City, Country, State } from 'country-state-city';
+import { PRIMARY } from '../constants/colors';
 interface FormValues {
 	username: string;
 	fullName: string;
@@ -213,10 +214,10 @@ const RegisterPage = () => {
 							justify={'center'}
 							bg={useColorModeValue('gray.50', 'gray.800')}
 						>
-							<Stack mx={'auto'} maxW={'lg'} py={12} px={6}>
+							<Stack align={'center'} width={'100%'} mx={'auto'}  py={12} px={6}>
 								<Stack align={'center'}>
 									<HStack>
-										<Logo width={'5rem'} height={'5rem'} fill="#A2D2FF" />
+										<Logo width={'5rem'} height={'5rem'} fill={PRIMARY} />
 										<Heading
 											fontSize={'4xl'}
 											fontStyle="italic"
@@ -234,7 +235,8 @@ const RegisterPage = () => {
 									</Text>
 								</Stack>
 								<Box
-									w={500}
+									w={'100%'}
+									maxWidth={'550px'}
 									rounded={'lg'}
 									bg={useColorModeValue('white', 'gray.700')}
 									boxShadow={'lg'}

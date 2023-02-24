@@ -1,10 +1,24 @@
-import { Box, Flex, Heading, Button, Stack, useColorModeValue, useBreakpointValue } from '@chakra-ui/react';
+import {
+	Box,
+	Flex,
+	Heading,
+	Button,
+	Stack,
+	useColorModeValue,
+	useBreakpointValue,
+	useMediaQuery
+} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { APP_NAME } from '../../constants';
+import { PRIMARY } from '../../constants/colors';
 import Logo from '../Logo';
 
 const Header = () => {
+	const [
+		isLargerThan418
+	] = useMediaQuery('(min-width: 418px)');
 	const navigate = useNavigate();
+	const headingColor = useColorModeValue('gray.800', 'white');
 
 	return (
 		<Box>
@@ -21,15 +35,12 @@ const Header = () => {
 			>
 				<Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
 					<Flex alignItems="center" cursor={'pointer'} onClick={() => navigate('/')}>
-						<Logo width={'5rem'} height={'5rem'} fill="#A2D2FF" />
-						<Heading
-							size={'lg'}
-							textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-							fontFamily={'heading'}
-							color={useColorModeValue('gray.800', 'white')}
-						>
-							{APP_NAME}
-						</Heading>
+						<Logo width={'5rem'} height={'5rem'} fill={PRIMARY} />
+						{isLargerThan418 && (
+							<Heading size={'lg'} textAlign={'left'} fontFamily={'heading'} color={headingColor}>
+								{APP_NAME}
+							</Heading>
+						)}
 					</Flex>
 				</Flex>
 
@@ -38,7 +49,7 @@ const Header = () => {
 						Sign In
 					</Button>
 					<Button
-						display={{ base: 'none', md: 'inline-flex' }}
+						// display={{ base: 'none', md: 'inline-flex' }}
 						fontSize={'sm'}
 						fontWeight={600}
 						color={'white'}

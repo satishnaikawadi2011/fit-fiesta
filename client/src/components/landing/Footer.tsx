@@ -14,6 +14,7 @@ import { ReactNode } from 'react';
 import Logo from '../Logo';
 import { APP_NAME } from '../../constants';
 import { useNavigate } from 'react-router-dom';
+import { PRIMARY } from '../../constants/colors';
 
 const SocialButton = ({ children, label, href }: { children: ReactNode; label: string; href: string }) => {
 	return (
@@ -53,7 +54,7 @@ const Footer = () => {
 				align={{ base: 'center', md: 'center' }}
 			>
 				<Flex alignItems={'center'} cursor={'pointer'} onClick={() => navigate('/')}>
-					<Logo width={'5rem'} height={'5rem'} fill="#A2D2FF" />
+					<Logo width={'5rem'} height={'5rem'} fill={PRIMARY} />
 					<Heading as="h1" size="lg" noOfLines={1}>
 						{APP_NAME}
 					</Heading>

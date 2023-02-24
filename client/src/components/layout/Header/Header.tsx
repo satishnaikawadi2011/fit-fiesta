@@ -13,6 +13,7 @@ import { SearchIcon } from '@chakra-ui/icons';
 import SearchModal from '../SearchModal';
 import { useState } from 'react';
 import useBlockBgColor from '../../../hooks/useBlockBgColor';
+import { PRIMARY } from '../../../constants/colors';
 
 const Header: React.FC = () => {
 	const blockBg = useBlockBgColor();
@@ -34,7 +35,7 @@ const Header: React.FC = () => {
 						<Logo
 							width={'4rem'}
 							height={'4rem'}
-							fill="#A2D2FF"
+							fill={PRIMARY}
 							cursor={'pointer'}
 							onClick={() => navigate('/')}
 						/>

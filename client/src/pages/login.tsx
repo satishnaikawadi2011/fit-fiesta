@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { FormikProps, Formik } from 'formik';
-import { Button, Flex, Heading, Link, Stack, Image, InputRightElement, Text, useColorMode } from '@chakra-ui/react';
+import {
+	Button,
+	Flex,
+	Heading,
+	Link,
+	Stack,
+	Image,
+	InputRightElement,
+	Text,
+	useColorMode,
+	useMediaQuery
+} from '@chakra-ui/react';
 import * as Yup from 'yup';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import AppFormField from '../components/form/AppFormField';
@@ -42,6 +53,9 @@ const LoginPage = () => {
 
 	const dispatch = useAppDispatch();
 	const { colorMode } = useColorMode();
+	const [
+		isLargerThan768
+	] = useMediaQuery('(min-width: 768px)');
 
 	const { data, loading, error, request: loginUser, errorMsg } = useApi(authApi.loginUser);
 
@@ -127,7 +141,7 @@ const LoginPage = () => {
 
 										<Stack spacing={6}>
 											<Button
-												colorScheme={'blue'}
+												colorScheme={'primary'}
 												variant={'solid'}
 												onClick={handleSubmit as any}
 												isLoading={loading}
@@ -149,13 +163,15 @@ const LoginPage = () => {
 						</Formik>
 					</Stack>
 				</Flex>
-				<Flex flex={1}>
-					<Image
-						alt={'Login Image'}
-						objectFit={'cover'}
-						src="https://cdn.pixabay.com/photo/2017/07/17/15/41/silhouette-2512805_1280.jpg"
-					/>
-				</Flex>
+				{isLargerThan768 && (
+					<Flex flex={1}>
+						<Image
+							alt={'Login Image'}
+							objectFit={'cover'}
+							src="https://cdn.pixabay.com/photo/2017/07/17/15/41/silhouette-2512805_1280.jpg"
+						/>
+					</Flex>
+				)}
 			</Stack>
 		</div>
 	);
