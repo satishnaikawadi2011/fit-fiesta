@@ -21,6 +21,7 @@ import { updateUser } from '../../app/features/auth';
 import { setActiveMyNetworkOption } from '../../app/features/common';
 import { IUser } from '../../types/User';
 import MutualConnsModel from '../my-network/MutualConnsModel';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 
 interface Props {
 	group: IGroup;
@@ -51,6 +52,8 @@ const GroupDetails: React.FC<Props> = ({ group }) => {
 		showConnsModal,
 		setShowConnsModal
 	] = useState(false);
+
+	const blockBg = useBlockBgColor();
 
 	const isMember = authUser!.groups!.includes(group._id);
 	const isPending =
@@ -109,7 +112,7 @@ const GroupDetails: React.FC<Props> = ({ group }) => {
 				mutualConns={mutualConns}
 				withGroup
 			/>
-			<Box boxShadow="md" bg={'gray.100'} width={'100%'} mb={5} position={'relative'}>
+			<Box boxShadow="md" bg={blockBg} width={'100%'} mb={5} position={'relative'}>
 				<Image width={'100%'} height={200} src={coverImg} />
 				<Avatar
 					cursor={'pointer'}
@@ -150,7 +153,7 @@ const GroupDetails: React.FC<Props> = ({ group }) => {
 			</Box>
 			{
 				mutualConnsLoad ? <MutualConnsSkeletonComponent /> :
-				<Box p={5} boxShadow="md" bg={'gray.100'} width={'100%'} mb={5} position={'relative'}>
+				<Box p={5} boxShadow="md" bg={blockBg} width={'100%'} mb={5} position={'relative'}>
 					<Heading fontSize={'2xl'}>{mutualConns.length} connections in this group</Heading>
 					<AvatarGroup mt={3} size="md" max={4}>
 						{mutualConns.map((c) => {
@@ -165,7 +168,7 @@ const GroupDetails: React.FC<Props> = ({ group }) => {
 						Show All
 					</Button>
 				</Box>}
-			<Box p={5} boxShadow="md" bg={'gray.100'} width={'100%'} mb={5} position={'relative'}>
+			<Box p={5} boxShadow="md" bg={blockBg} width={'100%'} mb={5} position={'relative'}>
 				<Heading fontSize={'2xl'} mb={2}>
 					Description
 				</Heading>
@@ -176,9 +179,10 @@ const GroupDetails: React.FC<Props> = ({ group }) => {
 };
 
 const MutualConnsSkeletonComponent = () => {
+	const blockBg = useBlockBgColor();
 	return (
 		<React.Fragment>
-			<Box p={5} boxShadow="md" bg={'gray.100'} width={'100%'}>
+			<Box p={5} boxShadow="md" bg={blockBg} width={'100%'}>
 				<Skeleton height={5} my={2} width="100%" maxWidth={'400px'} />
 				<Box>
 					<AvatarGroup mt={3} size="md">

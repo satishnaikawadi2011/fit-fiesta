@@ -1,4 +1,4 @@
-import { FormControl, FormHelperText, FormLabel, Select, SelectProps } from '@chakra-ui/react';
+import { FormControl, FormErrorMessage, FormLabel, Select, SelectProps } from '@chakra-ui/react';
 import { useFormikContext } from 'formik';
 import React from 'react';
 
@@ -53,7 +53,7 @@ const AppFormSelectField: React.FC<Props & SelectProps> = ({
 				</option>
 				{options}
 			</Select>
-			{formErrors[name] && formTouched[name] && <FormHelperText color={'red'}>{formErrors[name]}</FormHelperText>}
+			{formErrors[name] && formTouched[name] && <FormErrorMessage>{formErrors[name]}</FormErrorMessage>}
 		</FormControl>
 	);
 };

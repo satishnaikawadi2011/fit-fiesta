@@ -1,9 +1,11 @@
 import { Box, Flex, Skeleton, Stack } from '@chakra-ui/react';
 import React from 'react';
+import useBlockBgColor from '../../../hooks/useBlockBgColor';
 
 const PostSkeleton = () => {
+	const blockBg = useBlockBgColor();
 	return (
-		<Box mb={4} boxShadow="md" bg={'gray.100'}>
+		<Box mb={4} boxShadow="md" bg={blockBg}>
 			<Stack padding={'4'}>
 				<Flex align="center">
 					<Skeleton width="40px" height="40px" mr={2} />

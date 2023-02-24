@@ -5,6 +5,7 @@ import { IMessage } from '../../types/Message';
 import dayjs from 'dayjs';
 import { getDiff } from '../../utils/date-diff';
 import { setSelectedContact, updateLatestMessage } from '../../app/features/chat';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 
 interface Props {
 	_id: string;
@@ -54,6 +55,7 @@ const MessageContactListItem: React.FC<Props> = ({ _id, name, profileImg, latest
 	};
 
 	const isUnreadContact = unreadContacts.includes(_id);
+	const blockBg = useBlockBgColor();
 
 	return (
 		<Flex
@@ -62,7 +64,7 @@ const MessageContactListItem: React.FC<Props> = ({ _id, name, profileImg, latest
 			alignItems={'center'}
 			pl={3}
 			pr={2}
-			_hover={{ bgColor: 'gray.100' }}
+			_hover={{ bgColor: blockBg }}
 			cursor="pointer"
 			transition={'all 0.5s'}
 			onClick={clickHandler}

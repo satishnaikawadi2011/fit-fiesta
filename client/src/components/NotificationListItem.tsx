@@ -1,4 +1,4 @@
-import { Flex, Avatar, Heading, Box, Text } from '@chakra-ui/react';
+import { Flex, Avatar, Heading, Box, Text, useColorMode } from '@chakra-ui/react';
 import React from 'react';
 import { INotification } from '../types/Notification';
 
@@ -14,6 +14,11 @@ dayjs.extend(relativeTime);
 
 const NotificationListItem: React.FC<Props> = ({ notification, refe }) => {
 	const { createdAt, image, message, read, type } = notification;
+	const { colorMode } = useColorMode();
+	const notReadHoverColor =
+
+			colorMode === 'dark' ? '#454D52' :
+			'#EDF2F7';
 	return (
 		<Flex
 			ref={refe}
@@ -29,7 +34,7 @@ const NotificationListItem: React.FC<Props> = ({ notification, refe }) => {
 				bgColor:
 
 						!read ? 'primary.100' :
-						'gray.200'
+						notReadHoverColor
 			}}
 			transition={'all 0.5s'}
 		>

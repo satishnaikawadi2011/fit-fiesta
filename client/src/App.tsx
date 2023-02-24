@@ -6,7 +6,7 @@ import { isExpired } from './utils/isExpired';
 import AuthenticatedRoutes from './routes/authenticated-routes';
 import { getAllDataFromStorage } from './utils/getAllDataFromStorage';
 import apiClient from './api/client';
-import { Box, Center, Flex, Image, Spinner, Text, useMediaQuery } from '@chakra-ui/react';
+import { Box, Button, Center, Flex, Image, Spinner, Text, useColorMode, useMediaQuery } from '@chakra-ui/react';
 import useApiUpdated from './hooks/useApiUpdated';
 import { INotification } from './types/Notification';
 import userApi from './api/user';
@@ -25,9 +25,7 @@ import { addMessage, addToUnreadContacts, setUnreadContacts, updateLatestMessage
 function App() {
 	const dispatch = useAppDispatch();
 	const { selectedContact } = useAppSelector((state) => state.chat);
-	const [
-		isLargerScreen
-	] = useMediaQuery('(min-width: 768px)');
+	const { colorMode, toggleColorMode } = useColorMode();
 	const [
 		runFetchCalls,
 		setRunFetchCalls
@@ -192,7 +190,17 @@ function App() {
 
 	if (!isTokenExpired && user) {
 		apiClient.setHeader('Authorization', `Bearer ${token}`);
-		return <AuthenticatedRoutes />;
+		return (
+			<React.Fragment>
+				<Button position={'absolute'} bottom={0} right={0} zIndex={1000} onClick={toggleColorMode}>
+					Toggle{' '}
+					{
+						colorMode === 'light' ? 'Dark' :
+						'Light'}
+				</Button>
+				<AuthenticatedRoutes />
+			</React.Fragment>
+		);
 		// return ;
 		// return (
 		// 	<React.Fragment>
@@ -215,7 +223,17 @@ function App() {
 		// 	</React.Fragment>
 		// );
 	}
-	return <UnauthenticatedRoutes />;
+	return (
+		<React.Fragment>
+			<Button position={'absolute'} bottom={0} right={0} zIndex={1000} onClick={toggleColorMode}>
+				Toggle{' '}
+				{
+					colorMode === 'light' ? 'Dark' :
+					'Light'}
+			</Button>
+			<UnauthenticatedRoutes />
+		</React.Fragment>
+	);
 }
 
 const messages: any[] = [];

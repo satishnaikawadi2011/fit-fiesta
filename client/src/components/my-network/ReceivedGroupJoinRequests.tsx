@@ -4,11 +4,13 @@ import userApi from '../../api/user';
 import { setReceivedGroupRequests } from '../../app/features/user';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import useApiUpdated from '../../hooks/useApiUpdated';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 import { IReceivedGroupJoinRequest } from '../../types/User';
 import GroupReceivedRequestItem from './GroupReceivedRequestItem';
 
 const ReceivedGroupJoinRequests = () => {
 	const dispatch = useAppDispatch();
+	const blockBg = useBlockBgColor();
 	const { receivedGroupRequests } = useAppSelector((state) => state.user);
 	const { data: receivedGroupRequestsData, error, errorMsg, loading, request } = useApiUpdated<{
 		receivedGroupJoinRequests: IReceivedGroupJoinRequest[];
@@ -37,7 +39,7 @@ const ReceivedGroupJoinRequests = () => {
 		);
 
 	return (
-		<Box boxShadow="md" bg={'gray.100'} width={'100%'} mb={5} roundedTop={'lg'}>
+		<Box boxShadow="md" bg={blockBg} width={'100%'} mb={5} roundedTop={'lg'}>
 			<Text p={5}>Invitations</Text>
 			<Divider />
 			<Box p={5}>

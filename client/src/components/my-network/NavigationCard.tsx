@@ -1,12 +1,15 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text, useColorMode } from '@chakra-ui/react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MyNetworkNavigationType, setActiveMyNetworkOption } from '../../app/features/common';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 
 const NavigationCard = () => {
+	const blockBg = useBlockBgColor();
+
 	return (
-		<Box w={'full'} bg={'gray.100'} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
+		<Box w={'full'} bg={blockBg} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
 			<Text m={3} ml={5} fontWeight={'light'} fontSize={'xs'}>
 				Manage my network
 			</Text>
@@ -28,6 +31,7 @@ interface Props {
 const Item: React.FC<Props> = ({ title, name }) => {
 	const navigate = useNavigate();
 	const { activeMyNetworkOption } = useAppSelector((state) => state.common);
+	const { colorMode } = useColorMode();
 	const dispatch = useAppDispatch();
 	const isActive = name === activeMyNetworkOption;
 	return (
@@ -39,7 +43,12 @@ const Item: React.FC<Props> = ({ title, name }) => {
 			}}
 			p={2}
 			pl={5}
-			_hover={{ bgColor: '#fff' }}
+			_hover={{
+				bgColor:
+
+						colorMode === 'dark' ? '#454D52' :
+						'#EDF2F7'
+			}}
 			cursor={'pointer'}
 			transition={'all 0.5s'}
 		>

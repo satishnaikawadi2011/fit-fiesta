@@ -1,7 +1,9 @@
 import { Flex, Skeleton, SkeletonCircle, Box } from '@chakra-ui/react';
 import React from 'react';
+import useBlockBgColor from '../../../hooks/useBlockBgColor';
 
 const MessageContactListItemSkeleton = () => {
+	const blockBg = useBlockBgColor();
 	return (
 		<Flex
 			width={'full'}
@@ -9,7 +11,7 @@ const MessageContactListItemSkeleton = () => {
 			alignItems={'center'}
 			pl={3}
 			pr={2}
-			_hover={{ bgColor: 'gray.100' }}
+			_hover={{ bgColor: blockBg }}
 			cursor="pointer"
 			transition={'all 0.5s'}
 		>

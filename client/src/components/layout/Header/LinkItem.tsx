@@ -1,4 +1,4 @@
-import { Box, Flex, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Text, useColorMode, VStack } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import { IconType } from 'react-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -26,9 +26,13 @@ interface Props {
 const LinkItem: React.FC<Props> = ({ Icon, title, path }) => {
 	const { activeLink } = useAppSelector((state) => state.ui);
 	const dispatch = useAppDispatch();
+	const { colorMode } = useColorMode();
 
 	let navigate = useNavigate();
 	let location = useLocation();
+	let iconColor;
+	if (colorMode === 'dark') iconColor = '#fff';
+	if (colorMode === 'light') iconColor = '#000';
 	useEffect(
 		() => {
 			dispatch(setActiveLink(location.pathname as any));
@@ -61,7 +65,19 @@ const LinkItem: React.FC<Props> = ({ Icon, title, path }) => {
 			display={'inline-flex'}
 			alignItems="center"
 		>
-			<Box>{<Icon width={30} height={30} fill={isActive && PRIMARY} />}</Box>
+			<Box>
+				{
+					<Icon
+						width={30}
+						height={30}
+						fill={
+
+								isActive ? PRIMARY :
+								iconColor
+						}
+					/>
+				}
+			</Box>
 			<Text
 				color={
 

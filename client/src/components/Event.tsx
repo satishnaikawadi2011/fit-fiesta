@@ -5,6 +5,7 @@ import { GrAddCircle } from 'react-icons/gr';
 import { ImLocation2 } from 'react-icons/im';
 import dayjs from 'dayjs';
 import { BsChevronCompactDown } from 'react-icons/bs';
+import useBlockBgColor from '../hooks/useBlockBgColor';
 
 interface Props {
 	name: string;
@@ -22,8 +23,9 @@ const Event: React.FC<Props> = ({ refe, date, description, name, username, group
 		isOpen,
 		setIsOpen
 	] = useState<boolean>(!image);
+	const blockBg = useBlockBgColor();
 	return (
-		<Box ref={refe} mb={5} boxShadow="md" bg={'gray.100'} width={'100%'} roundedTop="2xl" overflow={'clip'}>
+		<Box ref={refe} mb={5} boxShadow="md" bg={blockBg} width={'100%'} roundedTop="2xl" overflow={'clip'}>
 			{image && <Image src={image} width={'full'} />}
 			<Box p={5}>
 				<Heading mb={3} fontSize={'2xl'} fontWeight="medium">

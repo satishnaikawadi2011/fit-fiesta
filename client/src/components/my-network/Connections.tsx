@@ -4,11 +4,13 @@ import userApi from '../../api/user';
 import { setConnections } from '../../app/features/user';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import useApi from '../../hooks/useApi';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 import UserListItem from '../user/UserListItem';
 import ConnectionMenu from './ConnectionMenu';
 
 const Connections = () => {
 	const dispatch = useAppDispatch();
+	const blockBg = useBlockBgColor();
 	const { connections } = useAppSelector((state) => state.user);
 	const { data: connectionsData, error, errorMsg, loading, request }: any = useApi(userApi.getConnections);
 
@@ -35,7 +37,7 @@ const Connections = () => {
 		);
 
 	return (
-		<Box boxShadow="md" bg={'gray.100'} width={'100%'} mb={5} roundedTop={'lg'}>
+		<Box boxShadow="md" bg={blockBg} width={'100%'} mb={5} roundedTop={'lg'}>
 			<Text p={5}>Connections</Text>
 			<Divider />
 			<Box p={5}>

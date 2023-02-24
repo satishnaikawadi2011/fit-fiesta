@@ -23,6 +23,7 @@ import EditCoverImageModal from './EditCoverImageModal';
 import EditProfileImageModal from './EditProfileImageModal';
 import EditProfileModal from './EditProfileModal';
 import { useAppSelector } from '../../app/hooks';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 
 interface Props {
 	user: IUser;
@@ -70,12 +71,13 @@ const UserProfile: React.FC<Props> = ({ user }) => {
 	const [
 		isSmallScreen
 	] = useMediaQuery('(max-width: 390px)');
+	const blockBg = useBlockBgColor();
 	return (
 		<React.Fragment>
 			<EditCoverImageModal isOpen={coverImgModalOpen} onClose={() => setCoverImgModalOpen(false)} />
 			<EditProfileImageModal isOpen={profileImgModalOpen} onClose={() => setProfileImgModalOpen(false)} />
 			<EditProfileModal isOpen={editProfileModalOpen} onClose={() => setEditProfileModalOpen(false)} />
-			<Box boxShadow="md" bg={'gray.100'} width={'100%'} mb={5} position={'relative'}>
+			<Box boxShadow="md" bg={blockBg} width={'100%'} mb={5} position={'relative'}>
 				<Image width={'100%'} height={200} src={coverImg} />
 				<Avatar
 					cursor={

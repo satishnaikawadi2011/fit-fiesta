@@ -1,4 +1,4 @@
-import { Flex, Container, Heading, Stack, Text, Button } from '@chakra-ui/react';
+import { Flex, Container, Heading, Stack, Text, Button, useColorMode } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import FeatureList from '../components/landing/FeatureList';
 import Footer from '../components/landing/Footer';
@@ -7,6 +7,7 @@ import Hero from '../components/landing/Hero';
 
 const LandingPage = () => {
 	const navigate = useNavigate();
+	const { colorMode } = useColorMode();
 	return (
 		<div>
 			<Header />
@@ -18,7 +19,14 @@ const LandingPage = () => {
 							find your wellness
 						</Text>
 					</Heading>
-					<Text color={'gray.500'} maxW={'3xl'}>
+					<Text
+						color={
+
+								colorMode === 'dark' ? 'gray.300' :
+								'gray.600'
+						}
+						maxW={'3xl'}
+					>
 						Join our community of wellness enthusiasts and connect with others on their health journey.
 						Share tips, advice and find local resources and events to support your well-being. Empower your
 						journey to health and wellness with our social networking platform.

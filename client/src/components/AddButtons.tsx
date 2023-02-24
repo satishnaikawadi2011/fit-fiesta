@@ -9,6 +9,7 @@ import {
 	setIsCreateGroupModalOpen
 } from '../app/features/ui';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
+import useBlockBgColor from '../hooks/useBlockBgColor';
 import AddEventModal from './add-modals/AddEventModal';
 import AddPostModal from './add-modals/AddPostModal';
 import AddResourceModal from './add-modals/AddResourceModal';
@@ -36,6 +37,7 @@ const AddButtons = () => {
 		(state) => state.ui
 	);
 	const dispatch = useAppDispatch();
+	const blockBg = useBlockBgColor();
 
 	return (
 		<React.Fragment>
@@ -52,7 +54,7 @@ const AddButtons = () => {
 			<Flex
 				p={3}
 				flexWrap={'wrap'}
-				bg={'gray.100'}
+				bg={blockBg}
 				justifyContent={'space-around'}
 				boxShadow="md"
 				rounded={'md'}

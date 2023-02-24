@@ -1,4 +1,4 @@
-import { FormControl, FormHelperText, FormLabel, Input, InputGroup, InputProps } from '@chakra-ui/react';
+import { FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputProps } from '@chakra-ui/react';
 import { useFormikContext } from 'formik';
 import React from 'react';
 
@@ -48,7 +48,7 @@ const AppFormField: React.FC<InputProps & Props> = ({
 					/>
 					{iconSide == 'right' && iconElement}
 				</InputGroup>}
-			{formErrors[name] && formTouched[name] && <FormHelperText color={'red'}>{formErrors[name]}</FormHelperText>}
+			{formErrors[name] && formTouched[name] && <FormErrorMessage>{formErrors[name]}</FormErrorMessage>}
 		</FormControl>
 	);
 };

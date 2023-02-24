@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
-import { Text, Stack, Flex } from '@chakra-ui/react';
+import { Text, Stack, Flex, useColorMode } from '@chakra-ui/react';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 
 interface FeatureProps {
 	title: string;
@@ -8,6 +9,8 @@ interface FeatureProps {
 }
 
 const Feature = ({ title, text, icon }: FeatureProps) => {
+	const blockBg = useBlockBgColor();
+	const { colorMode } = useColorMode();
 	return (
 		<Stack>
 			<Flex
@@ -18,13 +21,21 @@ const Feature = ({ title, text, icon }: FeatureProps) => {
 				alignSelf="center"
 				color={'white'}
 				rounded={'full'}
-				bg={'gray.100'}
+				bg={blockBg}
 				mb={1}
 			>
 				{icon}
 			</Flex>
 			<Text fontWeight={600}>{title}</Text>
-			<Text color={'gray.600'}>{text}</Text>
+			<Text
+				color={
+
+						colorMode === 'dark' ? 'gray.300' :
+						'gray.600'
+				}
+			>
+				{text}
+			</Text>
 		</Stack>
 	);
 };

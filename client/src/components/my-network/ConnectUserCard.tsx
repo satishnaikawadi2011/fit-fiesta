@@ -21,6 +21,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { setActiveMyNetworkOption } from '../../app/features/common';
 import { updateUser } from '../../app/features/auth';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 
 interface Props {
 	user: IUser;
@@ -30,6 +31,7 @@ const ConnectUserCard: React.FC<Props> = ({ user }) => {
 	const { _id, fullName, username, profileImg, coverImg } = user;
 	const navigate = useNavigate()
 	const dispatch = useAppDispatch()
+	const blockBg = useBlockBgColor();
 	const { user: authUser } = useAppSelector((state) => state.auth);
     
     const { data: mutualConnsData, error, errorMsg, loading, request: getMutualConnsReq } = useApi(
@@ -64,7 +66,7 @@ const ConnectUserCard: React.FC<Props> = ({ user }) => {
 	return (
 		<React.Fragment>
 			<MutualConnsModel isOpen={showConnsModal} onClose={() => setShowConnsModal(false)} name={fullName} mutualConns={mutualConns} />
-			<Box height={'full'}  w={'full'} bg={'gray.100'} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
+			<Box height={'full'}  w={'full'} bg={blockBg} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
 				<Image h={'100px'} w={'full'} src={coverImg} objectFit={'cover'} />
 				<Flex justify={'center'} mt={-12}>
 					<Avatar

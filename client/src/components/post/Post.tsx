@@ -16,6 +16,7 @@ import { IComment } from '../../types/Comment';
 import ReactDOM from 'react-dom';
 import useApiUpdated from '../../hooks/useApiUpdated';
 import PostSkeleton from './skeletons/PostSkeleton';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 
 interface PostProps {
 	_id: string;
@@ -64,6 +65,7 @@ const Post: React.FC<PostProps> = ({ _id,refe, name, username, date, postText, p
 		hasMore,
 		setHasMore
 	] = useState(true);
+	const blockBg = useBlockBgColor()
 	const isEmpty = comment === '' || comment.trim() === '';
 
 	const addCommentHandler = async () => {
@@ -131,7 +133,7 @@ const Post: React.FC<PostProps> = ({ _id,refe, name, username, date, postText, p
 	}
 
 	return (
-		<Box mb={4} boxShadow="md" bg={'gray.100'} ref={refe}>
+		<Box mb={4} boxShadow="md" bg={blockBg} ref={refe}>
 			<Stack padding={'4'}>
 				<Flex align="center">
 					<Image
@@ -175,14 +177,14 @@ const Post: React.FC<PostProps> = ({ _id,refe, name, username, date, postText, p
 					color={
 
 							alreadyLiked ? PRIMARY :
-							'black'
+							''
 					}
 					leftIcon={
 						<FaThumbsUp
 							color={
 
 									alreadyLiked ? PRIMARY :
-									'black'
+									''
 							}
 						/>
 					}
@@ -211,11 +213,10 @@ const Post: React.FC<PostProps> = ({ _id,refe, name, username, date, postText, p
 						mb={3}
 					/>
 					{!isEmpty && (
-						<Button
-							ml={6}
-							mt={2}
-							rounded={'full'}
-							width={'20'}
+						<Center>
+							<Button
+								rounded={'full'}
+							width={'95%'}
 							color="white"
 							bgColor={'primary.300'}
 							_hover={{ bgColor: 'primary.400' }}
@@ -224,6 +225,7 @@ const Post: React.FC<PostProps> = ({ _id,refe, name, username, date, postText, p
 						>
 							Post
 						</Button>
+						</Center>
 					)}
 					{comments.map((c: any, i) => {
 						if (comments.length - 1 === i) {
@@ -242,7 +244,7 @@ const Post: React.FC<PostProps> = ({ _id,refe, name, username, date, postText, p
 											bg="primary.300"
 											color="white"
 											_hover={{ bg: 'primary.400' }}
-											width={'90%'}
+											width={'95%'}
 											onClick={() => {
 												fetchMoreComments();
 											}}

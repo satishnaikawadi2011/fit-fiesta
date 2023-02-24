@@ -14,6 +14,7 @@ import {
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import React from 'react';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 
 interface CommentProps {
 	name: string;
@@ -25,8 +26,9 @@ interface CommentProps {
 dayjs.extend(relativeTime);
 
 const Comment: React.FC<CommentProps> = ({ name, username, date, comment }) => {
+	const blockBg = useBlockBgColor();
 	return (
-		<Box mb={4} boxShadow="sm" padding={'4'} rounded={'lg'} bgColor="gray.100">
+		<Box mb={4} boxShadow="sm" padding={'4'} rounded={'lg'} bgColor={blockBg}>
 			<Flex align="center">
 				<Image
 					src={'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'}

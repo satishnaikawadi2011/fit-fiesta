@@ -7,6 +7,7 @@ import { BiCategory } from 'react-icons/bi';
 import dayjs from 'dayjs';
 import { IResource } from '../types/Resource';
 import { BsChevronCompactDown } from 'react-icons/bs';
+import useBlockBgColor from '../hooks/useBlockBgColor';
 
 interface Props {
 	resource: IResource;
@@ -19,8 +20,9 @@ const Resource: React.FC<Props> = ({ resource, refe }) => {
 		isOpen,
 		setIsOpen
 	] = useState<boolean>(!image);
+	const blockBg = useBlockBgColor();
 	return (
-		<Box ref={refe} mb={5} boxShadow="md" bg={'gray.100'} width={'100%'} roundedTop="2xl" overflow={'clip'}>
+		<Box ref={refe} mb={5} boxShadow="md" bg={blockBg} width={'100%'} roundedTop="2xl" overflow={'clip'}>
 			{image && <Image src={image} width={'full'} />}
 			<Box p={5}>
 				<Heading mb={3} fontSize={'2xl'} fontWeight="medium">

@@ -1,11 +1,13 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text, useColorMode } from '@chakra-ui/react';
 import React from 'react';
 import { SearchOptionType, setActiveSearchOption } from '../../app/features/common';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 
 const SearchPageCard = () => {
+	const blockBg = useBlockBgColor();
 	return (
-		<Box w={'full'} bg={'gray.100'} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
+		<Box w={'full'} bg={blockBg} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
 			<Text m={3} ml={5} fontWeight={'light'} fontSize={'xs'}>
 				On this page
 			</Text>
@@ -26,6 +28,7 @@ interface Props {
 const Item: React.FC<Props> = ({ title, name }) => {
 	const { activeSearchOption } = useAppSelector((state) => state.common);
 	const dispatch = useAppDispatch();
+	const { colorMode } = useColorMode();
 	const isActive = name === activeSearchOption;
 	return (
 		<Flex
@@ -33,7 +36,12 @@ const Item: React.FC<Props> = ({ title, name }) => {
 			onClick={() => dispatch(setActiveSearchOption(name))}
 			p={2}
 			pl={5}
-			_hover={{ bgColor: '#fff' }}
+			_hover={{
+				bgColor:
+
+						colorMode === 'dark' ? '#454D52' :
+						'#EDF2F7'
+			}}
 			cursor={'pointer'}
 			transition={'all 0.5s'}
 		>

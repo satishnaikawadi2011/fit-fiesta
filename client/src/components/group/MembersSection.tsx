@@ -1,5 +1,6 @@
 import { Box, Divider, Heading } from '@chakra-ui/react';
 import React from 'react';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 import { IUser } from '../../types/User';
 import UserListItem from '../user/UserListItem';
 
@@ -9,9 +10,10 @@ interface Props {
 }
 
 const MembersSection: React.FC<Props> = ({ admin, members }) => {
+	const blockBg = useBlockBgColor();
 	const filteredMembers = members.filter((m) => m._id !== admin._id);
 	return (
-		<Box pb={5} w={'full'} bg={'gray.100'} boxShadow={'lg'} rounded={'md'} overflow={'auto'}>
+		<Box pb={5} w={'full'} bg={blockBg} boxShadow={'lg'} rounded={'md'} overflow={'auto'}>
 			<Heading p={4} fontSize={'xl'}>
 				Admin
 			</Heading>

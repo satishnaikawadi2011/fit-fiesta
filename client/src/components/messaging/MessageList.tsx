@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, IconButton, Input, Text, useMediaQuery } from '@chakra-ui/react';
+import { Avatar, Box, Flex, IconButton, Input, Text, useColorMode, useMediaQuery } from '@chakra-ui/react';
 import React, { useEffect, useRef } from 'react';
 import { MdSend } from 'react-icons/md';
 import { addMessage, setMessageContent, setSelectedContact, updateLatestMessage } from '../../app/features/chat';
@@ -8,6 +8,7 @@ import { IMessage } from '../../types/Message';
 import Message from './Message';
 import messageApi from '../../api/message';
 import { ArrowBackIcon } from '@chakra-ui/icons';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 
 interface Props {
 	messages: IMessage[];
@@ -20,6 +21,8 @@ const MessageList: React.FC<Props> = ({ messages }) => {
 	const fullName = selectedContact!.name;
 	const profileImg = selectedContact!.profileImg;
 	const bottomRef: any = useRef();
+	const blockBg = useBlockBgColor();
+	const { colorMode } = useColorMode();
 	const [
 		isLargerScreen
 	] = useMediaQuery('(min-width: 768px)');
@@ -70,7 +73,7 @@ const MessageList: React.FC<Props> = ({ messages }) => {
 				top={0}
 				zIndex={2}
 				alignItems={'center'}
-				bgColor={'gray.100'}
+				bgColor={blockBg}
 			>
 				{!isLargerScreen && (
 					<ArrowBackIcon
@@ -114,7 +117,7 @@ const MessageList: React.FC<Props> = ({ messages }) => {
 						'full'
 				}
 				alignItems={'center'}
-				bgColor={'gray.100'}
+				bgColor={blockBg}
 				height={'55px'}
 				position="fixed"
 				bottom={0}
@@ -125,7 +128,11 @@ const MessageList: React.FC<Props> = ({ messages }) => {
 					width={'90%'}
 					my={'auto'}
 					placeholder="Type a message"
-					bgColor={'white'}
+					bgColor={
+
+							colorMode === 'dark' ? '#454D52' :
+							'#EDF2F7'
+					}
 					ml={3}
 					mr={2}
 					border="none"

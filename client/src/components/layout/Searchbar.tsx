@@ -21,7 +21,6 @@ const SearchBar: React.FC<SearchBarProps> = ({}) => {
 		<Box my={4} display={{ base: 'none', md: 'block' }}>
 			<InputGroup>
 				<InputLeftAddon
-					bgColor={'#fff'}
 					children={
 						<Icon
 							name="search"
@@ -34,7 +33,11 @@ const SearchBar: React.FC<SearchBarProps> = ({}) => {
 					}
 				/>
 				<Input
-					bgColor={'#fff'}
+					bgColor={
+
+							colorMode === 'dark' ? '#454D52' :
+							'#EDF2F7'
+					}
 					type="search"
 					value={query}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
@@ -51,7 +54,6 @@ const SearchBar: React.FC<SearchBarProps> = ({}) => {
 						navigate('/search');
 					}}
 					ml="2"
-					bgColor={'#fff'}
 				/>
 			</InputGroup>
 		</Box>

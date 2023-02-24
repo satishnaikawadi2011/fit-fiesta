@@ -5,6 +5,7 @@ import Logo from '../Logo';
 
 const Header = () => {
 	const navigate = useNavigate();
+
 	return (
 		<Box>
 			<Flex

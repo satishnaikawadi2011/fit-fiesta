@@ -4,12 +4,14 @@ import userApi from '../../api/user';
 import { setSentConnetionRequests } from '../../app/features/user';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import useApiUpdated from '../../hooks/useApiUpdated';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 import { IUser } from '../../types/User';
 import SentRequestsListItem from './SentRequestListItem';
 
 const SentRequests = () => {
 	const { sentConnetionRequests } = useAppSelector((state) => state.user);
 	const dispatch = useAppDispatch();
+	const blockBg = useBlockBgColor();
 	const { data, error, loading, request: getSentConnsReq } = useApiUpdated<{ sentConnections: IUser[] }>(
 		userApi.getSentConnectionsRequests
 	);
@@ -37,7 +39,7 @@ const SentRequests = () => {
 		);
 
 	return (
-		<Box boxShadow="md" bg={'gray.100'} width={'100%'} mb={5} roundedTop={'lg'}>
+		<Box boxShadow="md" bg={blockBg} width={'100%'} mb={5} roundedTop={'lg'}>
 			<Text p={5}>Sent Connection Requests</Text>
 			<Divider />
 			<Box p={5}>

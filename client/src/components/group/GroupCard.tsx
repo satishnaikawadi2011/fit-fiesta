@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { updateUser } from '../../app/features/auth';
 import { setActiveMyNetworkOption } from '../../app/features/common';
 import { userLog } from '../../utils/swal/userLog';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 
 interface Props {
 	group: IGroup;
@@ -21,6 +22,7 @@ const GroupCard: React.FC<Props> = ({ group, refe }) => {
 
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+	const blockBg = useBlockBgColor();
 
 	const { data, error, loading: joinLoad, request: joinReq } = useApiUpdated(groupApi.makeRequestToJoinGroup);
 
@@ -56,7 +58,7 @@ const GroupCard: React.FC<Props> = ({ group, refe }) => {
 	);
 
 	return (
-		<Grid bg={'gray.100'} boxShadow={'lg'} mb={5} py={5} templateColumns="60px 1fr 100px" ref={refe}>
+		<Grid bg={blockBg} boxShadow={'lg'} mb={5} py={5} templateColumns="60px 1fr 100px" ref={refe}>
 			<Flex justifyContent={'center'}>
 				<Avatar src={profileImg} name={name} />
 			</Flex>

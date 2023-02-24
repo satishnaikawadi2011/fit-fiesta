@@ -1,5 +1,5 @@
 import { ArrowBackIcon, Search2Icon } from '@chakra-ui/icons';
-import { Box, Input, InputGroup, InputLeftElement, useMediaQuery } from '@chakra-ui/react';
+import { Box, Input, InputGroup, InputLeftElement, useColorMode, useMediaQuery } from '@chakra-ui/react';
 import React from 'react';
 import { IMessage } from '../../types/Message';
 import MessageContactListItem from './MessageContactListItem';
@@ -30,6 +30,7 @@ const MessageContactList: React.FC<Props> = ({ contacts, loading = false }) => {
 		query,
 		setQuery
 	] = React.useState('');
+	const { colorMode } = useColorMode();
 
 	const filteredContacts = React.useMemo(
 		() => contacts.filter((c) => c.name.toLowerCase().includes(query.toLowerCase())),
@@ -65,7 +66,11 @@ const MessageContactList: React.FC<Props> = ({ contacts, loading = false }) => {
 					/>
 					<Input
 						placeholder="Search or start  new chat"
-						bgColor={'gray.100'}
+						bgColor={
+
+								colorMode === 'dark' ? '#454D52' :
+								'#EDF2F7'
+						}
 						border="none"
 						_focus={{ outline: 'none', border: 'none' }}
 						onFocus={onFocus}

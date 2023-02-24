@@ -4,6 +4,7 @@ import { useAppSelector } from '../../app/hooks';
 import { PRIMARY } from '../../constants/colors';
 import { IMessage } from '../../types/Message';
 import dayjs from 'dayjs';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 
 interface Props {
 	message: IMessage;
@@ -12,6 +13,7 @@ interface Props {
 
 const Message: React.FC<Props> = ({ message, refe }) => {
 	const { user } = useAppSelector((state) => state.auth);
+	const blockBg = useBlockBgColor();
 	const sendByMe = user!._id === (message.sender as any)._id;
 	let senderName;
 	if (user!._id === (message.sender as any)._id) {
@@ -52,7 +54,7 @@ const Message: React.FC<Props> = ({ message, refe }) => {
 						bgColor={
 
 								sendByMe ? PRIMARY :
-								'gray.100'
+								blockBg
 						}
 						borderTopRightRadius={'12px'}
 						borderBottomLeftRadius={'12px'}

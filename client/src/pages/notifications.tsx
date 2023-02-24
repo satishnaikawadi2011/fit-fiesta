@@ -9,10 +9,12 @@ import { INotification } from '../types/Notification';
 import useApiUpdated from '../hooks/useApiUpdated';
 import userApi from '../api/user';
 import useInfiniteScrollPagination from '../hooks/useInfiniteScroll';
+import useBlockBgColor from '../hooks/useBlockBgColor';
 
 const NotificationsPage = () => {
 	const dispatch = useAppDispatch();
 	const { user } = useAppSelector((state) => state.auth);
+	const blockBg = useBlockBgColor();
 
 	const {
 		hasMore,
@@ -60,7 +62,7 @@ const NotificationsPage = () => {
 
 	return (
 		<Layout title="Home" withProfile>
-			<Box boxShadow="base" bg={'gray.50'}>
+			<Box boxShadow="base" bg={blockBg} py={3}>
 				<Heading m={5} fontSize={'lg'}>
 					Notifications
 				</Heading>

@@ -30,9 +30,10 @@ import ConnectionIcon from '../../../icons/ConnectionIcon';
 import { SearchIcon } from '@chakra-ui/icons';
 import SearchModal from '../SearchModal';
 import { useState } from 'react';
+import useBlockBgColor from '../../../hooks/useBlockBgColor';
 
 const Header: React.FC = () => {
-	const { colorMode, toggleColorMode } = useColorMode();
+	const blockBg = useBlockBgColor();
 	const navigate = useNavigate();
 
 	const { user } = useAppSelector((state) => state.auth);
@@ -50,13 +51,8 @@ const Header: React.FC = () => {
 			height={'60px'}
 			justifyContent={'space-between'}
 			alignItems={'center'}
-			bg={'gray.100'}
+			bg={blockBg}
 			top={0}
-			color={
-
-					colorMode === 'light' ? 'black' :
-					'white'
-			}
 			boxShadow="md"
 		>
 			<SearchModal isOpen={isSearchModalOpen} onClose={() => setIsSearchModalOpen(false)} />

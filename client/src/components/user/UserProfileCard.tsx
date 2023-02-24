@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IUser } from '../../types/User';
 import React from 'react'
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 
 interface Props {
 	user: IUser;
@@ -17,10 +18,11 @@ const UserProfileCard: React.FC<Props> = ({ user }) => {
 		setIsOpen
 	] = useState<boolean>(false);
 	const isMd = useBreakpointValue({ base: false, md: true });
+	const blockBg = useBlockBgColor()
 	const { connections, fullName, height, targetWeight, username, weight,profileImg,coverImg } = user!;
 	return (
 		<Center>
-			<Box  w={'full'} bg={'gray.100'} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
+			<Box w={'full'} bg={blockBg} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
 				<Image h={'120px'} w={'full'} src={coverImg} objectFit={'cover'} />
 				<Flex justify={'center'} mt={-12}>
 					<Avatar

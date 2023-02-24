@@ -4,10 +4,12 @@ import userApi from '../../api/user';
 import { setInvitations } from '../../app/features/user';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import useApi from '../../hooks/useApi';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 import InvitationListItem from './InvitationListItem';
 
 const Invitations = () => {
 	const dispatch = useAppDispatch();
+	const blockBg = useBlockBgColor();
 	const { invitations } = useAppSelector((state) => state.user);
 	const { data: invitationsData, error, errorMsg, loading, request }: any = useApi(userApi.getInvitations);
 
@@ -34,7 +36,7 @@ const Invitations = () => {
 		);
 
 	return (
-		<Box boxShadow="md" bg={'gray.100'} width={'100%'} mb={5} roundedTop={'lg'}>
+		<Box boxShadow="md" bg={blockBg} width={'100%'} mb={5} roundedTop={'lg'}>
 			<Text p={5}>Invitations</Text>
 			<Divider />
 			<Box p={5}>

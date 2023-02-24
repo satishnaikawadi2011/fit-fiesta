@@ -4,11 +4,13 @@ import userApi from '../../api/user';
 import { setSentGroupRequests } from '../../app/features/user';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import useApiUpdated from '../../hooks/useApiUpdated';
+import useBlockBgColor from '../../hooks/useBlockBgColor';
 import { IGroup } from '../../types/Group';
 import SentGroupJoinRequestItem from './SentGroupJoinRequestItem';
 
 const SentGroupJoinRequests = () => {
 	const { sentGroupRequests } = useAppSelector((state) => state.user);
+	const blockBg = useBlockBgColor();
 	const dispatch = useAppDispatch();
 	const { data, error, loading, request: getSentJoinGrpReqs } = useApiUpdated<{ sentGroupJoinRequests: IGroup[] }>(
 		userApi.getSentRequestsToJoinGroups
@@ -37,7 +39,7 @@ const SentGroupJoinRequests = () => {
 		);
 
 	return (
-		<Box boxShadow="md" bg={'gray.100'} width={'100%'} mb={5} roundedTop={'lg'}>
+		<Box boxShadow="md" bg={blockBg} width={'100%'} mb={5} roundedTop={'lg'}>
 			<Text p={5}>Sent Join Group Requests</Text>
 			<Divider />
 			<Box p={5}>
