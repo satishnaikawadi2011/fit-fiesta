@@ -66,7 +66,7 @@ const ConnectUserCard: React.FC<Props> = ({ user }) => {
 	return (
 		<React.Fragment>
 			<MutualConnsModel isOpen={showConnsModal} onClose={() => setShowConnsModal(false)} name={fullName} mutualConns={mutualConns} />
-			<Box height={'full'}  w={'full'} bg={blockBg} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
+			<Box height={'full'}   w={'full'} bg={blockBg} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
 				<Image h={'100px'} w={'full'} src={coverImg} objectFit={'cover'} />
 				<Flex justify={'center'} mt={-12}>
 					<Avatar
@@ -109,9 +109,10 @@ const getMutualConnStr = (conns: IUser[]) => {
 }
 
 const SkeletonComponent = () => {
+	const blockBg = useBlockBgColor()
 	return (
 		<React.Fragment>
-			<Box maxW={'230px'} w={'full'} bg={'gray.100'} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
+			<Box maxW={'230px'} w={'full'} bg={blockBg} boxShadow={'lg'} rounded={'md'} overflow={'hidden'}>
 				<Skeleton h={'100px'} w={'full'} />
 				<Flex justify={'center'} mt={-12}>
 					<SkeletonCircle width={90} height={90} />
