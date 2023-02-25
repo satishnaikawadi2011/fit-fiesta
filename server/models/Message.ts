@@ -47,8 +47,4 @@ const MessageSchema = new Schema(
 
 const Message = mongoose.model('Message', MessageSchema);
 
-Message.watch().on('change', (data: any) => {
-	// io.emit('notification', data?.fullDocument);
-});
-
 export default Message;

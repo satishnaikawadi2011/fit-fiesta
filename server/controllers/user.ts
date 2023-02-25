@@ -8,6 +8,7 @@ import { validateEditUser } from '../validation/validateEditUser';
 import Notification, { getNotificationMessage, NotificationType } from '../models/Notification';
 import Group from '../models/Group';
 import Message from '../models/Message';
+import { io } from '../app';
 
 export const register = async (req: Request, res: Response) => {
 	try {
@@ -96,6 +97,7 @@ export const makeConnectionRequest = async (req: any, res: Response) => {
 			message
 		});
 		await notification.save();
+		io.emit('notification', notification);
 
 		return res.status(200).json({ message: 'Connection request sent' });
 	} catch (err) {
@@ -146,6 +148,7 @@ export const acceptConnection = async (req: any, res: Response) => {
 			message
 		});
 		await notification.save();
+		io.emit('notification', notification);
 
 		return res.json({ recipient });
 	} catch (err) {
@@ -193,6 +196,7 @@ export const rejectConnection = async (req: any, res: Response) => {
 			message
 		});
 		await notification.save();
+		io.emit('notification', notification);
 
 		return res.json({ message: 'Connection request rejected' });
 	} catch (err) {
@@ -319,13 +323,14 @@ export const removeConnection = async (req: any, res: Response) => {
 		const notification = new Notification({
 			recipients:
 				[
-					otherUserId._id
+					otherUserId
 				],
 			image: currentUser!.profileImg,
 			type,
 			message
 		});
 		await notification.save();
+		io.emit('notification', notification);
 
 		return res.json({ message: 'Connection removed successfully!' });
 	} catch (err) {
@@ -372,6 +377,7 @@ export const withdrawSentConnectionRequest = async (req: any, res: Response) => 
 			message
 		});
 		await notification.save();
+		io.emit('notification', notification);
 
 		return res.json({ message: 'Sent connection request withdrawn successfully!' });
 	} catch (err) {

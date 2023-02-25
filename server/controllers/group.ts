@@ -6,6 +6,7 @@ import Notification from '../models/Notification';
 import { validateGroupData } from './../validation/validateGroupData';
 import mongoose from 'mongoose';
 import { isValidObjectId } from '../utils/isValidId';
+import { io } from '../app';
 
 export const createGroup = async (req: any, res: Response) => {
 	try {
@@ -86,6 +87,7 @@ export const makeJoinRequest = async (req: any, res: Response) => {
 			message
 		});
 		await notification.save();
+		io.emit('notification', notification);
 
 		return res.status(200).json({ message: 'Join request sent' });
 	} catch (err) {
@@ -155,6 +157,7 @@ export const acceptJoinRequest = async (req: any, res: Response) => {
 			message
 		});
 		await notification.save();
+		io.emit('notification', notification);
 
 		return res.json({ message: 'Join request accepted successfully' });
 	} catch (err) {
@@ -220,6 +223,7 @@ export const rejectJoinRequest = async (req: any, res: Response) => {
 			message
 		});
 		await notification.save();
+		io.emit('notification', notification);
 
 		return res.json({ message: 'Join request rejected' });
 	} catch (err) {
@@ -272,6 +276,7 @@ export const withdrawSentJoinGroupRequest = async (req: any, res: Response) => {
 			message
 		});
 		await notification.save();
+		io.emit('notification', notification);
 
 		return res.json({ message: 'Join request withdrawn successfully!' });
 	} catch (err) {

@@ -52,7 +52,7 @@ const SentRequests = () => {
 								profileImg={req.profileImg!}
 								username={req.username}
 							/>
-							<Divider />
+							<Divider my={2} />
 						</React.Fragment>
 					);
 				})}

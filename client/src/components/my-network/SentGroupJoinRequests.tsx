@@ -47,7 +47,7 @@ const SentGroupJoinRequests = () => {
 					return (
 						<React.Fragment key={req._id}>
 							<SentGroupJoinRequestItem group={req} />
-							<Divider />
+							<Divider my={2} />
 						</React.Fragment>
 					);
 				})}

@@ -1,4 +1,4 @@
-import { Box, Flex, Grid } from '@chakra-ui/react';
+import { Box, Center, Flex, Grid, Spinner } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import userApi from '../../api/user';
 import useApiUpdated from '../../hooks/useApiUpdated';
@@ -29,23 +29,30 @@ const People = () => {
 		getSuggestedUsersReq();
 	}, []);
 
-	if (loading) return <h1>Loading ...</h1>;
+	if (loading)
+		return (
+			<Center>
+				<Spinner colorScheme={'primary'} size={'lg'} />
+			</Center>
+		);
 
 	return (
-		// <React.Fragment>
-		<Grid templateColumns={{ base: '1fr', md: 'repeat(auto-fit, minmax(230px, 1fr))' }} gap={6}>
-			{suggestedUsers.map((u) => {
-				return (
-					<Box key={u._id}>
-						<ConnectUserCard user={u} />
-					</Box>
-				);
-			})}
-		</Grid>
-		// <Flex>
-
-		// </Flex>
-		// </React.Fragment>
+		<React.Fragment>
+			<Grid templateColumns={{ base: '1fr', md: 'repeat(auto-fit, minmax(230px, 1fr))' }} gap={6}>
+				{suggestedUsers.map((u) => {
+					return (
+						<Box key={u._id}>
+							<ConnectUserCard user={u} />
+						</Box>
+					);
+				})}
+			</Grid>
+			{suggestedUsers.length === 0 && (
+				<Box height={'calc(100vh - 15rem)'} width={'100%'}>
+					<Center height={'100%'}>No users</Center>
+				</Box>
+			)}
+		</React.Fragment>
 	);
 };
 

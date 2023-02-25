@@ -48,7 +48,7 @@ const Connections = () => {
 								<UserListItem user={conn} />
 								<ConnectionMenu user={conn} />
 							</Flex>
-							<Divider />
+							<Divider my={2} />
 						</React.Fragment>
 					);
 				})}

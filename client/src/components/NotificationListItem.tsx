@@ -24,27 +24,48 @@ const NotificationListItem: React.FC<Props> = ({ notification, refe }) => {
 			ref={refe}
 			p={2}
 			justifyContent={'space-between'}
-			bgColor={
-
-					!read ? 'primary.50' :
-					''
-			}
 			cursor="pointer"
 			_hover={{
-				bgColor:
-
-						!read ? 'primary.100' :
-						notReadHoverColor
+				bgColor: notReadHoverColor
 			}}
 			transition={'all 0.5s'}
 		>
 			<Flex alignItems={'center'}>
-				<Avatar src={image} size="lg" mr={4} />
-				<Text fontSize={'md'} fontWeight={'normal'}>
+				<Avatar
+					src={image}
+					size="lg"
+					mr={4}
+					borderWidth={
+
+							!read ? 3 :
+							0
+					}
+					borderColor={'primary.300'}
+				/>
+				<Text
+					color={
+
+							!read ? 'primary.300' :
+							''
+					}
+					fontSize={'md'}
+					fontWeight={
+
+							!read ? 'semibold' :
+							'normal'
+					}
+				>
 					{message}
 				</Text>
 			</Flex>
-			<Text fontSize="sm" color="gray.500">
+			<Text
+				fontSize="sm"
+				color={
+
+						!read ? 'primary.300' :
+						'gray.500'
+				}
+			>
 				{dayjs(createdAt).fromNow(true)}
 			</Text>
 		</Flex>

@@ -47,7 +47,7 @@ const ReceivedGroupJoinRequests = () => {
 					return (
 						<React.Fragment key={`${req.group._id}${req.requestingUser._id}`}>
 							<GroupReceivedRequestItem group={req.group} user={req.requestingUser} />
-							<Divider />
+							<Divider my={2} />
 						</React.Fragment>
 					);
 				})}

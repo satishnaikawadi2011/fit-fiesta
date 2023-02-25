@@ -15,8 +15,7 @@ export type NotificationType =
 	| 'join_group_request_rejected'
 	| 'join_group_request_withdrawn';
 
-
-export const getNotificationMessage = (type: NotificationType, user?: IUser,group?:IGroup) => {
+export const getNotificationMessage = (type: NotificationType, user?: IUser, group?: IGroup) => {
 	switch (type) {
 		case 'connection_request_made':
 			return `@${user!.username} has sent you a connection request.`;
@@ -82,8 +81,8 @@ const NotificationSchema = new Schema(
 
 const Notification = mongoose.model('Notification', NotificationSchema);
 
-Notification.watch().on('change', (data: any) => {
-	io.emit('notification', data?.fullDocument);
-});
+// Notification.watch().on('change', (data: any) => {
+// 	io.emit('notification', data?.fullDocument);
+// });
 
 export default Notification;

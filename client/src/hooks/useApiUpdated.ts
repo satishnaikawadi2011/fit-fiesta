@@ -19,7 +19,7 @@ const useApiUpdated = <T>(apiFunc:any): ReturnData<T> => {
     setErrorMsg('');
     setLoading(true);
     const response:any = await apiFunc(...args);
-    console.log('Here', response);
+    // console.log('Here', response);
     setLoading(false);
 
 	if (!response?.ok) {

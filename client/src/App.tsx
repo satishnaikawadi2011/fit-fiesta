@@ -120,7 +120,9 @@ function App() {
 	useEffect(
 		() => {
 			const eventListener = (data: INotification) => {
+				console.log(data);
 				if (user && data.recipients.includes(user!._id)) {
+					console.log(data);
 					dispatch(increaseUnreadNotificationsCount(1));
 				}
 			};

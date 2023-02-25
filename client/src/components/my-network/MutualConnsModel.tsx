@@ -26,9 +26,9 @@ const MutualConnsModel: React.FC<Props> = ({ isOpen, onClose, mutualConns, name,
 					<ModalBody pb={6}>
 						{mutualConns.map((conn) => {
 							return (
-								<React.Fragment>
-									<UserListItem key={conn._id} user={conn} />
-									<Divider />
+								<React.Fragment key={conn._id}>
+									<UserListItem user={conn} />
+									<Divider my={2} />
 								</React.Fragment>
 							);
 						})}

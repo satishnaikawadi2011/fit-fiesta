@@ -50,7 +50,7 @@ const Invitations = () => {
 								username={inv.username}
 								key={inv._id}
 							/>
-							<Divider />
+							<Divider my={2} />
 						</React.Fragment>
 					);
 				})}

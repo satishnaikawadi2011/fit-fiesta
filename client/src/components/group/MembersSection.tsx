@@ -26,7 +26,12 @@ const MembersSection: React.FC<Props> = ({ admin, members }) => {
 			</Heading>
 			<Box px={2}>
 				{filteredMembers.map((m) => {
-					return <UserListItem user={m} />;
+					return (
+						<React.Fragment key={m._id}>
+							<UserListItem user={m} />
+							<Divider my={2} />
+						</React.Fragment>
+					);
 				})}
 			</Box>
 		</Box>
