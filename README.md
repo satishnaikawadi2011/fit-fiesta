@@ -83,3 +83,138 @@
 - #### 🙈`.gitignore` - Tells git which files to ignore
 - #### 🔐 `LICENSE` - This file outlines the terms and conditions for using and distributing the software.
 - #### 📝README.md - This file!
+
+## About The Project
+The motivation behind building a health and wellness social networking platform is to provide a platform for individuals who are interested in health and wellness to connect with others who share similar interests, share tips and advice, and find local resources and events related to health and wellness.
+
+By providing a space for users to connect with others, the platform can help to create a supportive community that can offer encouragement, motivation, and guidance.
+
+This app basically have 2 different parts
+
+#### 1. Frontend
+The frontend is built with <strong>React JS</strong> and <strong>Typescript</strong> 
+
+#### 2. Backend
+The backend is built with <strong>Node JS</strong> and <strong>Typescript</strong> 
+
+### Built With
+
+- [React JS](https://reactjs.org/)
+- [Node JS](https://nodejs.org/en/)
+
+### Features
+
+- Login and Registering new users to the app
+- Sharing posts,bulding community via creating groups and adding events,resources
+- Like and comment on other users post
+- Connect with other users by sending them connection request
+- Receive real time notifications of various activities related to user
+- Real time private chat as well as group chat using messanger
+- Beautiful UI with dark and light mode toggler
+- Search various users,events,groups,posts,resources,etc.
+
+### Screenshots
+
+#### 1. Landing Page
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677359546/fit-fiesta/screenshots/landing-page_ljx1dn.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+#### 2. Login and Register Pages
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677360078/fit-fiesta/screenshots/login-page_njve3k.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677360077/fit-fiesta/screenshots/register-page_z5fva1.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+#### 3. Modals for adding posts,events,resources as well as creating groups
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408777/fit-fiesta/screenshots/add-post_t4tso4.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408777/fit-fiesta/screenshots/add-event_s5npsp.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408776/fit-fiesta/screenshots/add-resource_ekorcv.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408776/fit-fiesta/screenshots/create-group_eigjr5.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+#### 4. User Profile Page
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408776/fit-fiesta/screenshots/profile-page_igt03x.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+#### 5. Modals to edit user profile
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408776/fit-fiesta/screenshots/edit-profile-1_q5dt3z.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408776/fit-fiesta/screenshots/edit-profile-3_kzyxtf.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408776/fit-fiesta/screenshots/edit-profile-2_luogji.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+#### 6. Resources Page
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408285/fit-fiesta/screenshots/resources-page_qlnoil.png" title="FitFiesta" alt="FitFiesta"/>
+</p
+
+#### 7. Events Page
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408283/fit-fiesta/screenshots/events-page_nuplxz.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+#### 8. My Network Page
+
+##### 8.1 Invitations
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408282/fit-fiesta/screenshots/my-network-4_irsjgh.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+##### 8.2 Connections
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408283/fit-fiesta/screenshots/my-network-3_hkr1mq.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+##### 8.3 Sent Requests
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408283/fit-fiesta/screenshots/my-network-2_luhgqm.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+##### 8.4 People
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408283/fit-fiesta/screenshots/my-network-1_ba9kxu.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+##### 8.5 Received Group Requests
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408282/fit-fiesta/screenshots/my-network-6_icauwl.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+##### 8.6 Sent Group Requests
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408282/fit-fiesta/screenshots/my-network-5_gdex4l.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+
