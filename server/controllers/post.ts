@@ -96,27 +96,8 @@ export const getPosts = async (req: any, res: Response) => {
 		const userId = req.id;
 
 		const user = await User.findById(userId);
-		const connectionIds = user!.connections;
-		const groupIds = user!.groups;
 
-		let query = {
-			$or:
-				[
-					{
-						user:
-							{
-								$in:
-									[
-										...connectionIds,
-										userId
-									]
-							}
-					},
-					{ group: { $in: groupIds } }
-				]
-		};
-
-		const posts = await Post.find(query).skip(skip).limit(limit).sort({ createdAt: -1 }).populate('user', [
+		const posts = await Post.find({}).skip(skip).limit(limit).sort({ createdAt: -1 }).populate('user', [
 			'fullName',
 			'username'
 		]);

@@ -17,6 +17,7 @@ import ReactDOM from 'react-dom';
 import useApiUpdated from '../../hooks/useApiUpdated';
 import PostSkeleton from './skeletons/PostSkeleton';
 import useBlockBgColor from '../../hooks/useBlockBgColor';
+import { useNavigate } from 'react-router-dom';
 
 interface PostProps {
 	_id: string;
@@ -34,6 +35,7 @@ dayjs.extend(relativeTime);
 
 const Post: React.FC<PostProps> = ({ _id,refe, name, username, date, postText, postImage, likeCounts, likesUsers }) => {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate()
 	const { request: likePostReq } = useApi(postApi.likePost);
 	const { request: addCommReq, data: newComm, loading: newCommLoad }: any = useApi(postApi.addComment);
 	const { data: commentCountData, loading: commCntLoad, request: getCommCount } = useApiUpdated<{ commentCount: number }>(
@@ -150,9 +152,9 @@ const Post: React.FC<PostProps> = ({ _id,refe, name, username, date, postText, p
 								{dayjs(date).fromNow(true)}
 							</Text>
 						</Flex>
-						<Text fontSize="sm" color="gray.500">
+						<Link onClick={() => navigate(`/profile/${username}`)} fontSize="sm" color="gray.500">
 							@{username}
-						</Text>
+						</Link>
 					</Box>
 				</Flex>
 				<Text>{postText}</Text>
