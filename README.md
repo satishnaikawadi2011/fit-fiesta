@@ -217,4 +217,161 @@ The backend is built with <strong>Node JS</strong> and <strong>Typescript</stron
 <img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408282/fit-fiesta/screenshots/my-network-5_gdex4l.png" title="FitFiesta" alt="FitFiesta"/>
 </p>
 
+#### 9. Searching 
 
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408282/fit-fiesta/screenshots/search-1_ljh4eu.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408283/fit-fiesta/screenshots/search-2_fjowdd.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408282/fit-fiesta/screenshots/search-3_gidlod.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408282/fit-fiesta/screenshots/search-4_fdhe4q.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408281/fit-fiesta/screenshots/search-5_tlydgu.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+#### 10. Notifications 
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408282/fit-fiesta/screenshots/notifications-1_xqykma.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677408282/fit-fiesta/screenshots/notifications-2_lvjbs9.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+#### 11. Messanger 
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677439950/fit-fiesta/screenshots/messanger-1_jugpnl.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677439949/fit-fiesta/screenshots/messanger-2_bb7hyf.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677439950/fit-fiesta/screenshots/messanger-4_ywjdly.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677439949/fit-fiesta/screenshots/messanger-3_nkkmcl.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+#### 12. Group Details Page 
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677439949/fit-fiesta/screenshots/group-details-page_kiaft8.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677439949/fit-fiesta/screenshots/group-details-page-2_bfj6tm.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+#### 13. Color Mode Toggler 
+
+<p align="center">
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677439949/fit-fiesta/screenshots/color-mode_nlxrpl.png" title="FitFiesta" alt="FitFiesta"/>
+</p>
+
+## Getting Started
+
+To get a local copy up and running follow these simple steps.
+
+### Prerequisites
+
+This is an example of how to list things you need to use the software and how to install them.
+
+ 
+- NPM
+
+```sh
+npm install npm@latest -g
+```
+
+### Installation
+
+1. Clone the repo
+
+```sh
+git clone https://github.com/satishnaikawadi2011/fit-fiesta
+```
+
+2. Install NPM packages for client
+
+```sh
+cd client
+
+npm install
+```
+
+3. Install NPM packages for server
+
+```sh
+cd server
+
+npm install
+```
+
+4. Define following environment variables with .env file for server
+
+```sh
+MONGO_URI
+JWT_SECRET
+CLOUD_NAME
+CLOUDINARY_API_KEY
+CLOUDINARY_API_SECRET
+```
+
+5. Start server application
+
+```sh
+cd server
+
+npm run dev
+```
+
+6. Start Client application
+
+```sh
+cd client
+
+npm run dev
+```
+
+
+## Usage
+
+The primary goal of this project is to connect and motivate fitness enthusiasts to lead a healthy lifestyle.Users can share their fitness journeys, and connect with like-minded individuals to support and encourage one another.
+
+
+## Roadmap
+
+See the [open issues](https://github.com/satishnaikawadi2011/fit-fiesta/issues) for a list of proposed features (and known issues).
+
+## Maintainer
+Important decisions regarding the project are taken by the following maintainer.
+
+| Satish        |
+| :-------------: |
+| <img  height="100" width="100" src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1650221859/github-profile/me-github_yumapj.jpg">      |
+| [@satishnaikawadi2011](https://github.com/satishnaikawadi2011)      |
+## Support
+
+<a href="https://www.buymeacoffee.com/satishnaikawadi" target="_blank">
+  <img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1649760399/repopup/bmc-button_bridqp.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" >
+</a>
+
+## License
+
+**FitFiesta** is licensed under the [MIT License](https://github.com/satishnaikawadi2011/fit-fiesta/blob/main/LICENSE).
