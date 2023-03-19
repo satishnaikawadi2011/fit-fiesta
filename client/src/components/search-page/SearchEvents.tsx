@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import apiClient from '../../api/client';
 import { useAppSelector } from '../../app/hooks';
+import { BACKEND_URL } from '../../constants';
 import { IEvent } from '../../types/Event';
 import Event from '../Event';
 
@@ -29,7 +30,7 @@ const SearchEvents = () => {
 
 	const fetchEvents = async () => {
 		setLoading(true);
-		const data: any = await apiClient.get(`http://localhost:5000/api/event/search/${searchTerm}?limit=3&page=1`);
+		const data: any = await apiClient.get(`${BACKEND_URL}/event/search/${searchTerm}?limit=3&page=1`);
 		setResultEvents(data.data);
 		// console.log(data);
 		// console.log(resultEvents);
@@ -51,9 +52,7 @@ const SearchEvents = () => {
 	const fetchMoreEvents = async () => {
 		setPage((prevPage) => prevPage + 1);
 		setLoading(true);
-		const data: any = await apiClient.get(
-			`http://localhost:5000/api/event/search/${searchTerm}?limit=3&page=${page}`
-		);
+		const data: any = await apiClient.get(`${BACKEND_URL}/event/search/${searchTerm}?limit=3&page=${page}`);
 		if (data.data.length == 0) setHasMore(false);
 		setResultEvents([
 			...resultEvents,

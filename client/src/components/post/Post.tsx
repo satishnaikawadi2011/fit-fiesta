@@ -18,6 +18,7 @@ import useApiUpdated from '../../hooks/useApiUpdated';
 import PostSkeleton from './skeletons/PostSkeleton';
 import useBlockBgColor from '../../hooks/useBlockBgColor';
 import { useNavigate } from 'react-router-dom';
+import { BACKEND_URL } from '../../constants';
 
 interface PostProps {
 	_id: string;
@@ -99,7 +100,7 @@ const Post: React.FC<PostProps> = ({ _id,refe, name, username, date, postText, p
 
 	const fetchComments = async () => {
 		setLoading(true);
-		const data: any = await apiClient.get(`http://localhost:5000/api/post/comments/${_id}?page=1&limit=1`);
+		const data: any = await apiClient.get(`${BACKEND_URL}/post/comments/${_id}?page=1&limit=1`);
 		setComments(data.data);
 		setLoading(false);
 	};
@@ -108,7 +109,7 @@ const Post: React.FC<PostProps> = ({ _id,refe, name, username, date, postText, p
 		setPage(page + 1);
 		setLoading(true);
 		const data: any = await apiClient.get(
-			`http://localhost:5000/api/post/comments/${_id}?page=${page + 1}&limit=1`
+			`${BACKEND_URL}/post/comments/${_id}?page=${page + 1}&limit=1`
 		);
 		setComments([
 			...comments,

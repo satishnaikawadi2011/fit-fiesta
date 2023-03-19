@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import apiClient from '../../api/client';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { BACKEND_URL } from '../../constants';
 import { IPost } from '../../types/Post';
 import Post from '../post/Post';
 
@@ -29,7 +30,7 @@ const SearchPosts = () => {
 
 	const fetchPosts = async () => {
 		setLoading(true);
-		const data: any = await apiClient.get(`http://localhost:5000/api/post/search/${searchTerm}?limit=3&page=1`);
+		const data: any = await apiClient.get(`${BACKEND_URL}/post/search/${searchTerm}?limit=3&page=1`);
 		setResultPosts(data.data);
 		console.log(data);
 		console.log(resultPosts);
@@ -51,9 +52,7 @@ const SearchPosts = () => {
 	const fetchMorePosts = async () => {
 		setPage((prevPage) => prevPage + 1);
 		setLoading(true);
-		const data: any = await apiClient.get(
-			`http://localhost:5000/api/post/search/${searchTerm}?limit=3&page=${page}`
-		);
+		const data: any = await apiClient.get(`${BACKEND_URL}/post/search/${searchTerm}?limit=3&page=${page}`);
 		if (data.data.length == 0) setHasMore(false);
 		setResultPosts([
 			...resultPosts,

@@ -17,6 +17,7 @@ import React, { useState } from 'react';
 import apiSauce from 'apisauce';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { updateUser } from '../../app/features/auth';
+import { BACKEND_URL } from '../../constants';
 
 interface Props {
 	isOpen: boolean;
@@ -31,7 +32,7 @@ const EditCoverImageModal: React.FC<Props> = ({ isOpen, onClose }) => {
 	const dispatch = useAppDispatch();
 
 	const api = apiSauce.create({
-		baseURL: 'http://localhost:5000/api/user',
+		baseURL: `${BACKEND_URL}/user`,
 		headers:
 			{
 				'Content-Type': 'multipart/form-data',

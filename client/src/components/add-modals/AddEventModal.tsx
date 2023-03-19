@@ -26,6 +26,7 @@ import apiSauce from 'apisauce';
 import useApiUpdated from '../../hooks/useApiUpdated';
 import { IGroup } from '../../types/Group';
 import userApi from '../../api/user';
+import { BACKEND_URL } from '../../constants';
 
 interface Props {
 	isOpen: boolean;
@@ -43,7 +44,7 @@ const AddEventModal: React.FC<Props> = ({ isOpen, onClose }) => {
 	const dispatch = useAppDispatch();
 
 	const api = apiSauce.create({
-		baseURL: 'http://localhost:5000/api/event',
+		baseURL: `${BACKEND_URL}/event`,
 		headers:
 			{
 				'Content-Type': 'multipart/form-data',

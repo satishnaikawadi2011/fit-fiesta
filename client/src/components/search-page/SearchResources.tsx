@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import apiClient from '../../api/client';
 import { useAppSelector } from '../../app/hooks';
+import { BACKEND_URL } from '../../constants';
 import { IEvent } from '../../types/Event';
 import { IResource } from '../../types/Resource';
 import Event from '../Event';
@@ -31,7 +32,7 @@ const SearchResources = () => {
 
 	const fetchResources = async () => {
 		setLoading(true);
-		const data: any = await apiClient.get(`http://localhost:5000/api/resource/search/${searchTerm}?limit=3&page=1`);
+		const data: any = await apiClient.get(`${BACKEND_URL}/resource/search/${searchTerm}?limit=3&page=1`);
 		setResultResources(data.data);
 		// console.log(data);
 		// console.log(resultEvents);
@@ -53,9 +54,7 @@ const SearchResources = () => {
 	const fetchMoreResources = async () => {
 		setPage((prevPage) => prevPage + 1);
 		setLoading(true);
-		const data: any = await apiClient.get(
-			`http://localhost:5000/api/resource/search/${searchTerm}?limit=3&page=${page}`
-		);
+		const data: any = await apiClient.get(`${BACKEND_URL}/resource/search/${searchTerm}?limit=3&page=${page}`);
 		if (data.data.length == 0) setHasMore(false);
 		setResultResources([
 			...resultResources,

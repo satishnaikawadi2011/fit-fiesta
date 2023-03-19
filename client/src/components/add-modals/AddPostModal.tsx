@@ -24,6 +24,7 @@ import { addPost } from '../../app/features/post';
 import userApi from '../../api/user';
 import useApiUpdated from '../../hooks/useApiUpdated';
 import { IGroup } from '../../types/Group';
+import { BACKEND_URL } from '../../constants';
 
 interface Props {
 	isOpen: boolean;
@@ -42,7 +43,7 @@ const AddPostModal: React.FC<Props> = ({ isOpen, onClose }) => {
 	);
 
 	const api = apiSauce.create({
-		baseURL: 'http://localhost:5000/api/post',
+		baseURL: `${BACKEND_URL}/post`,
 		headers:
 			{
 				'Content-Type': 'multipart/form-data',

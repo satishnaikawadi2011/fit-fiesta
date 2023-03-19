@@ -19,6 +19,7 @@ import React, { useState } from 'react';
 import { isValidURL } from '../../utils/isValidURL';
 import apiSauce from 'apisauce';
 import { useAppSelector } from '../../app/hooks';
+import { BACKEND_URL } from '../../constants';
 
 interface Props {
 	isOpen: boolean;
@@ -32,7 +33,7 @@ const AddResourceModal: React.FC<Props> = ({ isOpen, onClose }) => {
 	const { token, user } = useAppSelector((state) => state.auth);
 
 	const api = apiSauce.create({
-		baseURL: 'http://localhost:5000/api/resource',
+		baseURL: `${BACKEND_URL}/resource`,
 		headers:
 			{
 				'Content-Type': 'multipart/form-data',

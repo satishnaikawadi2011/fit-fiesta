@@ -2,6 +2,7 @@ import { Center, Spinner } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import apiClient from '../../api/client';
 import { useAppSelector } from '../../app/hooks';
+import { BACKEND_URL } from '../../constants';
 import { IGroup } from '../../types/Group';
 import GroupCard from '../group/GroupCard';
 
@@ -46,9 +47,7 @@ const SearchGroups = () => {
 
 	const fetchData = async () => {
 		setLoading(true);
-		const data: any = await apiClient.get(
-			`http://localhost:5000/api/group/search/${searchTerm}?limit=4&page=${pageNumber}`
-		);
+		const data: any = await apiClient.get(`${BACKEND_URL}/group/search/${searchTerm}?limit=4&page=${pageNumber}`);
 		if (!data.data || !data.data.length) {
 			setHasMore(false);
 		}

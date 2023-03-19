@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import apiClient from '../../api/client';
 import { useAppSelector } from '../../app/hooks';
+import { BACKEND_URL } from '../../constants';
 import { IUser } from '../../types/User';
 import ConnectUserCard from '../my-network/ConnectUserCard';
 
@@ -29,7 +30,7 @@ const SearchPeople = () => {
 
 	const fetchPeople = async () => {
 		setLoading(true);
-		const data: any = await apiClient.get(`http://localhost:5000/api/user/search/${searchTerm}?limit=6&page=1`);
+		const data: any = await apiClient.get(`${BACKEND_URL}/user/search/${searchTerm}?limit=6&page=1`);
 		setResultPeople(data.data);
 		setLoading(false);
 	};
@@ -49,9 +50,7 @@ const SearchPeople = () => {
 	const fetchMorePeople = async () => {
 		setPage((prevPage) => prevPage + 1);
 		setLoading(true);
-		const data: any = await apiClient.get(
-			`http://localhost:5000/api/user/search/${searchTerm}?limit=6&page=${page}`
-		);
+		const data: any = await apiClient.get(`${BACKEND_URL}/user/search/${searchTerm}?limit=6&page=${page}`);
 		if (data.data.length == 0) setHasMore(false);
 		setResultPeople([
 			...resultPeople,
