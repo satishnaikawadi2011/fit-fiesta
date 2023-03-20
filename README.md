@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="#" target="_blank">
+  <a href="https://fit-fiesta-frontend.vercel.app/" target="_blank">
     <img 
       src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677358851/fit-fiesta/placeholders/FITFIESTA-removebg-preview_bzf3ww.png"
       alt="FitFiesta"
@@ -15,7 +15,7 @@
    FitFiesta is a social network platform designed to connect and motivate fitness enthusiasts to lead a healthy lifestyle. Users can share their fitness journeys,  and connect with like-minded individuals to support and encourage one another.
     <br />
     <br />
-    <a href="#">View Demo</a>
+    <a href="https://fit-fiesta-frontend.vercel.app/">View Demo</a>
     ·
     <a href="https://github.com/satishnaikawadi2011/fit-fiesta/issues">Report Bug</a>
     ·
@@ -23,7 +23,7 @@
   </p>
 
   <p align="center">
-  <a href="#" target="_blank">
+  <a href="https://fit-fiesta-frontend.vercel.app/" target="_blank">
 <img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677359546/fit-fiesta/screenshots/landing-page_ljx1dn.png" title="FitFiesta" alt="FitFiesta"
 />
 </a>
@@ -284,6 +284,53 @@ The backend is built with <strong>Node JS</strong> and <strong>Typescript</stron
 <img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1677439949/fit-fiesta/screenshots/color-mode_nlxrpl.png" title="FitFiesta" alt="FitFiesta"/>
 </p>
 
+#### 14. Mobile Screenshots
+
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1679295552/fit-fiesta/mobile-ss/IMG_20230320_121046_ohzj70.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1679295552/fit-fiesta/mobile-ss/IMG_20230320_111132_trbggc.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1679295541/fit-fiesta/mobile-ss/IMG_20230320_110957_prqv9n.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1679295539/fit-fiesta/mobile-ss/IMG_20230320_121132_swjmns.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1679295538/fit-fiesta/mobile-ss/IMG_20230320_111356_yxfds9.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1679295536/fit-fiesta/mobile-ss/IMG_20230320_121255_l8xkua.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1679295532/fit-fiesta/mobile-ss/IMG_20230320_111308_s9uu5r.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1679295519/fit-fiesta/mobile-ss/IMG_20230320_111016_p8scjw.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1679295517/fit-fiesta/mobile-ss/IMG_20230320_111229_k5zwxb.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1679295517/fit-fiesta/mobile-ss/IMG_20230320_111335_mewlt2.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1679295512/fit-fiesta/mobile-ss/IMG_20230320_111103_hsreiw.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1679295507/fit-fiesta/mobile-ss/IMG_20230320_121332_pjvsxk.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1679295502/fit-fiesta/mobile-ss/IMG_20230320_121205_ayhhwl.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1679295501/fit-fiesta/mobile-ss/IMG_20230320_121408_a6lroq.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1679295475/fit-fiesta/mobile-ss/Screenshot_2023-03-20-11-09-14-217_com.android.chrome_fy4anv.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1679295441/fit-fiesta/mobile-ss/IMG_20230320_111219_adyeog.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+<img src="https://res.cloudinary.com/dyfm31f1n/image/upload/v1679295440/fit-fiesta/mobile-ss/IMG_20230320_121110_tdtkh8.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+<img src="hhttps://res.cloudinary.com/dyfm31f1n/image/upload/v1679295421/fit-fiesta/mobile-ss/IMG_20230320_111343_fmhtq7.jpg" title="FitFiesta" alt="FitFiesta"/>
+
+
+
+
+
 ## Getting Started
 
 To get a local copy up and running follow these simple steps.
@@ -354,6 +401,7 @@ npm run dev
 
 The primary goal of this project is to connect and motivate fitness enthusiasts to lead a healthy lifestyle.Users can share their fitness journeys, and connect with like-minded individuals to support and encourage one another.
 
+_For more examples, please refer to the [Working Demo](https://fit-fiesta-frontend.vercel.app/)_
 
 ## Roadmap
 
@@ -375,3 +423,7 @@ Important decisions regarding the project are taken by the following maintainer.
 ## License
 
 **FitFiesta** is licensed under the [MIT License](https://github.com/satishnaikawadi2011/fit-fiesta/blob/main/LICENSE).
+
+
+## Deployment
+<a href="https://fit-fiesta-frontend.vercel.app/"><img src="https://img.shields.io/badge/-Vercel-000000?logo=vercel&logoColor=white&style=for-the-badge"/></a>
